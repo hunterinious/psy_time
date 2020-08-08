@@ -9,8 +9,8 @@ RUN apk add --no-cache \
         jpeg-dev \
         zlib-dev
 
-COPY . /src
-WORKDIR /src
+COPY . /psy_time
+WORKDIR /psy_time
 
 RUN apk update && \
     apk add --no-cache --virtual .build-deps git build-base gcc python3-dev postgresql-dev && \

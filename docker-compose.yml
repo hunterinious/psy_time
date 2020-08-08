@@ -14,14 +14,15 @@ services:
        POSTGRES_DB: "psy_time"
        POSTGRES_TEST_DB: "psy_time"
    web:
-     build: src
+     build:
+       context: .
      command: python3 manage.py runserver 0.0.0.0:8000
      # command: gunicorn --bind 0.0.0.0:8000 atlas.wsgi
      environment:
        DB_HOST: db
        DB_PORT: 5432
      volumes:
-       - ./src/:/src
+       - .:/psy_time
      ports:
        - "127.0.0.1:8000:8000"
      depends_on:
