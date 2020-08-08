@@ -1,0 +1,10 @@
+.idea
+.vscode
+.env
+.DS_Store
+*.sublime-*
+env
+*.pyc
+src/static
+src/media
+src/staticfiles

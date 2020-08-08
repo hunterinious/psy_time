@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+   db:
+     ports:
+       - "127.0.0.1:5432:5432"
+     image: postgres:12-alpine
+     environment:
+       PGPASSWORD: "psy_time"
+       PGUSER: "psy_time"
+  #       used in makefile and for image
+       POSTGRES_PASSWORD: "psy_time"
+       POSTGRES_USER: "psy_time"
+       POSTGRES_DB: "psy_time"
+       POSTGRES_TEST_DB: "psy_time"
+   web:
+     build: src
+     command: python3 manage.py runserver 0.0.0.0:8000
+     # command: gunicorn --bind 0.0.0.0:8000 atlas.wsgi
+     environment:
+       DB_HOST: db
+       DB_PORT: 5432
+     volumes:
+       - ./src/:/src
+     ports:
+       - "127.0.0.1:8000:8000"
+     depends_on:
+       - db
