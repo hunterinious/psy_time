@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'cadmin',
     'corsheaders',
     'users',
+    'psychologists',
+    'admins',
 ]
 
 REST_FRAMEWORK = {
