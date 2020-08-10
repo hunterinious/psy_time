@@ -1,13 +1,16 @@
 from django.db import models
 from users.models import PsychologistUser
+from locations.models import City
 
 
 class PsychologistUserProfile(models.Model):
+    avatar = models.ImageField(upload_to="avatars", default="avatars/psy_avatar.jpg")
     birth_date = models.DateField(null=False)
     about = models.TextField(null=False)
     work_experience = models.TextField(null=False)
     price = models.IntegerField(null=False)
     time = models.IntegerField(null=False)
+    city = models.ForeignKey(City, null=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(PsychologistUser, on_delete=models.CASCADE)
 
 

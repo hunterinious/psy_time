@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'psychologists',
     'admins',
+    'locations',
 ]
 
 REST_FRAMEWORK = {

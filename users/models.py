@@ -2,6 +2,7 @@ from enum import Enum
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from locations.models import City
 
 
 class UserTypes(Enum):
@@ -73,6 +74,5 @@ class AdminUser(CustomUser):
 
 class RegularUserProfile(models.Model):
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.jpg")
-    location_city = models.CharField(null=True, blank=True, max_length=50)
-    location_country = models.CharField(null=True, blank=True, max_length=50)
+    city = models.ForeignKey(City, null=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(RegularUser, on_delete=models.CASCADE)
