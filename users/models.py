@@ -6,9 +6,9 @@ from locations.models import City
 
 
 class UserTypes(Enum):
-    regular_user = "regular_user"
-    psychologist_user = "psychologist_user"
-    admin_user = "admin_user"
+    regular_user = "Regular"
+    psychologist_user = "Psychologist"
+    admin_user = "Admin"
 
 
 class CustomUserManager(BaseUserManager):
