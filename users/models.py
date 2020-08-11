@@ -5,7 +5,7 @@ from django.contrib.auth.models import PermissionsMixin
 from locations.models import City
 
 
-class UserTypes(Enum):
+class UserTypes(models.TextChoices):
     regular_user = "regular_user"
     psychologist_user = "psychologist_user"
     admin_user = "admin_user"

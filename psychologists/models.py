@@ -16,45 +16,45 @@ class PsychologistUserProfile(models.Model):
 
 class PsychologistStatus(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="statuses")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="statuses")
 
 
 class PsychologistWorkFormat(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="formats")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="formats")
 
 
 class PsychologistTheme(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="themes")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="themes")
 
 
 class PsychologistApproach(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="approaches")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="approaches")
 
 
 class PsychologistSpecialization(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="specializations")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="specializations")
 
 
 class PsychologistEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="educations")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="educations")
 
 
 class PsychologistSecondaryEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="secondary_educations")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="secondary_educations")
 
 
 class PsychologistLanguages(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    psychologist = models.ManyToManyField(PsychologistUserProfile, related_name="languages")
+    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="languages")
 
 
 class Image(models.Model):
     name = models.CharField(unique=True, max_length=255)
     image = models.ImageField(null=False, blank=False)
-    psychologist = models.ForeignKey(PsychologistUserProfile, on_delete=models.CASCADE)
+    profiles = models.ForeignKey(PsychologistUserProfile, on_delete=models.CASCADE)

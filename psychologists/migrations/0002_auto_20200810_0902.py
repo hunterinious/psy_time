@@ -21,42 +21,42 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='psychologisttheme',
-            name='psychologist',
+            name='profiles',
             field=models.ManyToManyField(related_name='themes', to='psychologists.PsychologistUserProfile'),
         ),
         migrations.AddField(
             model_name='psychologiststatus',
-            name='psychologist',
+            name='profiles',
             field=models.ManyToManyField(related_name='statuses', to='psychologists.PsychologistUserProfile'),
         ),
         migrations.AddField(
             model_name='psychologistspecialization',
-            name='psychologist',
+            name='profiles',
             field=models.ManyToManyField(related_name='specializations', to='psychologists.PsychologistUserProfile'),
         ),
         migrations.AddField(
             model_name='psychologistsecondaryeducation',
-            name='psychologist',
+            name='profiles',
             field=models.ManyToManyField(related_name='secondary_educations', to='psychologists.PsychologistUserProfile'),
         ),
         migrations.AddField(
             model_name='psychologistlanguages',
-            name='psychologist',
+            name='profiles',
             field=models.ManyToManyField(related_name='languages', to='psychologists.PsychologistUserProfile'),
         ),
         migrations.AddField(
             model_name='psychologisteducation',
-            name='psychologist',
+            name='profiles',
             field=models.ManyToManyField(related_name='educations', to='psychologists.PsychologistUserProfile'),
         ),
         migrations.AddField(
             model_name='psychologistapproach',
-            name='psychologist',
+            name='profiles',
             field=models.ManyToManyField(related_name='approaches', to='psychologists.PsychologistUserProfile'),
         ),
         migrations.AddField(
             model_name='image',
-            name='psychologist',
+            name='profiles',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='psychologists.PsychologistUserProfile'),
         ),
     ]
