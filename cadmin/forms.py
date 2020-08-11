@@ -3,7 +3,7 @@ from psychologists.models import PsychologistUserProfile, PsychologistStatus
 
 
 class PsychologistStatusForm(forms.ModelForm):
-    profiles = forms.ModelMChoiceField(queryset=None)
+    profiles = forms.ModelMultipleChoiceField(PsychologistUserProfile.objects.all(), required=False)
 
     class Meta:
         model = PsychologistStatus

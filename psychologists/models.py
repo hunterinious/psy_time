@@ -10,7 +10,7 @@ class PsychologistUserProfile(models.Model):
     work_experience = models.TextField(null=False, blank=False)
     price = models.IntegerField(null=False, blank=False)
     time = models.IntegerField(null=False, blank=False)
-    city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
+    city = models.ForeignKey(City, on_delete=models.PROTECT)
     user = models.OneToOneField(PsychologistUser, on_delete=models.CASCADE)
 
 
@@ -57,4 +57,4 @@ class PsychologistLanguages(models.Model):
 class Image(models.Model):
     name = models.CharField(unique=True, max_length=255)
     image = models.ImageField(null=False, blank=False)
-    profiles = models.ForeignKey(PsychologistUserProfile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(PsychologistUserProfile, on_delete=models.CASCADE)
