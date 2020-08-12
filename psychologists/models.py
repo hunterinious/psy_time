@@ -3,6 +3,38 @@ from users.models import PsychologistUser
 from locations.models import City
 
 
+class PsychologistStatus(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
+class PsychologistWorkFormat(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
+class PsychologistTheme(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
+class PsychologistApproach(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
+class PsychologistSpecialization(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
+class PsychologistEducation(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
+class PsychologistSecondaryEducation(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
+class PsychologistLanguage(models.Model):
+    name = models.CharField(unique=True, max_length=50)
+
+
 class PsychologistUserProfile(models.Model):
     avatar = models.ImageField(upload_to="avatars", default="avatars/psy_avatar.jpg")
     birth_date = models.DateField(null=False, blank=False)
@@ -12,46 +44,14 @@ class PsychologistUserProfile(models.Model):
     time = models.IntegerField(null=False, blank=False)
     city = models.ForeignKey(City, on_delete=models.PROTECT)
     user = models.OneToOneField(PsychologistUser, on_delete=models.CASCADE)
-
-
-class PsychologistStatus(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="statuses")
-
-
-class PsychologistWorkFormat(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="formats")
-
-
-class PsychologistTheme(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="themes")
-
-
-class PsychologistApproach(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="approaches")
-
-
-class PsychologistSpecialization(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="specializations")
-
-
-class PsychologistEducation(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="educations")
-
-
-class PsychologistSecondaryEducation(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="secondary_educations")
-
-
-class PsychologistLanguages(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    profiles = models.ManyToManyField(PsychologistUserProfile, related_name="languages")
+    statuses = models.ManyToManyField(PsychologistStatus, related_name="profiles")
+    formats = models.ManyToManyField(PsychologistWorkFormat, related_name="profiles")
+    themes = models.ManyToManyField(PsychologistTheme, related_name="profiles")
+    approaches = models.ManyToManyField(PsychologistApproach, related_name="profiles")
+    specializations = models.ManyToManyField(PsychologistSpecialization, related_name="profiles")
+    educations = models.ManyToManyField(PsychologistEducation, related_name="profiles")
+    secondary_educations = models.ManyToManyField(PsychologistSecondaryEducation, related_name="profiles")
+    languages = models.ManyToManyField(PsychologistLanguage, related_name="profiles")
 
 
 class Image(models.Model):
