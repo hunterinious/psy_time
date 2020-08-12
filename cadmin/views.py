@@ -1,6 +1,13 @@
 from django.urls import reverse
 from django.views.generic import CreateView
-from .forms import UserForm, PsychologistProfileForm, CountryForm, CityForm, PsychologistStatusForm
+from .forms import (
+    UserForm,
+    PsychologistProfileForm,
+    CountryForm,
+    CityForm,
+    PsychologistStatusForm,
+    PsychologistFormatForm
+)
 
 
 class CountryCreateView(CreateView):
@@ -41,3 +48,11 @@ class PsychologistStatusCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('psy-status-create')
+
+
+class PsychologistFormatCreateView(CreateView):
+    template_name = 'cadmin/psy_format_create.html'
+    form_class = PsychologistFormatForm
+
+    def get_success_url(self):
+        return reverse('psy-format-create')
