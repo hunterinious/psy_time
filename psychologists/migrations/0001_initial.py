@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
                 ('work_experience', models.TextField()),
                 ('price', models.IntegerField()),
                 ('time', models.IntegerField()),
-                ('city', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='locations.City')),
+                ('city', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='locations.City')),
             ],
         ),
         migrations.CreateModel(
