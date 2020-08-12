@@ -2,7 +2,11 @@ from django import forms
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from locations.models import Country, City
-from psychologists.models import PsychologistUserProfile, PsychologistStatus
+from psychologists.models import (
+    PsychologistUserProfile,
+    PsychologistStatus,
+    PsychologistEducation,
+)
 
 User = get_user_model()
 
@@ -42,4 +46,11 @@ class PsychologistStatusForm(forms.ModelForm):
     class Meta:
         model = PsychologistStatus
         fields = '__all__'
+
+
+class PsychologistEducationForm(forms.ModelForm):
+    class Meta:
+        model = PsychologistEducation
+        fields = '__all__'
+
 
