@@ -1,5 +1,6 @@
 from django import forms
-from locations.models import Country, City
+from django.contrib.auth import get_user_model
+from users.models import CustomUser, Country, City
 
 
 class CountryForm(forms.ModelForm):
@@ -12,3 +13,9 @@ class CityForm(forms.ModelForm):
     class Meta:
         model = City
         fields = '__all__'
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'password', 'user_type')
