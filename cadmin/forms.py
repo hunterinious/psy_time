@@ -4,6 +4,8 @@ from users.models import CustomUser
 from locations.models import Country, City
 from psychologists.models import PsychologistUserProfile, PsychologistStatus
 
+User = get_user_model()
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
