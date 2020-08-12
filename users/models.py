@@ -76,3 +76,6 @@ class RegularUserProfile(models.Model):
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.jpg")
     city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(RegularUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user

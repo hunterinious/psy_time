@@ -6,33 +6,57 @@ from locations.models import City
 class PsychologistStatus(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 class PsychologistWorkFormat(models.Model):
     name = models.CharField(unique=True, max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class PsychologistTheme(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 class PsychologistApproach(models.Model):
     name = models.CharField(unique=True, max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class PsychologistSpecialization(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 class PsychologistEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class PsychologistSecondaryEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 class PsychologistLanguage(models.Model):
     name = models.CharField(unique=True, max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class PsychologistUserProfile(models.Model):
@@ -52,6 +76,9 @@ class PsychologistUserProfile(models.Model):
     educations = models.ManyToManyField(PsychologistEducation, related_name="profiles")
     secondary_educations = models.ManyToManyField(PsychologistSecondaryEducation, related_name="profiles")
     languages = models.ManyToManyField(PsychologistLanguage, related_name="profiles")
+
+    def __str__(self):
+        return self.user
 
 
 class Image(models.Model):
