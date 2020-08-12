@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('about', models.TextField()),
                 ('work_experience', models.TextField()),
                 ('price', models.IntegerField()),
-                ('time', models.IntegerField()),
+                ('duration', models.IntegerField()),
                 ('city',
                  models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='locations.City')),
                 ('user',

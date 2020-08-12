@@ -41,7 +41,7 @@ class PsychologistUserProfile(models.Model):
     about = models.TextField(null=False, blank=False)
     work_experience = models.TextField(null=False, blank=False)
     price = models.IntegerField(null=False, blank=False)
-    time = models.IntegerField(null=False, blank=False)
+    duration = models.IntegerField(null=False, blank=False)
     city = models.ForeignKey(City, on_delete=models.PROTECT)
     user = models.OneToOneField(PsychologistUser, on_delete=models.CASCADE)
     statuses = models.ManyToManyField(PsychologistStatus, related_name="profiles")
