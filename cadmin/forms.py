@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from locations.models import Country, City
-from psychologists.models import PsychologistUserProfile
+from psychologists.models import PsychologistUserProfile, PsychologistStatus
 
 
 class DateInput(forms.DateInput):
@@ -34,4 +34,12 @@ class PsychologistProfileForm(forms.ModelForm):
         widgets = {
             'birth_date': DateInput()
         }
+
+
+class PsychologistStatusForm(forms.ModelForm):
+    profiles = forms.ModelMultipleChoiceField(PsychologistUserProfile.objects.all(), required=False)
+
+    class Meta:
+        model = PsychologistStatus
+        fields = '__all__'
 

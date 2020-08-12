@@ -14,63 +14,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Image',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
-                ('image', models.ImageField(upload_to='')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PsychologistApproach',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PsychologistEducation',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PsychologistLanguages',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PsychologistSecondaryEducation',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PsychologistSpecialization',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PsychologistStatus',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PsychologistTheme',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
             name='PsychologistUserProfile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -80,7 +23,85 @@ class Migration(migrations.Migration):
                 ('work_experience', models.TextField()),
                 ('price', models.IntegerField()),
                 ('time', models.IntegerField()),
-                ('city', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='locations.City')),
+                ('city',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='locations.City')),
+                ('user',
+                 models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='users.PsychologistUser')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Image',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=255, unique=True)),
+                ('image', models.ImageField(upload_to='')),
+                ('profile',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                   to='psychologists.PsychologistUserProfile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PsychologistApproach',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('profiles',
+                 models.ManyToManyField(related_name='approaches', to='psychologists.PsychologistUserProfile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PsychologistEducation',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('profiles',
+                 models.ManyToManyField(related_name='educations', to='psychologists.PsychologistUserProfile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PsychologistLanguages',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('profiles',
+                 models.ManyToManyField(related_name='languages', to='psychologists.PsychologistUserProfile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PsychologistSecondaryEducation',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('profiles',
+                 models.ManyToManyField(related_name='secondary_educations',
+                                        to='psychologists.PsychologistUserProfile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PsychologistSpecialization',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('profiles',
+                 models.ManyToManyField(related_name='specializations', to='psychologists.PsychologistUserProfile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PsychologistStatus',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('profiles',
+                 models.ManyToManyField(related_name='statuses', to='psychologists.PsychologistUserProfile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PsychologistTheme',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('profiles',
+                 models.ManyToManyField(related_name='themes', to='psychologists.PsychologistUserProfile')),
             ],
         ),
         migrations.CreateModel(
@@ -88,7 +109,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50, unique=True)),
-                ('psychologist', models.ManyToManyField(related_name='formats', to='psychologists.PsychologistUserProfile')),
+                ('profiles',
+                 models.ManyToManyField(related_name='formats', to='psychologists.PsychologistUserProfile')),
             ],
         ),
     ]
