@@ -36,7 +36,7 @@ class PsychologistLanguage(models.Model):
 
 
 class PsychologistUserProfile(models.Model):
-    avatar = models.ImageField(upload_to="avatars", default="avatars/psy_avatar.jpg")
+    avatar = models.ImageField(null=False, blank=False, default="avatars/psy_avatar.jpg")
     birth_date = models.DateField(null=False, blank=False)
     about = models.TextField(null=False, blank=False)
     work_experience = models.TextField(null=False, blank=False)
