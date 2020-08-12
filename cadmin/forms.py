@@ -34,6 +34,8 @@ class UserForm(forms.ModelForm):
 
 
 class PsychologistProfileForm(forms.ModelForm):
+    secondary_educations = forms.ModelMultipleChoiceField(PsychologistSecondaryEducation.objects.all(), required=False)
+
     class Meta:
         model = PsychologistUserProfile
         fields = '__all__'
