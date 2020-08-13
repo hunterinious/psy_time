@@ -4,8 +4,9 @@ from .views import (
     PsychologistProfileCreateView,
     PsychologistStatusCreateView,
     PsychologistApproachCreateView,
+    PsychologistSpecializationCreateView,
     CountryCreateView,
-    CityCreateView
+    CityCreateView,
 )
 
 
@@ -14,6 +15,8 @@ urlpatterns = [
     path("users/profiles/create_psy_profile", PsychologistProfileCreateView.as_view(), name='psy-profile-create'),
     path("psychologists/statuses/create", PsychologistStatusCreateView.as_view(), name='psy-status-create'),
     path("psychologists/approaches/create", PsychologistApproachCreateView.as_view(), name='psy-approach-create'),
+    path("psychologists/specializations/create", PsychologistSpecializationCreateView.as_view(),
+         name='psy-specialization-create'),
     path("countries/create", CountryCreateView.as_view(), name='country-create'),
     path("cities/create", CityCreateView.as_view(), name='city-create'),
 ]

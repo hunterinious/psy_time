@@ -6,6 +6,7 @@ from psychologists.models import (
     PsychologistUserProfile,
     PsychologistStatus,
     PsychologistApproach,
+    PsychologistSpecialization,
 )
 
 User = get_user_model()
@@ -51,5 +52,11 @@ class PsychologistStatusForm(forms.ModelForm):
 class PsychologistApproachForm(forms.ModelForm):
     class Meta:
         model = PsychologistApproach
+        fields = '__all__'
+
+
+class PsychologistSpecializationForm(forms.ModelForm):
+    class Meta:
+        model = PsychologistSpecialization
         fields = '__all__'
 
