@@ -6,12 +6,11 @@ from .forms import (
     PsychologistStatusForm,
     PsychologistApproachForm,
     PsychologistSpecializationForm,
-    CountryForm,
-    CityForm,
-    CountryForm,
-    CityForm,
     PsychologistStatusForm,
     PsychologistFormatForm,
+    PsychologistThemeForm,
+    CountryForm,
+    CityForm,
 )
 
 
@@ -77,4 +76,12 @@ class PsychologistFormatCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('psy-format-create')
+
+
+class PsychologistThemeCreateView(CreateView):
+    template_name = 'cadmin/psy_theme_create.html'
+    form_class = PsychologistThemeForm
+
+    def get_success_url(self):
+        return reverse('psy-theme-create')
 
