@@ -10,6 +10,7 @@ from psychologists.models import (
     PsychologistWorkFormat,
     PsychologistTheme,
     PsychologistEducation,
+    PsychologistSecondaryEducation,
 )
 
 User = get_user_model()
@@ -38,6 +39,8 @@ class UserForm(forms.ModelForm):
 
 
 class PsychologistProfileForm(forms.ModelForm):
+    secondary_educations = forms.ModelMultipleChoiceField(PsychologistSecondaryEducation.objects.all(), required=False)
+
     class Meta:
         model = PsychologistUserProfile
         fields = '__all__'
@@ -79,5 +82,11 @@ class PsychologistThemeForm(forms.ModelForm):
 class PsychologistEducationForm(forms.ModelForm):
     class Meta:
         model = PsychologistEducation
+        fields = '__all__'
+
+
+class PsychologistSecondaryEducationForm(forms.ModelForm):
+    class Meta:
+        model = PsychologistSecondaryEducation
         fields = '__all__'
 
