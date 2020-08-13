@@ -11,6 +11,7 @@ from psychologists.models import (
     PsychologistTheme,
     PsychologistEducation,
     PsychologistSecondaryEducation,
+    PsychologistLanguage,
 )
 
 User = get_user_model()
@@ -88,5 +89,11 @@ class PsychologistEducationForm(forms.ModelForm):
 class PsychologistSecondaryEducationForm(forms.ModelForm):
     class Meta:
         model = PsychologistSecondaryEducation
+        fields = '__all__'
+
+
+class PsychologistLanguageForm(forms.ModelForm):
+    class Meta:
+        model = PsychologistLanguage
         fields = '__all__'
 

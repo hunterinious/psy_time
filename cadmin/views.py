@@ -11,6 +11,7 @@ from .forms import (
     PsychologistThemeForm,
     PsychologistEducationForm,
     PsychologistSecondaryEducationForm,
+    PsychologistLanguageForm,
     CountryForm,
     CityForm,
 )
@@ -102,4 +103,13 @@ class PsychologistSecondaryEducationCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('psy-secondary-education-create')
+
+
+class PsychologistLanguageCreateView(CreateView):
+    template_name = 'cadmin/psy_language_create.html'
+    form_class = PsychologistLanguageForm
+
+    def get_success_url(self):
+        return reverse('psy-language-create')
+
 
