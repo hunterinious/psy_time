@@ -12,7 +12,7 @@ class UserTypes(Enum):
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email,  username, password):
+    def create(self, email,  username, password):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
@@ -78,4 +78,4 @@ class RegularUserProfile(models.Model):
     user = models.OneToOneField(RegularUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user
+        return str(self.user)

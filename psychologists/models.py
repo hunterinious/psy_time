@@ -60,7 +60,7 @@ class PsychologistLanguage(models.Model):
 
 
 class PsychologistUserProfile(models.Model):
-    avatar = models.ImageField(null=False, blank=False, default="avatars/psy_avatar.jpg")
+    avatar = models.ImageField(null=False, blank=False, default="avatars/psy_avatar.jpg", upload_to='avatars')
     birth_date = models.DateField(null=False, blank=False)
     about = models.TextField(null=False, blank=False)
     work_experience = models.TextField(null=False, blank=False)
@@ -78,7 +78,7 @@ class PsychologistUserProfile(models.Model):
     languages = models.ManyToManyField(PsychologistLanguage, related_name="profiles")
 
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 
 class Image(models.Model):

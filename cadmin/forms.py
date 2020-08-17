@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from users.models import CustomUser
 from locations.models import Country, City
 from psychologists.models import (
     PsychologistUserProfile,
