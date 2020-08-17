@@ -44,6 +44,8 @@ class PsychologistUserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PsychologistUserProfile
 
+    about = factory.Faker('paragraph')
+    work_experience = factory.Faker('paragraph')
     birth_date = factory.Faker('date_of_birth')
     price = randint(50, 100)
     duration = randint(50, 60)
