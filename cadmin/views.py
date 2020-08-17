@@ -1,9 +1,13 @@
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import (
+    CreateView,
+    UpdateView,
+)
+
 from .forms import (
     UserForm,
     PsychologistProfileForm,
-    PsychologistStatusForm,
     PsychologistApproachForm,
     PsychologistSpecializationForm,
     PsychologistStatusForm,
@@ -15,6 +19,7 @@ from .forms import (
     CountryForm,
     CityForm,
 )
+from psychologists.models import PsychologistUserProfile
 
 
 class CountryCreateView(CreateView):
@@ -47,6 +52,19 @@ class PsychologistProfileCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('psy-profile-create')
+
+
+class PsychologistProfileUpdateView(UpdateView):
+    template_name = 'cadmin/psy_profile_update.html'
+    form_class = PsychologistProfileForm
+    context_object_name = 'profile'
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(PsychologistUserProfile, id=id_)
+
+    def get_success_url(self):
+        return reverse('psy-profile-update', kwargs={'id': self.kwargs['id']})
 
 
 class PsychologistStatusCreateView(CreateView):
