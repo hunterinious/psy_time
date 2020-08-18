@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     UserCreateView,
+    PsychologistProfileUpdateView,
     PsychologistProfileCreateView,
     PsychologistStatusCreateView,
     PsychologistApproachCreateView,
@@ -17,7 +18,8 @@ from .views import (
 
 urlpatterns = [
     path("users/create", UserCreateView.as_view(), name='user-create'),
-    path("users/profiles/create_psy_profile", PsychologistProfileCreateView.as_view(), name='psy-profile-create'),
+    path("psychologists/profiles/create", PsychologistProfileCreateView.as_view(), name='psy-profile-create'),
+    path("psychologists/profiles/<int:id>/update", PsychologistProfileUpdateView.as_view(), name='psy-profile-update'),
     path("psychologists/statuses/create", PsychologistStatusCreateView.as_view(), name='psy-status-create'),
     path("psychologists/approaches/create", PsychologistApproachCreateView.as_view(), name='psy-approach-create'),
     path("psychologists/specializations/create", PsychologistSpecializationCreateView.as_view(),
