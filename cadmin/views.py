@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.contrib.auth import get_user_model
+from django.urls import reverse, reverse_lazy
+from django.db import transaction
 from django.views.generic import (
     CreateView,
+    ListView,
     UpdateView,
 )
-
 from .forms import (
     UserForm,
     PsychologistProfileForm,
@@ -16,10 +18,14 @@ from .forms import (
     PsychologistEducationForm,
     PsychologistSecondaryEducationForm,
     PsychologistLanguageForm,
+    PsychologistProfileFormSet,
     CountryForm,
     CityForm,
 )
+from users.models import UserTypes
 from psychologists.models import PsychologistUserProfile
+
+User = get_user_model()
 
 
 class CountryCreateView(CreateView):
@@ -46,25 +52,72 @@ class UserCreateView(CreateView):
         return reverse('user-create')
 
 
-class PsychologistProfileCreateView(CreateView):
-    template_name = 'cadmin/psy_profile_create.html'
-    form_class = PsychologistProfileForm
+class PsychologistUserListView(ListView):
+    template_name = 'cadmin/psy_list.html'
+    context_object_name = 'psychologists'
+
+    def get_queryset(self):
+        return User.objects.filter(user_type=UserTypes.psychologist_user.name)
+
+
+class PsychologistUserAndProfileCreateView(CreateView):
+    template_name = 'cadmin/psy_user_profile_create.html'
+    form_class = UserForm
+    context_object_name = 'user'
 
     def get_success_url(self):
-        return reverse('psy-profile-create')
+        return reverse('psy-user-profile-create')
+
+    def get_context_data(self, **kwargs):
+        data = super(PsychologistUserAndProfileCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['profile'] = PsychologistProfileFormSet(self.request.POST, self.request.FILES)
+        else:
+            data['profile'] = PsychologistProfileFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        profile = context['profile']
+        with transaction.atomic():
+            form.instance.created_by = self.request.user
+            self.object = form.save()
+            if profile.is_valid():
+                profile.instance = self.object
+                profile.save()
+        return super(PsychologistUserAndProfileCreateView, self).form_valid(form)
 
 
-class PsychologistProfileUpdateView(UpdateView):
-    template_name = 'cadmin/psy_profile_update.html'
-    form_class = PsychologistProfileForm
-    context_object_name = 'profile'
+class PsychologistUserAndProfileUpdateView(UpdateView):
+    template_name = 'cadmin/psy_user_profile_update.html'
+    form_class = UserForm
+    context_object_name = 'user'
 
     def get_object(self):
         id_ = self.kwargs.get("id")
-        return get_object_or_404(PsychologistUserProfile, id=id_)
+        return get_object_or_404(User, id=id_)
 
     def get_success_url(self):
-        return reverse('psy-profile-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-user-profile-update', kwargs={'id': self.kwargs['id']})
+
+    def get_context_data(self, **kwargs):
+        data = super(PsychologistUserAndProfileUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['profile'] = PsychologistProfileFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            data['profile'] = PsychologistProfileFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        profile = context['profile']
+        with transaction.atomic():
+            form.instance.created_by = self.request.user
+            self.object = form.save()
+            if profile.is_valid():
+                profile.instance = self.object
+                profile.save()
+        return super(PsychologistUserAndProfileUpdateView, self).form_valid(form)
 
 
 class PsychologistStatusCreateView(CreateView):

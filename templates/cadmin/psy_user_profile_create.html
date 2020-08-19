@@ -4,13 +4,21 @@
 <div class="container">
     <div class="card">
         <div class="card-header">
-            Create psychologist profile
+            Create psychologist user
         </div>
         <div class="card-body">
-            <form method="post">{% csrf_token %}
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
                 {{ form.as_p }}
+
+                {{ profile.management_form }}
+
+                {% for form in profile.forms %}
+                    {{ form.as_p }}
+                {% endfor %}
+
                 <input type="submit" value="Save" />
             </form>
+
         </div>
     </div>
 </div>

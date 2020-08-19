@@ -1,8 +1,11 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from .views import (
     UserCreateView,
-    PsychologistProfileUpdateView,
-    PsychologistProfileCreateView,
+    PsychologistUserAndProfileCreateView,
+    PsychologistUserAndProfileUpdateView,
+    PsychologistUserListView,
     PsychologistStatusCreateView,
     PsychologistApproachCreateView,
     PsychologistSpecializationCreateView,
@@ -18,8 +21,11 @@ from .views import (
 
 urlpatterns = [
     path("users/create", UserCreateView.as_view(), name='user-create'),
-    path("psychologists/profiles/create", PsychologistProfileCreateView.as_view(), name='psy-profile-create'),
-    path("psychologists/profiles/<int:id>/update", PsychologistProfileUpdateView.as_view(), name='psy-profile-update'),
+    path("psychologists_profiles/create", PsychologistUserAndProfileCreateView.as_view(),
+         name='psy-user-profile-create'),
+    path("psychologists_profiles/<int:id>/update", PsychologistUserAndProfileUpdateView.as_view(),
+         name='psy-user-profile-update'),
+    path("psychologists", PsychologistUserListView.as_view(), name='psy-list'),
     path("psychologists/statuses/create", PsychologistStatusCreateView.as_view(), name='psy-status-create'),
     path("psychologists/approaches/create", PsychologistApproachCreateView.as_view(), name='psy-approach-create'),
     path("psychologists/specializations/create", PsychologistSpecializationCreateView.as_view(),
@@ -32,4 +38,4 @@ urlpatterns = [
     path("psychologists/languages/create", PsychologistLanguageCreateView.as_view(), name='psy-language-create'),
     path("countries/create", CountryCreateView.as_view(), name='country-create'),
     path("cities/create", CityCreateView.as_view(), name='city-create'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

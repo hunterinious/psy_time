@@ -56,7 +56,7 @@ class Command(BaseCommand):
         cities = [c.cities.all() for c in countries]
 
         for u in users:
-            if u.user_type == UserTypes.psychologist_user.value:
+            if u.user_type == UserTypes.psychologist_user.name:
                 city = choice(choice(cities))
                 r_statuses = sample(statuses, k=len(statuses) - 1)
                 r_formats = sample(formats, k=len(formats) - 1)
@@ -71,6 +71,6 @@ class Command(BaseCommand):
                                                       themes=r_themes, approaches=r_approaches, languages=r_languages,
                                                       specializations=r_specializations, educations=r_educations,
                                                       secondary_educations=r_secondary_educations)
-            elif u.user_type == UserTypes.regular_user:
+            elif u.user_type == UserTypes.regular_user.name:
                 RegularUserProfileFactory.create(user=u)
 

@@ -23,11 +23,11 @@ class UserFactory(factory.django.DjangoModelFactory):
         rand_value = randint(0, 120)
 
         if rand_value < 50:
-            user_type = UserTypes.regular_user.value
+            user_type = UserTypes.regular_user.name
         elif rand_value < 100:
-            user_type = UserTypes.psychologist_user.value
+            user_type = UserTypes.psychologist_user.name
         else:
-            user_type = UserTypes.admin_user.value
+            user_type = UserTypes.admin_user.name
 
         return user_type
 

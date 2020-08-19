@@ -1,5 +1,7 @@
 from django import forms
+from django.forms.models import inlineformset_factory
 from django.contrib.auth import get_user_model
+from psychologists.models import PsychologistUser
 from locations.models import Country, City
 from psychologists.models import (
     PsychologistUserProfile,
@@ -47,6 +49,9 @@ class PsychologistProfileForm(forms.ModelForm):
         widgets = {
             'birth_date': DateInput()
         }
+
+
+PsychologistProfileFormSet = inlineformset_factory(PsychologistUser, PsychologistUserProfile, form=PsychologistProfileForm)
 
 
 class PsychologistStatusForm(forms.ModelForm):
