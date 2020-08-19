@@ -36,9 +36,7 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-import logging
 
-logger = logging.getLogger(__name__)
 class CustomUser(AbstractUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
     user_type = models.CharField(max_length=50, choices=[(tag.name, tag.value) for tag in UserTypes])
@@ -64,7 +62,6 @@ class CustomUser(AbstractUser, PermissionsMixin):
     @property
     def profile(self):
         user_type = self.user_type
-        logger.warning(user_type)
         if user_type == UserTypes.admin_user.name:
             return self.adminuserprofile
         elif user_type == UserTypes.psychologist_user.name:
