@@ -1,15 +1,18 @@
 from django.shortcuts import get_object_or_404
-from django.contrib.auth import get_user_model
+from django.contrib import messages
+from django.contrib.auth import login, authenticate, get_user_model
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.db import transaction
 from django.views.generic import (
     CreateView,
     ListView,
     UpdateView,
+    FormView
 )
 from .forms import (
+    LoginForm,
     UserForm,
-    PsychologistProfileForm,
     PsychologistApproachForm,
     PsychologistSpecializationForm,
     PsychologistStatusForm,
@@ -23,9 +26,28 @@ from .forms import (
     CityForm,
 )
 from users.models import UserTypes
-from psychologists.models import PsychologistUserProfile
 
 User = get_user_model()
+
+
+class LoginView(FormView):
+    template_name = 'cadmin/login.html'
+    form_class = LoginForm
+
+    def get_success_url(self):
+        return reverse('psy-list')
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+
+        user = authenticate(email=data['email'], password=data['password'])
+        if user is not None and user.user_type == UserTypes.admin_user.name:
+            login(self.request, user)
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            messages.add_message(self.request, messages.INFO, 'Wrong credentials\
+                                            please try again')
+            return HttpResponseRedirect(reverse_lazy('login'))
 
 
 class CountryCreateView(CreateView):

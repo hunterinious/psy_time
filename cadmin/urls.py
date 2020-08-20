@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from .views import (
+    LoginView,
     UserCreateView,
     PsychologistUserAndProfileCreateView,
     PsychologistUserAndProfileUpdateView,
@@ -20,6 +21,7 @@ from .views import (
 
 
 urlpatterns = [
+    path("login", LoginView.as_view(), name="login"),
     path("users/create", UserCreateView.as_view(), name='user-create'),
     path("psychologists_profiles/create", PsychologistUserAndProfileCreateView.as_view(),
          name='psy-user-profile-create'),

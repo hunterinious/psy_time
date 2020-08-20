@@ -22,6 +22,11 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput())
+
+
 class CountryForm(forms.ModelForm):
     class Meta:
         model = Country
