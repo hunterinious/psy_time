@@ -1,14 +1,18 @@
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, get_user_model
-from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import login, logout, authenticate, get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from mixins.mixins import OnlyAdminCanAccessMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.db import transaction
+from django.views import View
 from django.views.generic import (
     CreateView,
     ListView,
     UpdateView,
-    FormView
+    FormView,
+    TemplateView,
 )
 from .forms import (
     LoginForm,
@@ -30,6 +34,11 @@ from users.models import UserTypes
 User = get_user_model()
 
 
+class PermissionView(OnlyAdminCanAccessMixin, View):
+    not_admin_message = "Only admin have access to this page"
+    not_admin_redirect = "login"
+
+
 class LoginView(FormView):
     template_name = 'cadmin/login.html'
     form_class = LoginForm
@@ -39,18 +48,21 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-
         user = authenticate(email=data['email'], password=data['password'])
-        if user is not None and user.user_type == UserTypes.admin_user.name:
+        if user is not None:
             login(self.request, user)
             return HttpResponseRedirect(self.get_success_url())
         else:
-            messages.add_message(self.request, messages.INFO, 'Wrong credentials\
-                                            please try again')
+            messages.add_message(self.request, messages.INFO, 'Wrong credentials, please try again')
             return HttpResponseRedirect(reverse_lazy('login'))
 
 
-class CountryCreateView(CreateView):
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse_lazy('login'))
+
+
+class CountryCreateView(PermissionView, CreateView):
     template_name = 'cadmin/country_create.html'
     form_class = CountryForm
 
@@ -58,7 +70,7 @@ class CountryCreateView(CreateView):
         return reverse('country-create')
 
 
-class CityCreateView(CreateView):
+class CityCreateView(PermissionView, CreateView):
     template_name = 'cadmin/city_create.html'
     form_class = CityForm
 
@@ -66,7 +78,7 @@ class CityCreateView(CreateView):
         return reverse('city-create')
 
 
-class UserCreateView(CreateView):
+class UserCreateView(PermissionView, CreateView):
     template_name = 'cadmin/user_create.html'
     form_class = UserForm
 
@@ -74,7 +86,7 @@ class UserCreateView(CreateView):
         return reverse('user-create')
 
 
-class PsychologistUserListView(ListView):
+class PsychologistUserListView(PermissionView, ListView):
     template_name = 'cadmin/psy_list.html'
     context_object_name = 'psychologists'
 
@@ -82,7 +94,7 @@ class PsychologistUserListView(ListView):
         return User.objects.filter(user_type=UserTypes.psychologist_user.name)
 
 
-class PsychologistUserAndProfileCreateView(CreateView):
+class PsychologistUserAndProfileCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_user_profile_create.html'
     form_class = UserForm
     context_object_name = 'user'
@@ -110,7 +122,7 @@ class PsychologistUserAndProfileCreateView(CreateView):
         return super(PsychologistUserAndProfileCreateView, self).form_valid(form)
 
 
-class PsychologistUserAndProfileUpdateView(UpdateView):
+class PsychologistUserAndProfileUpdateView(PermissionView, UpdateView):
     template_name = 'cadmin/psy_user_profile_update.html'
     form_class = UserForm
     context_object_name = 'user'
@@ -142,7 +154,7 @@ class PsychologistUserAndProfileUpdateView(UpdateView):
         return super(PsychologistUserAndProfileUpdateView, self).form_valid(form)
 
 
-class PsychologistStatusCreateView(CreateView):
+class PsychologistStatusCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_status_create.html'
     form_class = PsychologistStatusForm
 
@@ -150,7 +162,7 @@ class PsychologistStatusCreateView(CreateView):
         return reverse('psy-status-create')
 
 
-class PsychologistApproachCreateView(CreateView):
+class PsychologistApproachCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_approach_create.html'
     form_class = PsychologistApproachForm
 
@@ -158,7 +170,7 @@ class PsychologistApproachCreateView(CreateView):
         return reverse('psy-approach-create')
 
 
-class PsychologistSpecializationCreateView(CreateView):
+class PsychologistSpecializationCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_specialization_create.html'
     form_class = PsychologistSpecializationForm
 
@@ -166,7 +178,7 @@ class PsychologistSpecializationCreateView(CreateView):
         return reverse('psy-specialization-create')
 
 
-class PsychologistFormatCreateView(CreateView):
+class PsychologistFormatCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_format_create.html'
     form_class = PsychologistFormatForm
 
@@ -174,7 +186,7 @@ class PsychologistFormatCreateView(CreateView):
         return reverse('psy-format-create')
 
 
-class PsychologistThemeCreateView(CreateView):
+class PsychologistThemeCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_theme_create.html'
     form_class = PsychologistThemeForm
 
@@ -182,7 +194,7 @@ class PsychologistThemeCreateView(CreateView):
         return reverse('psy-theme-create')
 
 
-class PsychologistEducationCreateView(CreateView):
+class PsychologistEducationCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_education_create.html'
     form_class = PsychologistEducationForm
 
@@ -190,7 +202,7 @@ class PsychologistEducationCreateView(CreateView):
         return reverse('psy-education-create')
 
 
-class PsychologistSecondaryEducationCreateView(CreateView):
+class PsychologistSecondaryEducationCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_secondary_education_create.html'
     form_class = PsychologistSecondaryEducationForm
 
@@ -198,7 +210,7 @@ class PsychologistSecondaryEducationCreateView(CreateView):
         return reverse('psy-secondary-education-create')
 
 
-class PsychologistLanguageCreateView(CreateView):
+class PsychologistLanguageCreateView(PermissionView, CreateView):
     template_name = 'cadmin/psy_language_create.html'
     form_class = PsychologistLanguageForm
 

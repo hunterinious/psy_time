@@ -129,6 +129,8 @@ CORS_ALLOW_METHODS = list(default_methods)
 
 ROOT_URLCONF = 'psy_time.urls'
 
+LOGIN_URL = 'login'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
