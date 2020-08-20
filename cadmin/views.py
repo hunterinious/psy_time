@@ -35,7 +35,7 @@ User = get_user_model()
 
 
 class PermissionView(OnlyAdminCanAccessMixin, View):
-    not_admin_message = "Only admin have access to this page"
+    not_admin_message = "Only admin has access to this page"
     not_admin_redirect = "login"
 
 
