@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
 from .views import (
-    LoginView,
-    logout_view,
     UserCreateView,
     PsychologistUserAndProfileCreateView,
     PsychologistUserAndProfileUpdateView,
@@ -23,7 +22,7 @@ from .views import (
 
 urlpatterns = [
     path("login", LoginView.as_view(), name="login"),
-    path("logout", logout_view, name="logout"),
+    path("logout", LogoutView.as_view(), name="logout"),
     path("users/create", UserCreateView.as_view(), name='user-create'),
     path("psychologists_profiles/create", PsychologistUserAndProfileCreateView.as_view(),
          name='psy-user-profile-create'),

@@ -130,6 +130,8 @@ CORS_ALLOW_METHODS = list(default_methods)
 ROOT_URLCONF = 'psy_time.urls'
 
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'psy-list'
+LOGOUT_REDIRECT_URL = 'login'
 
 TEMPLATES = [
     {

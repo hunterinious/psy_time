@@ -37,29 +37,6 @@ class PermissionView(OnlyAdminCanAccessMixin, View):
     not_admin_redirect = "login"
 
 
-class LoginView(FormView):
-    template_name = 'cadmin/login.html'
-    form_class = LoginForm
-
-    def get_success_url(self):
-        return reverse('psy-list')
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-        user = authenticate(email=data['email'], password=data['password'])
-        if user is not None:
-            login(self.request, user)
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            messages.add_message(self.request, messages.INFO, 'Wrong credentials, please try again')
-            return HttpResponseRedirect(reverse_lazy('login'))
-
-
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse_lazy('login'))
-
-
 class CountryCreateView(PermissionView, CreateView):
     template_name = 'cadmin/country_create.html'
     form_class = CountryForm
