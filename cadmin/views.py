@@ -10,6 +10,7 @@ from django.views.generic import (
     CreateView,
     ListView,
     UpdateView,
+    DeleteView,
     FormView,
 )
 from .forms import (
@@ -82,6 +83,18 @@ class UserCreateView(PermissionView, CreateView):
 
     def get_success_url(self):
         return reverse('user-create')
+
+
+class UserDeleteView(PermissionView, DeleteView):
+    template_name = 'cadmin/user_delete.html'
+    context_object_name = 'user'
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(User, id=id_)
+
+    def get_success_url(self):
+        return reverse('psy-list')
 
 
 class PsychologistUserListView(PermissionView, ListView):
