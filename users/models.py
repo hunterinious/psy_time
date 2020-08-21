@@ -1,5 +1,6 @@
 from enum import Enum
 from django.db import models
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from locations.models import City
@@ -57,6 +58,10 @@ class CustomUser(AbstractUser, PermissionsMixin):
     # Does this user have permission to view this app?
     def has_module_perms(self, app_label):
         return True
+
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super(CustomUser, self).save(*args, **kwargs)
 
 
     @property
