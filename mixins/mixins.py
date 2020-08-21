@@ -1,11 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import AccessMixin
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied, ImproperlyConfigured
 from django.shortcuts import redirect
 from users.models import UserTypes
 
 
-class OnlyAdminCanAccessMixin(LoginRequiredMixin):
+class OnlyAdminCanAccessMixin(AccessMixin):
     """
     A view mixin that only allows admin users.
     """
@@ -33,6 +33,9 @@ class OnlyAdminCanAccessMixin(LoginRequiredMixin):
         return self.not_admin_redirect
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.user_type == UserTypes.admin_user.name:
+        user = request.user
+        if not user.is_authenticated:
+            return self.handle_no_permission()
+        if not user.user_type == UserTypes.admin_user.name:
             return self.handle_not_admin()
         return super().dispatch(request, *args, **kwargs)

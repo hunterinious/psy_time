@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from .models import PsychologistUser, PsychologistUserProfile
 
 
@@ -7,7 +6,7 @@ class ProfileInline(admin.TabularInline):
     model = PsychologistUserProfile
 
 
-class PsychologistAdmin(UserAdmin):
+class PsychologistAdmin(admin.ModelAdmin):
     inlines = [ProfileInline]
 
 
