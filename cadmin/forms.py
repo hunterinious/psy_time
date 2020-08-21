@@ -56,7 +56,8 @@ class PsychologistProfileForm(forms.ModelForm):
         }
 
 
-PsychologistProfileFormSet = inlineformset_factory(PsychologistUser, PsychologistUserProfile, form=PsychologistProfileForm)
+PsychologistProfileFormSet = inlineformset_factory(PsychologistUser, PsychologistUserProfile,
+                                                   form=PsychologistProfileForm, can_delete=False)
 
 
 class PsychologistStatusForm(forms.ModelForm):
