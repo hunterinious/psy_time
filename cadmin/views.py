@@ -90,8 +90,8 @@ class UserDeleteView(PermissionView, DeleteView):
     context_object_name = 'user'
 
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(User, id=id_)
+        user_id = self.kwargs.get("id")
+        return get_object_or_404(User, id=user_id)
 
     def get_success_url(self):
         return reverse('psy-list')
@@ -139,8 +139,8 @@ class PsychologistUserAndProfileUpdateView(PermissionView, UpdateView):
     context_object_name = 'user'
 
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(User, id=id_)
+        user_id = self.kwargs.get("id")
+        return get_object_or_404(User, id=user_id)
 
     def get_success_url(self):
         return reverse('psy-user-profile-update', kwargs={'id': self.kwargs['id']})
