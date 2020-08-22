@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from datetime import timedelta
+from corsheaders.defaults import default_methods
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -123,15 +125,14 @@ CSRF_TRUSTED_ORIGINS = [
     'http://rpi.leon.in.ua'
 ]
 
-from corsheaders.defaults import default_methods
 
 CORS_ALLOW_METHODS = list(default_methods)
 
 ROOT_URLCONF = 'psy_time.urls'
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'psy-list'
-LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('psy-list')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 TEMPLATES = [
     {

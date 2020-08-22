@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('', RedirectView.as_view(url=reverse_lazy('login'), permanent=False)),
+    path('', RedirectView.as_view(url=reverse_lazy('psy-list'), permanent=False)),
     path('admin/', admin.site.urls),
     path('cadmin/', include('cadmin.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
