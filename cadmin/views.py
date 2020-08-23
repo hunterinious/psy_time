@@ -9,6 +9,7 @@ from django.views.generic import (
     ListView,
     UpdateView,
     DeleteView,
+    TemplateView,
 )
 from .forms import (
     UserForm,
@@ -25,6 +26,17 @@ from .forms import (
     CityForm,
 )
 from users.models import UserTypes
+from psychologists.models import (
+    PsychologistStatus,
+    PsychologistApproach,
+    PsychologistSpecialization,
+    PsychologistWorkFormat,
+    PsychologistTheme,
+    PsychologistEducation,
+    PsychologistSecondaryEducation,
+    PsychologistLanguage,
+)
+from locations.models import City, Country
 
 User = get_user_model()
 
@@ -36,16 +48,32 @@ class AdminOnlyView(LoginRequiredMixin, UserPassesTestMixin, View):
         return self.request.user.user_type == UserTypes.admin_user.name
 
 
+class MainAdminView(AdminOnlyView, TemplateView):
+    template_name = 'cadmin/index.html'
+
+
+class CountryListView(AdminOnlyView, ListView):
+    model = Country
+    template_name = 'cadmin/locations/country_list.html'
+    context_object_name = 'countries'
+
+
 class CountryCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/country_create.html'
+    template_name = 'cadmin/locations/country_create.html'
     form_class = CountryForm
 
     def get_success_url(self):
         return reverse('country-create')
 
 
+class CityListView(AdminOnlyView, ListView):
+    model = City
+    template_name = 'cadmin/locations/city_list.html'
+    context_object_name = 'cities'
+
+
 class CityCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/city_create.html'
+    template_name = 'cadmin/locations/city_create.html'
     form_class = CityForm
 
     def get_success_url(self):
@@ -53,7 +81,7 @@ class CityCreateView(AdminOnlyView, CreateView):
 
 
 class UserCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/user_create.html'
+    template_name = 'cadmin/users/user_create.html'
     form_class = UserForm
 
     def get_success_url(self):
@@ -61,7 +89,7 @@ class UserCreateView(AdminOnlyView, CreateView):
 
 
 class UserDeleteView(AdminOnlyView, DeleteView):
-    template_name = 'cadmin/user_delete.html'
+    template_name = 'cadmin/users/user_delete.html'
     context_object_name = 'user'
 
     def get_object(self):
@@ -73,7 +101,7 @@ class UserDeleteView(AdminOnlyView, DeleteView):
 
 
 class PsychologistUserListView(AdminOnlyView, ListView):
-    template_name = 'cadmin/psy_list.html'
+    template_name = 'cadmin/psychologists/psy_list.html'
     context_object_name = 'psychologists'
 
     def get_queryset(self):
@@ -81,7 +109,7 @@ class PsychologistUserListView(AdminOnlyView, ListView):
 
 
 class PsychologistUserAndProfileCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_user_profile_create.html'
+    template_name = 'cadmin/psychologists/psy_user_profile_create.html'
     form_class = UserForm
     context_object_name = 'user'
 
@@ -109,7 +137,7 @@ class PsychologistUserAndProfileCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
-    template_name = 'cadmin/psy_user_profile_update.html'
+    template_name = 'cadmin/psychologists/psy_user_profile_update.html'
     form_class = UserForm
     context_object_name = 'user'
 
@@ -140,64 +168,112 @@ class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
         return super(PsychologistUserAndProfileUpdateView, self).form_valid(form)
 
 
+class PsychologistStatusListView(AdminOnlyView, ListView):
+    model = PsychologistStatus
+    template_name = 'cadmin/psychologists/psy_status_list.html'
+    context_object_name = 'statuses'
+
+
 class PsychologistStatusCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_status_create.html'
+    template_name = 'cadmin/psychologists/psy_status_create.html'
     form_class = PsychologistStatusForm
 
     def get_success_url(self):
         return reverse('psy-status-create')
 
 
+class PsychologistApproachListView(AdminOnlyView, ListView):
+    model = PsychologistApproach
+    template_name = 'cadmin/psychologists/psy_approach_list.html'
+    context_object_name = 'approaches'
+
+
 class PsychologistApproachCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_approach_create.html'
+    template_name = 'cadmin/psychologists/psy_approach_create.html'
     form_class = PsychologistApproachForm
 
     def get_success_url(self):
         return reverse('psy-approach-create')
 
 
+class PsychologistSpecializationListView(AdminOnlyView, ListView):
+    model = PsychologistSpecialization
+    template_name = 'cadmin/psychologists/psy_specialization_list.html'
+    context_object_name = 'specializations'
+
+
 class PsychologistSpecializationCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_specialization_create.html'
+    template_name = 'cadmin/psychologists/psy_specialization_create.html'
     form_class = PsychologistSpecializationForm
 
     def get_success_url(self):
         return reverse('psy-specialization-create')
 
 
+class PsychologistFormatListView(AdminOnlyView, ListView):
+    model = PsychologistWorkFormat
+    template_name = 'cadmin/psychologists/psy_format_list.html'
+    context_object_name = 'formats'
+
+
 class PsychologistFormatCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_format_create.html'
+    template_name = 'cadmin/psychologists/psy_format_create.html'
     form_class = PsychologistFormatForm
 
     def get_success_url(self):
         return reverse('psy-format-create')
 
 
+class PsychologistThemeListView(AdminOnlyView, ListView):
+    model = PsychologistTheme
+    template_name = 'cadmin/psychologists/psy_theme_list.html'
+    context_object_name = 'themes'
+
+
 class PsychologistThemeCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_theme_create.html'
+    template_name = 'cadmin/psychologists/psy_theme_create.html'
     form_class = PsychologistThemeForm
 
     def get_success_url(self):
         return reverse('psy-theme-create')
 
 
+class PsychologistEducationListView(AdminOnlyView, ListView):
+    model = PsychologistEducation
+    template_name = 'cadmin/psychologists/psy_education_list.html'
+    context_object_name = 'educations'
+
+
 class PsychologistEducationCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_education_create.html'
+    template_name = 'cadmin/psychologists/psy_education_create.html'
     form_class = PsychologistEducationForm
 
     def get_success_url(self):
         return reverse('psy-education-create')
 
 
+class PsychologistSecondaryEducationListView(AdminOnlyView, ListView):
+    model = PsychologistSecondaryEducation
+    template_name = 'cadmin/psychologists/psy_secondary_education_list.html'
+    context_object_name = 'secondary_educations'
+
+
 class PsychologistSecondaryEducationCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_secondary_education_create.html'
+    template_name = 'cadmin/psychologists/psy_secondary_education_create.html'
     form_class = PsychologistSecondaryEducationForm
 
     def get_success_url(self):
         return reverse('psy-secondary-education-create')
 
 
+class PsychologistLanguageListView(AdminOnlyView, ListView):
+    model = PsychologistLanguage
+    template_name = 'cadmin/psychologists/psy_language_list.html'
+    context_object_name = 'languages'
+
+
 class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psy_language_create.html'
+    template_name = 'cadmin/psychologists/psy_language_create.html'
     form_class = PsychologistLanguageForm
 
     def get_success_url(self):

@@ -1,0 +1,50 @@
+{% extends "cadmin/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Locations
+        </div>
+        <div class="card-body">
+            <p>
+                <a href="{% url 'country-list' %}">Counties</a>
+            </p>
+              <p>
+                <a href="{% url 'city-list' %}">Cities</a>
+            </p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Psychologists
+        </div>
+        <div class="card-body">
+            <p>
+                <a href="{% url 'psy-status-list' %}">Statuses</a>
+            </p>
+            <p>
+                <a href="{% url 'psy-approach-list' %}">Approaches</a>
+            </p>
+            <p>
+                <a href="{% url 'psy-specialization-list' %}">Specializations</a>
+            </p>
+            <p>
+                <a href="{% url 'psy-format-list' %}">Formats</a>
+            </p>
+            <p>
+                <a href="{% url 'psy-theme-list' %}">Themes</a>
+            </p>
+            <p>
+                <a href="{% url 'psy-education-list' %}">Educations</a>
+            </p>
+            <p>
+                <a href="{% url 'psy-secondary-education-list' %}">Secondary Educations</a>
+            </p>
+            <p>
+                <a href="{% url 'psy-language-list' %}">Languages</a>
+            </p>
+    </div>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "cadmin/index.html" %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row justify-content-md-end">
+            <button type="button" class="button">
+
+            </button>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Specializations list
+        </div>
+        {% for s in specializations %}
+            <div class="d-flex flex-row bd-highlight mb-1">
+                  <p>{{ s.name }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
