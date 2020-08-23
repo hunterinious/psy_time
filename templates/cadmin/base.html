@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,9 +24,12 @@
              </p>
          </div>
     </div>
+    {% block breadcrumbs %}
+        {% clear_breadcrumbs %}
+    {% endblock %}
     <div class="content">
     {% block content %}
-    
+        {% render_breadcrumbs %}
     {% endblock %}
     </div>
 </body>

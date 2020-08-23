@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'psychologists',
     'admins',
     'locations',
+    'django_bootstrap_breadcrumbs',
 ]
 
 REST_FRAMEWORK = {
@@ -149,6 +150,8 @@ TEMPLATES = [
         },
     },
 ]
+
+BREADCRUMBS_TEMPLATE = "django_bootstrap_breadcrumbs/bootstrap4.html"
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
