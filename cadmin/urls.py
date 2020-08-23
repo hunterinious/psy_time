@@ -4,6 +4,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from .views import (
     UserCreateView,
+    UserDeleteView,
     PsychologistUserAndProfileCreateView,
     PsychologistUserAndProfileUpdateView,
     PsychologistUserListView,
@@ -24,6 +25,7 @@ urlpatterns = [
     path("login", LoginView.as_view(), name="login"),
     path("logout", LogoutView.as_view(), name="logout"),
     path("users/create", UserCreateView.as_view(), name='user-create'),
+    path("users/<int:id>/delete", UserDeleteView.as_view(), name='user-delete'),
     path("psychologists_profiles/create", PsychologistUserAndProfileCreateView.as_view(),
          name='psy-user-profile-create'),
     path("psychologists_profiles/<int:id>/update", PsychologistUserAndProfileUpdateView.as_view(),

@@ -8,6 +8,7 @@ from django.views.generic import (
     CreateView,
     ListView,
     UpdateView,
+    DeleteView,
 )
 from .forms import (
     UserForm,
@@ -59,6 +60,18 @@ class UserCreateView(AdminOnlyView, CreateView):
         return reverse('user-create')
 
 
+class UserDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/user_delete.html'
+    context_object_name = 'user'
+
+    def get_object(self):
+        user_id = self.kwargs.get("id")
+        return get_object_or_404(User, id=user_id)
+
+    def get_success_url(self):
+        return reverse('psy-list')
+
+
 class PsychologistUserListView(AdminOnlyView, ListView):
     template_name = 'cadmin/psy_list.html'
     context_object_name = 'psychologists'
@@ -101,8 +114,8 @@ class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'user'
 
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(User, id=id_)
+        user_id = self.kwargs.get("id")
+        return get_object_or_404(User, id=user_id)
 
     def get_success_url(self):
         return reverse('psy-user-profile-update', kwargs={'id': self.kwargs['id']})
