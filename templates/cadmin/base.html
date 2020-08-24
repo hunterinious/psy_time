@@ -24,9 +24,11 @@
     {% if request.user.is_authenticated %}
         <div class="container">
              <div class="row justify-content-md-end">
-                 <p>
-                     <a href="{% url 'logout' %}">Log out</a>
-                 </p>
+                 <div class="col-1">
+                     <p>
+                         <a href="{% url 'logout' %}">Log out</a>
+                     </p>
+                 </div>
              </div>
         </div>
     {% endif %}

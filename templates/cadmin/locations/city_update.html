@@ -4,8 +4,11 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Create city" "city-create" %}
+    {% breadcrumb_for city-update city.id %}
+        {{ city.name }}
+    {% endbreadcrumb_for %}
 {% endblock %}
+
 
 {% block content %}
 <div class="container">
@@ -14,13 +17,14 @@
 
     <div class="card">
         <div class="card-header">
-            Create city
+            Update city
         </div>
         <div class="card-body">
-            <form method="post">{% csrf_token %}
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Save" />
             </form>
+
         </div>
     </div>
 </div>
