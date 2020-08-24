@@ -24,9 +24,11 @@
              </p>
          </div>
     </div>
+    {% block breadcrumbs %}
+        {% clear_breadcrumbs %}
+    {% endblock %}
     <div class="content">
     {% block content %}
-        {% clear_breadcrumbs %}
         {% render_breadcrumbs %}
     {% endblock %}
     </div>
