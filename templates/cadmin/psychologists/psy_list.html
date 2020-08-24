@@ -1,4 +1,4 @@
-{% extends "cadmin/base.html" %}
+{% extends "cadmin/index.html" %}
 
 {% load django_bootstrap_breadcrumbs %}
 
@@ -22,16 +22,18 @@
         <div class="card-header">
             Psychologists list
         </div>
-        {% for psy in psychologists %}
-            <div class="d-flex flex-row bd-highlight mb-1">
-                <div class="p-2 bd-highlight">
-                    <a href="{% url 'psy-user-profile-update' psy.id %}"><p>{{ psy.username }}</p></a>
+        <div class="card-body">
+            {% for psy in psychologists %}
+                <div class="d-flex flex-row bd-highlight mb-1">
+                    <div class="p-2 bd-highlight">
+                        <a href="{% url 'psy-user-profile-update' psy.id %}"><p>{{ psy.username }}</p></a>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <a href="{% url 'user-delete' psy.id %}"><i class="fa fa-times"></i></a>
+                    </div>
                 </div>
-                <div class="p-2 bd-highlight">
-                    <a href="{% url 'user-delete' psy.id %}"><i class="fa fa-times"></i></a>
-                </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock content %}

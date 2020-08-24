@@ -1,7 +1,17 @@
 {% extends "cadmin/index.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+        {{ block.super }}
+        {% breadcrumb "Languages" "psy-language-list" %}
+{% endblock %}
+
+
 {% block content %}
 <div class="container">
+
+    {% render_breadcrumbs %}
 
     <div class="row justify-content-md-end">
             <button type="button" class="button">
@@ -12,11 +22,13 @@
         <div class="card-header">
             Languages list
         </div>
-        {% for l in languages %}
-            <div class="d-flex flex-row bd-highlight mb-1">
-                  <p>{{ l.name }}</p>
-            </div>
-        {% endfor %}
+        <div class="card-body">
+            {% for l in languages %}
+                <div class="d-flex flex-row bd-highlight mb-1">
+                      <p>{{ l.name }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock content %}

@@ -1,7 +1,18 @@
 {% extends "cadmin/base.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% clear_breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Home" "admin-main" %}
+{% endblock %}
+
 {% block content %}
 <div class="container">
+
+    {% render_breadcrumbs %}
+
     <div class="card">
         <div class="card-header">
             Locations

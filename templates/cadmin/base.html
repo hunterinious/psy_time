@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
+
 {% load django_bootstrap_breadcrumbs %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +15,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
     <title>
         {% block title%}
+
         {% endblock %}
     </title>
 </head>
@@ -25,11 +28,11 @@
          </div>
     </div>
     {% block breadcrumbs %}
-        {% clear_breadcrumbs %}
+
     {% endblock %}
     <div class="content">
     {% block content %}
-        {% render_breadcrumbs %}
+
     {% endblock %}
     </div>
 </body>
