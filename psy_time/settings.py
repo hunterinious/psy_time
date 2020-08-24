@@ -132,7 +132,7 @@ CORS_ALLOW_METHODS = list(default_methods)
 ROOT_URLCONF = 'psy_time.urls'
 
 LOGIN_URL = reverse_lazy('login')
-LOGIN_REDIRECT_URL = reverse_lazy('psy-list')
+LOGIN_REDIRECT_URL = reverse_lazy('admin-main')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 TEMPLATES = [

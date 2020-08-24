@@ -1,10 +1,20 @@
-{% extends "cadmin/base.html" %}
+{% extends "cadmin/locations/city_list.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+        {{ block.super }}
+        {% breadcrumb "Create city" "city-create" %}
+{% endblock %}
 
 {% block content %}
 <div class="container">
+
+    {% render_breadcrumbs %}
+
     <div class="card">
         <div class="card-header">
-            Create City
+            Create city
         </div>
         <div class="card-body">
             <form method="post">{% csrf_token %}

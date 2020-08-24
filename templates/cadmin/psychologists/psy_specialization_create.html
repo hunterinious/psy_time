@@ -1,7 +1,16 @@
-{% extends "cadmin/base.html" %}
+{% extends "cadmin/psychologists/psy_specialization_list.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+        {{ block.super }}
+        {% breadcrumb "Create specialization" "psy-specialization-create" %}
+{% endblock %}
 
 {% block content %}
 <div class="container">
+
+    {% render_breadcrumbs %}
     <div class="card">
         <div class="card-header">
             Create psychologist specialization
