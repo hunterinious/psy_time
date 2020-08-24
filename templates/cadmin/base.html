@@ -20,16 +20,20 @@
     </title>
 </head>
 <body>
-    <div class="container">
-         <div class="row justify-content-md-end">
-             <p>
-                 <a href="{% url 'logout' %}">Log out</a>
-             </p>
-         </div>
-    </div>
+    {% if request.user.is_authenticated %}
+        <div class="container">
+             <div class="row justify-content-md-end">
+                 <p>
+                     <a href="{% url 'logout' %}">Log out</a>
+                 </p>
+             </div>
+        </div>
+    {% endif %}
+
     {% block breadcrumbs %}
 
     {% endblock %}
+
     <div class="content">
     {% block content %}
 
