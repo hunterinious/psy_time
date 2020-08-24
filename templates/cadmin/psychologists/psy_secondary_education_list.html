@@ -25,7 +25,12 @@
         <div class="card-body">
             {% for se in secondary_educations %}
                 <div class="d-flex flex-row bd-highlight mb-1">
-                    <p><a href="{% url 'psy-secondary-education-update' id=se.id %}" >{{ se.name }}</a></p>
+                    <div class="p-2 bd-highlight">
+                        <p><a href="{% url 'psy-secondary-education-update' se.id %}">{{ se.name }}</a></p>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <a href="{% url 'psy-secondary-education-delete' se.id %}"><i class="fa fa-times"></i></a>
+                    </div>
                 </div>
             {% endfor %}
         </div>

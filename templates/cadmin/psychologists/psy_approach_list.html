@@ -23,9 +23,14 @@
             Approaches list
         </div>
         <div class="card-body">
-            {% for a in approaches %}
+             {% for a in approaches %}
                 <div class="d-flex flex-row bd-highlight mb-1">
-                    <p><a href="{% url 'psy-approach-update' id=a.id %}" >{{ a.name }}</a></p>
+                    <div class="p-2 bd-highlight">
+                        <p><a href="{% url 'psy-approach-update' a.id %}">{{ a.name }}</a></p>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <a href="{% url 'psy-approach-delete' a.id %}"><i class="fa fa-times"></i></a>
+                    </div>
                 </div>
             {% endfor %}
         </div>

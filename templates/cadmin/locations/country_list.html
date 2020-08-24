@@ -25,7 +25,12 @@
         <div class="card-body">
             {% for c in countries %}
                 <div class="d-flex flex-row bd-highlight mb-1">
-                    <p>{{ c.name }}</p>
+                    <div class="p-2 bd-highlight">
+                        <p><a href="{% url 'city-update' c.id %}">{{ c.name }}</a></p>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <a href="{% url 'city-delete' c.id %}"><i class="fa fa-times"></i></a>
+                    </div>
                 </div>
             {% endfor %}
         </div>

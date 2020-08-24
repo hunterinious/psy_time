@@ -26,7 +26,7 @@
             {% for psy in psychologists %}
                 <div class="d-flex flex-row bd-highlight mb-1">
                     <div class="p-2 bd-highlight">
-                        <a href="{% url 'psy-user-profile-update' psy.id %}"><p>{{ psy.username }}</p></a>
+                        <p><a href="{% url 'psy-user-profile-update' psy.id %}">{{ psy.username }}</a></p>
                     </div>
                     <div class="p-2 bd-highlight">
                         <a href="{% url 'user-delete' psy.id %}"><i class="fa fa-times"></i></a>

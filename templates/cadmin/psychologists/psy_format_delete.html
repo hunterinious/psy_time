@@ -1,0 +1,17 @@
+{% extends "cadmin/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Delete format
+        </div>
+        <div class="card-body">
+            <form method="post">{% csrf_token %}
+                <h1>Do you want to delete the format "{{ format.name }}"?</h1>
+                <p><input type="submit" value="Yes" /> <a href="{% url 'psy-format-list' %}">Cancel</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

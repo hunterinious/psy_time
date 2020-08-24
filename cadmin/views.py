@@ -79,6 +79,18 @@ class CountryUpdateView(AdminOnlyView, UpdateView):
         return reverse('country-update', kwargs={'id': self.kwargs['id']})
 
 
+class CountryDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/locations/country_delete.html'
+    context_object_name = 'country'
+
+    def get_object(self):
+        country_id = self.kwargs.get("id")
+        return get_object_or_404(Country, id=country_id)
+
+    def get_success_url(self):
+        return reverse('country-list')
+
+
 class CityListView(AdminOnlyView, ListView):
     model = City
     template_name = 'cadmin/locations/city_list.html'
@@ -104,6 +116,18 @@ class CityUpdateView(AdminOnlyView, UpdateView):
 
     def get_success_url(self):
         return reverse('city-update', kwargs={'id': self.kwargs['id']})
+
+
+class CityDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/locations/city_delete.html'
+    context_object_name = 'city'
+
+    def get_object(self):
+        city_id = self.kwargs.get("id")
+        return get_object_or_404(City, id=city_id)
+
+    def get_success_url(self):
+        return reverse('city-list')
 
 
 class UserCreateView(AdminOnlyView, CreateView):
@@ -221,6 +245,18 @@ class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-status-update', kwargs={'id': self.kwargs['id']})
 
 
+class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_status_delete.html'
+    context_object_name = 'status'
+
+    def get_object(self):
+        status_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistStatus, id=status_id)
+
+    def get_success_url(self):
+        return reverse('psy-status-list')
+
+
 class PsychologistApproachListView(AdminOnlyView, ListView):
     model = PsychologistApproach
     template_name = 'cadmin/psychologists/psy_approach_list.html'
@@ -246,6 +282,18 @@ class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
 
     def get_success_url(self):
         return reverse('psy-approach-update', kwargs={'id': self.kwargs['id']})
+
+
+class PsychologistApproachDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_approach_delete.html'
+    context_object_name = 'approach'
+
+    def get_object(self):
+        approach_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistApproach, id=approach_id)
+
+    def get_success_url(self):
+        return reverse('psy-approach-list')
 
 
 class PsychologistSpecializationListView(AdminOnlyView, ListView):
@@ -275,6 +323,18 @@ class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-specialization-update', kwargs={'id': self.kwargs['id']})
 
 
+class PsychologistSpecializationDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_specialization_delete.html'
+    context_object_name = 'specialization'
+
+    def get_object(self):
+        specialization_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistSpecialization, id=specialization_id)
+
+    def get_success_url(self):
+        return reverse('psy-specialization-list')
+
+
 class PsychologistFormatListView(AdminOnlyView, ListView):
     model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/psy_format_list.html'
@@ -300,6 +360,18 @@ class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
 
     def get_success_url(self):
         return reverse('psy-format-update', kwargs={'id': self.kwargs['id']})
+
+
+class PsychologistFormatDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_format_delete.html'
+    context_object_name = 'format'
+
+    def get_object(self):
+        format_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistWorkFormat, id=format_id)
+
+    def get_success_url(self):
+        return reverse('psy-format-list')
 
 
 class PsychologistThemeListView(AdminOnlyView, ListView):
@@ -329,6 +401,18 @@ class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-theme-update', kwargs={'id': self.kwargs['id']})
 
 
+class PsychologistThemeDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_theme_delete.html'
+    context_object_name = 'theme'
+
+    def get_object(self):
+        theme_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistTheme, id=theme_id)
+
+    def get_success_url(self):
+        return reverse('psy-theme-list')
+
+
 class PsychologistEducationListView(AdminOnlyView, ListView):
     model = PsychologistEducation
     template_name = 'cadmin/psychologists/psy_education_list.html'
@@ -354,6 +438,18 @@ class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
 
     def get_success_url(self):
         return reverse('psy-education-update', kwargs={'id': self.kwargs['id']})
+
+
+class PsychologistEducationDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_education_delete.html'
+    context_object_name = 'education'
+
+    def get_object(self):
+        education_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistEducation, id=education_id)
+
+    def get_success_url(self):
+        return reverse('psy-education-list')
 
 
 class PsychologistSecondaryEducationListView(AdminOnlyView, ListView):
@@ -383,6 +479,18 @@ class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-secondary-education-update', kwargs={'id': self.kwargs['id']})
 
 
+class PsychologistSecondaryEducationDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_secondary_education_delete.html'
+    context_object_name = 'secondary_education'
+
+    def get_object(self):
+        secondary_education_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistSecondaryEducation, id=secondary_education_id)
+
+    def get_success_url(self):
+        return reverse('psy-secondary-education-list')
+
+
 class PsychologistLanguageListView(AdminOnlyView, ListView):
     model = PsychologistLanguage
     template_name = 'cadmin/psychologists/psy_language_list.html'
@@ -408,3 +516,15 @@ class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
 
     def get_success_url(self):
         return reverse('psy-language-update', kwargs={'id': self.kwargs['id']})
+
+
+class PsychologistLanguageDeleteView(AdminOnlyView, DeleteView):
+    template_name = 'cadmin/psychologists/psy_language_delete.html'
+    context_object_name = 'language'
+
+    def get_object(self):
+        language_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistLanguage, id=language_id)
+
+    def get_success_url(self):
+        return reverse('psy-language-list')
