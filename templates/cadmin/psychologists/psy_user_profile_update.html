@@ -1,7 +1,19 @@
-{% extends "cadmin/base.html" %}
+{% extends "cadmin/psychologists/psy_list.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+        {{ block.super }}
+        {% breadcrumb_for psy-user-profile-update user.id %}
+            {{ user.email}}
+        {% endbreadcrumb_for %}
+{% endblock %}
+
+
 
 {% block content %}
 <div class="container">
+    {% render_breadcrumbs %}
     <div class="card">
         <div class="card-header">
             Update psychologist user
