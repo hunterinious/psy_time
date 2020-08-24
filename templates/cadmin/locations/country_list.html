@@ -24,12 +24,16 @@
         </div>
         <div class="card-body">
             {% for c in countries %}
-                <div class="d-flex flex-row bd-highlight mb-1">
-                    <div class="p-2 bd-highlight">
-                        <p><a href="{% url 'city-update' c.id %}">{{ c.name }}</a></p>
+                <div class="row">
+                    <div class="col-4">
+                        <p>
+                            <a href="{% url 'country-update' c.id %}">{{ c.name }}</a>
+                        </p>
                     </div>
-                    <div class="p-2 bd-highlight">
-                        <a href="{% url 'city-delete' c.id %}"><i class="fa fa-times"></i></a>
+                    <div class="col-1">
+                        <a href="{% url 'country-delete' c.id %}" class="non-color-link">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
                 </div>
             {% endfor %}

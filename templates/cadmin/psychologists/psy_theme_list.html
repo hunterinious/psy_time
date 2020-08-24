@@ -24,12 +24,16 @@
         </div>
         <div class="card-body">
             {% for t in themes %}
-                <div class="d-flex flex-row bd-highlight mb-1">
-                    <div class="p-2 bd-highlight">
-                        <p><a href="{% url 'psy-theme-update' t.id %}">{{ t.name }}</a></p>
+                <div class="row">
+                    <div class="col-4">
+                        <p>
+                            <a href="{% url 'psy-theme-update' t.id %}">{{ t.name }}</a>
+                        </p>
                     </div>
-                    <div class="p-2 bd-highlight">
-                        <a href="{% url 'psy-theme-delete' t.id %}"><i class="fa fa-times"></i></a>
+                    <div class="col-1">
+                        <a href="{% url 'psy-theme-delete' t.id %}" class="non-color-link">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
                 </div>
             {% endfor %}

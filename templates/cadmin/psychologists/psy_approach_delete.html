@@ -9,7 +9,7 @@
         <div class="card-body">
             <form method="post">{% csrf_token %}
                 <h1>Do you want to delete the approach "{{ approach.name }}"?</h1>
-                <p><input type="submit" value="Yes" /> <a href="{% url 'approach-list' %}">Cancel</a></p>
+                <p><input type="submit" value="Yes" /> <a href="{% url 'psy-approach-list' %}">Cancel</a></p>
             </form>
         </div>
     </div>

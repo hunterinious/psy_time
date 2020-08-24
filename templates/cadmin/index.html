@@ -18,22 +18,38 @@
             Locations
         </div>
         <div class="card-body">
-            <p>
-                <a href="{% url 'country-list' %}">Counties</a>
-            </p>
-              <p>
-                <a href="{% url 'city-list' %}">Cities</a>
-            </p>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'country-list' %}">Countries</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'country-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'city-list' %}">Cities</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'city-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
         </div>
+
     </div>
     <div class="card">
         <div class="card-header">
             Psychologists
         </div>
         <div class="card-body">
-            <p>
-                <a href="{% url 'psy-list' %}">Psychologists users</a>
-            </p>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-list' %}">Psychologists users</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-user-profile-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card">
@@ -41,30 +57,71 @@
             Psychologists related models
         </div>
         <div class="card-body">
-            <p>
-                <a href="{% url 'psy-status-list' %}">Statuses</a>
-            </p>
-            <p>
-                <a href="{% url 'psy-approach-list' %}">Approaches</a>
-            </p>
-            <p>
-                <a href="{% url 'psy-specialization-list' %}">Specializations</a>
-            </p>
-            <p>
-                <a href="{% url 'psy-format-list' %}">Formats</a>
-            </p>
-            <p>
-                <a href="{% url 'psy-theme-list' %}">Themes</a>
-            </p>
-            <p>
-                <a href="{% url 'psy-education-list' %}">Educations</a>
-            </p>
-            <p>
-                <a href="{% url 'psy-secondary-education-list' %}">Secondary Educations</a>
-            </p>
-            <p>
-                <a href="{% url 'psy-language-list' %}">Languages</a>
-            </p>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-status-list' %}">Statuses</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-status-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-approach-list' %}">Approaches</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-approach-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-specialization-list' %}">Specializations</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-specialization-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-format-list' %}">Formats</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-format-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-theme-list' %}">Themes</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-theme-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-education-list' %}">Educations</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-education-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-secondary-education-list' %}">Secondary educations</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-specialization-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"> <p><a href="{% url 'psy-language-list' %}">Languages</a></p></div>
+                <div class="col-1">
+                    <a href="{% url 'psy-language-create'%}" class="non-color-link">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

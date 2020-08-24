@@ -24,12 +24,16 @@
         </div>
         <div class="card-body">
             {% for psy in psychologists %}
-                <div class="d-flex flex-row bd-highlight mb-1">
-                    <div class="p-2 bd-highlight">
-                        <p><a href="{% url 'psy-user-profile-update' psy.id %}">{{ psy.username }}</a></p>
+                 <div class="row">
+                    <div class="col-4">
+                        <p>
+                            <a href="{% url 'psy-user-profile-update' psy.id %}">{{ psy.username }}</a>
+                        </p>
                     </div>
-                    <div class="p-2 bd-highlight">
-                        <a href="{% url 'user-delete' psy.id %}"><i class="fa fa-times"></i></a>
+                    <div class="col-1">
+                        <a href="{% url 'user-delete' psy.id %}" class="non-color-link">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
                 </div>
             {% endfor %}
