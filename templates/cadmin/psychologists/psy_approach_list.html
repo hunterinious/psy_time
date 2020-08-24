@@ -25,7 +25,7 @@
         <div class="card-body">
             {% for a in approaches %}
                 <div class="d-flex flex-row bd-highlight mb-1">
-                      <p>{{ a.name }}</p>
+                    <p><a href="{% url 'psy-approach-update' id=a.id %}" >{{ a.name }}</a></p>
                 </div>
             {% endfor %}
         </div>

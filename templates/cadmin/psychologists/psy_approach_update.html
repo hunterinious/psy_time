@@ -1,10 +1,12 @@
-{% extends "cadmin/psychologists/psy_list.html" %}
+{% extends "cadmin/psychologists/psy_approach_list.html" %}
 
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
         {{ block.super }}
-        {% breadcrumb "Create psychologist" "psy-user-profile-create" %}
+        {% breadcrumb_for psy-approach-update approach.id %}
+            {{ approach.name }}
+        {% endbreadcrumb_for %}
 {% endblock %}
 
 
@@ -15,18 +17,11 @@
 
     <div class="card">
         <div class="card-header">
-            Create psychologist user
+            Update approach
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">{% csrf_token %}
                 {{ form.as_p }}
-
-                {{ profile.management_form }}
-
-                {% for form in profile.forms %}
-                    {{ form.as_p }}
-                {% endfor %}
-
                 <input type="submit" value="Save" />
             </form>
 

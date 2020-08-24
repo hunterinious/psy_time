@@ -25,7 +25,7 @@
         <div class="card-body">
             {% for f in formats %}
                 <div class="d-flex flex-row bd-highlight mb-1">
-                      <p>{{ f.name }}</p>
+                    <p><a href="{% url 'psy-format-update' id=f.id %}" >{{ f.name }}</a></p>
                 </div>
             {% endfor %}
         </div>

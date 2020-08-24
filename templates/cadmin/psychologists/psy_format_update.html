@@ -1,32 +1,27 @@
-{% extends "cadmin/psychologists/psy_list.html" %}
+{% extends "cadmin/psychologists/psy_format_list.html" %}
 
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
         {{ block.super }}
-        {% breadcrumb "Create psychologist" "psy-user-profile-create" %}
+        {% breadcrumb_for psy-format-update format.id %}
+            {{ format.name }}
+        {% endbreadcrumb_for %}
 {% endblock %}
 
 
 {% block content %}
 <div class="container">
-
+    
     {% render_breadcrumbs %}
-
+    
     <div class="card">
         <div class="card-header">
-            Create psychologist user
+            Update format
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">{% csrf_token %}
                 {{ form.as_p }}
-
-                {{ profile.management_form }}
-
-                {% for form in profile.forms %}
-                    {{ form.as_p }}
-                {% endfor %}
-
                 <input type="submit" value="Save" />
             </form>
 

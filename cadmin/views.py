@@ -66,6 +66,19 @@ class CountryCreateView(AdminOnlyView, CreateView):
         return reverse('country-create')
 
 
+class CountryUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/locations/country_update.html'
+    form_class = CountryForm
+    context_object_name = 'country'
+
+    def get_object(self):
+        country_id = self.kwargs.get("id")
+        return get_object_or_404(Country, id=country_id)
+
+    def get_success_url(self):
+        return reverse('country-update', kwargs={'id': self.kwargs['id']})
+
+
 class CityListView(AdminOnlyView, ListView):
     model = City
     template_name = 'cadmin/locations/city_list.html'
@@ -78,6 +91,19 @@ class CityCreateView(AdminOnlyView, CreateView):
 
     def get_success_url(self):
         return reverse('city-create')
+
+
+class CityUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/locations/city_update.html'
+    form_class = CityForm
+    context_object_name = 'city'
+
+    def get_object(self):
+        city_id = self.kwargs.get("id")
+        return get_object_or_404(City, id=city_id)
+
+    def get_success_url(self):
+        return reverse('city-update', kwargs={'id': self.kwargs['id']})
 
 
 class UserCreateView(AdminOnlyView, CreateView):
@@ -182,6 +208,19 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
         return reverse('psy-status-create')
 
 
+class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_status_update.html'
+    form_class = PsychologistStatusForm
+    context_object_name = 'status'
+
+    def get_object(self):
+        status_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistStatus, id=status_id)
+
+    def get_success_url(self):
+        return reverse('psy-status-update', kwargs={'id': self.kwargs['id']})
+
+
 class PsychologistApproachListView(AdminOnlyView, ListView):
     model = PsychologistApproach
     template_name = 'cadmin/psychologists/psy_approach_list.html'
@@ -194,6 +233,19 @@ class PsychologistApproachCreateView(AdminOnlyView, CreateView):
 
     def get_success_url(self):
         return reverse('psy-approach-create')
+
+
+class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_approach_update.html'
+    form_class = PsychologistApproachForm
+    context_object_name = 'approach'
+
+    def get_object(self):
+        approach_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistApproach, id=approach_id)
+
+    def get_success_url(self):
+        return reverse('psy-approach-update', kwargs={'id': self.kwargs['id']})
 
 
 class PsychologistSpecializationListView(AdminOnlyView, ListView):
@@ -210,6 +262,19 @@ class PsychologistSpecializationCreateView(AdminOnlyView, CreateView):
         return reverse('psy-specialization-create')
 
 
+class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_specialization_update.html'
+    form_class = PsychologistSpecializationForm
+    context_object_name = 'specialization'
+
+    def get_object(self):
+        specialization_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistSpecialization, id=specialization_id)
+
+    def get_success_url(self):
+        return reverse('psy-specialization-update', kwargs={'id': self.kwargs['id']})
+
+
 class PsychologistFormatListView(AdminOnlyView, ListView):
     model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/psy_format_list.html'
@@ -222,6 +287,19 @@ class PsychologistFormatCreateView(AdminOnlyView, CreateView):
 
     def get_success_url(self):
         return reverse('psy-format-create')
+
+
+class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_format_update.html'
+    form_class = PsychologistFormatForm
+    context_object_name = 'format'
+
+    def get_object(self):
+        format_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistWorkFormat, id=format_id)
+
+    def get_success_url(self):
+        return reverse('psy-format-update', kwargs={'id': self.kwargs['id']})
 
 
 class PsychologistThemeListView(AdminOnlyView, ListView):
@@ -238,6 +316,19 @@ class PsychologistThemeCreateView(AdminOnlyView, CreateView):
         return reverse('psy-theme-create')
 
 
+class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_theme_update.html'
+    form_class = PsychologistThemeForm
+    context_object_name = 'theme'
+
+    def get_object(self):
+        theme_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistTheme, id=theme_id)
+
+    def get_success_url(self):
+        return reverse('psy-theme-update', kwargs={'id': self.kwargs['id']})
+
+
 class PsychologistEducationListView(AdminOnlyView, ListView):
     model = PsychologistEducation
     template_name = 'cadmin/psychologists/psy_education_list.html'
@@ -250,6 +341,19 @@ class PsychologistEducationCreateView(AdminOnlyView, CreateView):
 
     def get_success_url(self):
         return reverse('psy-education-create')
+
+
+class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_education_update.html'
+    form_class = PsychologistEducationForm
+    context_object_name = 'education'
+
+    def get_object(self):
+        education_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistEducation, id=education_id)
+
+    def get_success_url(self):
+        return reverse('psy-education-update', kwargs={'id': self.kwargs['id']})
 
 
 class PsychologistSecondaryEducationListView(AdminOnlyView, ListView):
@@ -266,6 +370,19 @@ class PsychologistSecondaryEducationCreateView(AdminOnlyView, CreateView):
         return reverse('psy-secondary-education-create')
 
 
+class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_secondary_education_update.html'
+    form_class = PsychologistSecondaryEducationForm
+    context_object_name = 'secondary_education'
+
+    def get_object(self):
+        secondary_education_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistSecondaryEducation, id=secondary_education_id)
+
+    def get_success_url(self):
+        return reverse('psy-secondary-education-update', kwargs={'id': self.kwargs['id']})
+
+
 class PsychologistLanguageListView(AdminOnlyView, ListView):
     model = PsychologistLanguage
     template_name = 'cadmin/psychologists/psy_language_list.html'
@@ -280,3 +397,14 @@ class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
         return reverse('psy-language-create')
 
 
+class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/psychologists/psy_language_update.html'
+    form_class = PsychologistLanguageForm
+    context_object_name = 'language'
+
+    def get_object(self):
+        language_id = self.kwargs.get("id")
+        return get_object_or_404(PsychologistLanguage, id=language_id)
+
+    def get_success_url(self):
+        return reverse('psy-language-update', kwargs={'id': self.kwargs['id']})

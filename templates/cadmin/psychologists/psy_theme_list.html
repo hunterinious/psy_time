@@ -25,7 +25,7 @@
         <div class="card-body">
             {% for t in themes %}
                 <div class="d-flex flex-row bd-highlight mb-1">
-                      <p>{{ t.name }}</p>c
+                    <p><a href="{% url 'psy-specialization-update' id=t.id %}" >{{ t.name }}</a></p>
                 </div>
             {% endfor %}
         </div>
