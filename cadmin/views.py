@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from django.db import transaction
+from django.db.models import Count, Q
 from django.views import View
 from django.views.generic import (
     CreateView,
@@ -39,6 +41,10 @@ from psychologists.models import (
 from locations.models import City, Country
 
 User = get_user_model()
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class AdminOnlyView(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -92,9 +98,16 @@ class CountryDeleteView(AdminOnlyView, DeleteView):
 
 
 class CityListView(AdminOnlyView, ListView):
-    model = City
+    model=City
     template_name = 'cadmin/locations/city_list.html'
     context_object_name = 'cities'
+
+    def get_queryset(self):
+        cities = City.objects.annotate(
+            Count('psychologistuserprofile'),
+            Count('regularuserprofile')).filter(
+            Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))
+        return cities
 
 
 class CityCreateView(AdminOnlyView, CreateView):
@@ -112,7 +125,10 @@ class CityUpdateView(AdminOnlyView, UpdateView):
 
     def get_object(self):
         city_id = self.kwargs.get("id")
-        return get_object_or_404(City, id=city_id)
+        city = get_object_or_404(City, id=city_id)
+        if city.regularuserprofile_set.count():
+            raise PermissionDenied("You cant update city which refers not to psychologist profile")
+        return city
 
     def get_success_url(self):
         return reverse('city-update', kwargs={'id': self.kwargs['id']})
@@ -124,7 +140,11 @@ class CityDeleteView(AdminOnlyView, DeleteView):
 
     def get_object(self):
         city_id = self.kwargs.get("id")
-        return get_object_or_404(City, id=city_id)
+        city = get_object_or_404(City, id=city_id)
+        if city.regularuserprofile_set.count() or city.psychologistuserprofile_set.count():
+            raise PermissionDenied("You cant delete city which refers to profile")
+        return city
+
 
     def get_success_url(self):
         return reverse('city-list')
