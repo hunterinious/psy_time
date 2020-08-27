@@ -59,16 +59,11 @@ class CustomUser(AbstractUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         return True
 
-    def save(self, *args, **kwargs):
-        self.password = make_password(self.password)
-        super(CustomUser, self).save(*args, **kwargs)
-
-
     @property
     def profile(self):
         user_type = self.user_type
-        if user_type == UserTypes.admin_user.name:
-            return self.adminuserprofile
+        if user_type == UserTypes.regular_user.name:
+            return self.regularuserprofile
         elif user_type == UserTypes.psychologist_user.name:
             return self.psychologistuserprofile
         elif user_type == UserTypes.admin_user.name:

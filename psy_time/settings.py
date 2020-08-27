@@ -26,9 +26,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=qyzhgimmdfl4h+gj4p+9%6432ua29#&4_0#yxdtrj#i(&tabx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DEBUG', default=1))
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -96,7 +95,8 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
     'localhost',
-    'rpi.leon.in.ua'
+    'rpi.leon.in.ua',
+    'psy-time.herokuapp.com'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -163,15 +163,19 @@ WSGI_APPLICATION = 'psy_time.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'psy_time',
-        'USER': 'psy_time',
-        'PASSWORD': 'psy_time',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.environ.get('DB_DATABASE_NAME', os.path.join(BASE_DIR, 'db.postgresql')),
+        'USER': os.environ.get('DB_USERNAME', 'psy_time'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'psy_time'),
+        'HOST': os.environ.get('DB_HOST', 'db'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
