@@ -7,6 +7,12 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
+    def can_delete(self):
+        cities_count = self.cities.count()
+        if not cities_count:
+            return True
+        return False
+
 
 class City(models.Model):
     name = models.CharField(unique=True, max_length=50)
