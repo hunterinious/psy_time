@@ -14,3 +14,10 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+
+    def can_delete(self):
+        user_profiles_count = self.regularuserprofile_set.count()
+        psy_profiles_count = self.psychologistuserprofile_set.count()
+        if not psy_profiles_count and not user_profiles_count:
+            return True
+        return False

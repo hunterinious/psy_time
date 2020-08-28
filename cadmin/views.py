@@ -102,13 +102,6 @@ class CityListView(AdminOnlyView, ListView):
     template_name = 'cadmin/locations/city_list.html'
     context_object_name = 'cities'
 
-    def get_queryset(self):
-        cities = City.objects.annotate(
-            Count('psychologistuserprofile'),
-            Count('regularuserprofile')).filter(
-            Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))
-        return cities
-
 
 class CityCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/locations/city_create.html'
