@@ -7,6 +7,12 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
+    def can_delete(self):
+        cities_count = self.cities.count()
+        if not cities_count:
+            return True
+        return False
+
 
 class City(models.Model):
     name = models.CharField(unique=True, max_length=50)
@@ -14,3 +20,10 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+
+    def can_delete(self):
+        user_profiles_count = self.regularuserprofile_set.count()
+        psy_profiles_count = self.psychologistuserprofile_set.count()
+        if not psy_profiles_count and not user_profiles_count:
+            return True
+        return False

@@ -91,7 +91,10 @@ class CountryDeleteView(AdminOnlyView, DeleteView):
 
     def get_object(self):
         country_id = self.kwargs.get("id")
-        return get_object_or_404(Country, id=country_id)
+        country = get_object_or_404(Country, id=country_id)
+        if country.cities.count():
+            raise PermissionDenied("You can't delete country which has cities")
+        return country
 
     def get_success_url(self):
         return reverse('country-list')
@@ -101,13 +104,6 @@ class CityListView(AdminOnlyView, ListView):
     model=City
     template_name = 'cadmin/locations/city_list.html'
     context_object_name = 'cities'
-
-    def get_queryset(self):
-        cities = City.objects.annotate(
-            Count('psychologistuserprofile'),
-            Count('regularuserprofile')).filter(
-            Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))
-        return cities
 
 
 class CityCreateView(AdminOnlyView, CreateView):
@@ -125,10 +121,7 @@ class CityUpdateView(AdminOnlyView, UpdateView):
 
     def get_object(self):
         city_id = self.kwargs.get("id")
-        city = get_object_or_404(City, id=city_id)
-        if city.regularuserprofile_set.count():
-            raise PermissionDenied("You cant update city which refers not to psychologist profile")
-        return city
+        return get_object_or_404(City, id=city_id)
 
     def get_success_url(self):
         return reverse('city-update', kwargs={'id': self.kwargs['id']})
@@ -142,7 +135,7 @@ class CityDeleteView(AdminOnlyView, DeleteView):
         city_id = self.kwargs.get("id")
         city = get_object_or_404(City, id=city_id)
         if city.regularuserprofile_set.count() or city.psychologistuserprofile_set.count():
-            raise PermissionDenied("You cant delete city which refers to profile")
+            raise PermissionDenied("You can't delete city which refers to profile")
         return city
 
 

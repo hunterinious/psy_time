@@ -30,11 +30,13 @@
                             <a href="{% url 'country-update' c.id %}">{{ c.name }}</a>
                         </p>
                     </div>
-                    <div class="col-1">
-                        <a href="{% url 'country-delete' c.id %}" class="non-color-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
+                    {% if c.can_delete %}
+                        <div class="col-1">
+                            <a href="{% url 'country-delete' c.id %}" class="non-color-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
