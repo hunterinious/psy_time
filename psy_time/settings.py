@@ -25,10 +25,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '=qyzhgimmdfl4h+gj4p+9%6432ua29#&4_0#yxdtrj#i(&tabx'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG', default=1))
-
-
 
 # Application definition
 
@@ -117,13 +113,15 @@ CORS_ALLOW_HEADERS = (
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'http://rpi.leon.in.ua'
+    'http://rpi.leon.in.ua',
+    'https://psy-time.herokuapp.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'http://rpi.leon.in.ua'
+    'http://rpi.leon.in.ua',
+    'https://psy-time.herokuapp.com',
 ]
 
 
@@ -164,19 +162,13 @@ WSGI_APPLICATION = 'psy_time.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.environ.get('DB_DATABASE_NAME', os.path.join(BASE_DIR, 'db.postgresql')),
+        'NAME': os.environ.get('DB_DATABASE_NAME', 'psy_time'),
         'USER': os.environ.get('DB_USERNAME', 'psy_time'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'psy_time'),
         'HOST': os.environ.get('DB_HOST', 'db'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
-
-
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -222,26 +214,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
-    },
-    'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console', ],
-        },
-}
-
