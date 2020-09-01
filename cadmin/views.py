@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from django.db import transaction
-from django.db.models import Count, Q
 from django.views import View
 from django.views.generic import (
     CreateView,
@@ -41,10 +40,6 @@ from psychologists.models import (
 from locations.models import City, Country
 
 User = get_user_model()
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class AdminOnlyView(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -101,7 +96,7 @@ class CountryDeleteView(AdminOnlyView, DeleteView):
 
 
 class CityListView(AdminOnlyView, ListView):
-    model=City
+    model = City
     template_name = 'cadmin/locations/city_list.html'
     context_object_name = 'cities'
 
@@ -137,7 +132,6 @@ class CityDeleteView(AdminOnlyView, DeleteView):
         if city.regularuserprofile_set.count() or city.psychologistuserprofile_set.count():
             raise PermissionDenied("You can't delete city which refers to profile")
         return city
-
 
     def get_success_url(self):
         return reverse('city-list')
