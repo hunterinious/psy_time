@@ -1,5 +1,7 @@
 {% extends "cadmin/psychologists/psy_list.html" %}
 
+{% load crispy_forms_tags %}
+
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
@@ -8,7 +10,6 @@
             {{ user.email }}
         {% endbreadcrumb_for %}
 {% endblock %}
-
 
 
 {% block content %}
@@ -22,16 +23,139 @@
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">{% csrf_token %}
-                {{ form.as_p }}
+                 <div class="form-group">
+                     {{ form.email|as_crispy_field }}
+                 </div>
+                 <div class="form-group">
+                     {{ form.username|as_crispy_field }}
+                 </div>
+                 <div class="form-group">
+                     {{ form.user_type|as_crispy_field }}
+                 </div>
 
                 {{ profile.management_form }}
 
                 {% for form in profile.forms %}
-                    {{ form.as_p }}
-                {% endfor %}
-                <input type="submit" value="Save" />
-            </form>
+                    <div class="form-group">
+                        {{ form.avatar|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.birth_date|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.about|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.work_experience|as_crispy_field }}
+                    </div>
 
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.statuses|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-status-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.formats|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-format-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.themes|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-theme-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.approaches|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-approach-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.specializations|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-specialization-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.educations|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-education-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.secondary_educations|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-secondary-education-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11">
+                             <div class="form-group">
+                                {{ form.languages|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-1 align-self-center">
+                            <a href="{% url 'psy-language-create'%}" class="non-color-link">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
         </div>
     </div>
 </div>

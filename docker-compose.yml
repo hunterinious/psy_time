@@ -9,8 +9,7 @@ services:
    web:
      build:
        context: .
-       dockerfile: dev.Dockerfile
-     command: python3 manage.py runserver 0.0.0.0:8000
+     command: gunicorn --bind 0.0.0.0:8000 psy_time.wsgi
      env_file: .env
      volumes:
        - .:/psy_time

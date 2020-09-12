@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'admins',
     'locations',
     'django_bootstrap_breadcrumbs',
+    'bootstrap_modal_forms',
 ]
 
 REST_FRAMEWORK = {
@@ -151,6 +152,8 @@ TEMPLATES = [
 
 BREADCRUMBS_TEMPLATE = "django_bootstrap_breadcrumbs/bootstrap4.html"
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 WSGI_APPLICATION = 'psy_time.wsgi.application'
@@ -165,7 +168,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_DATABASE_NAME', 'psy_time'),
         'USER': os.environ.get('DB_USERNAME', 'psy_time'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'psy_time'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }

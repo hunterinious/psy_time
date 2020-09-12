@@ -145,7 +145,6 @@ class CityDeleteView(AdminOnlyView, DeleteView):
             raise PermissionDenied("You cant delete city which refers to profile")
         return city
 
-
     def get_success_url(self):
         return reverse('city-list')
 
@@ -250,6 +249,11 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
 
     def get_success_url(self):
         return reverse('psy-status-create')
+
+
+class PsychologistStatusCreateAsModalView(PsychologistStatusCreateView):
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
 
 
 class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):

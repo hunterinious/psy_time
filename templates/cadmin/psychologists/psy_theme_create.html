@@ -1,5 +1,7 @@
 {% extends "cadmin/psychologists/psy_theme_list.html" %}
 
+{% load crispy_forms_tags %}
+
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
@@ -17,8 +19,8 @@
         </div>
         <div class="card-body">
             <form method="post">{% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Save" />
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>
