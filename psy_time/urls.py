@@ -23,5 +23,6 @@ urlpatterns = [
     path('', RedirectView.as_view(url=reverse_lazy('admin-main'), permanent=False)),
     path('admin/', admin.site.urls),
     path('cadmin/', include('cadmin.urls')),
+    path('api/psychologists/', include('psychologists.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

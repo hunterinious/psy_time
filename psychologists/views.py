@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.generics import ListAPIView
+from .models import PsychologistUserProfile
+from .serializers import PsyProfileForListSerializer
 
-# Create your views here.
+
+class PsyProfileListView(ListAPIView):
+    queryset = PsychologistUserProfile.objects.all()
+    serializer_class = PsyProfileForListSerializer
+    permission_classes = []
