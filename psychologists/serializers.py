@@ -16,11 +16,11 @@ class PsyStatusSerializer(serializers.ModelSerializer):
 
 
 class PsyProfileForListSerializer(serializers.ModelSerializer):
-    user = UsernameSerializer
-    statuses = PsyStatusSerializer
+    user = UsernameSerializer()
+    statuses = PsyStatusSerializer(many=True)
 
     class Meta:
         model = PsychologistUserProfile
-        fields = ('user', 'statuses')
+        fields = ('user', 'statuses', 'avatar', 'id')
 
 
