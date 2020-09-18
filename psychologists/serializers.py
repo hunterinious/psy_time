@@ -66,9 +66,12 @@ class PsyLanguageSerializer(ModelSerializer):
 
 
 class PsyProfileForListSerializer(ModelSerializer):
-    user = UsernameSerializer()
+    username = SerializerMethodField()
     statuses = PsyStatusSerializer(many=True)
 
     class Meta:
         model = PsychologistUserProfile
-        fields = ('user', 'statuses', 'avatar', 'id')
+        fields = ('username', 'statuses', 'avatar', 'id')
+
+    def get_username(self, obj):
+        return obj.user.username
