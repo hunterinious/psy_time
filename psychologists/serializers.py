@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework.serializers import SerializerMethodField, ModelSerializer, Serializer
-from users.serializers import UsernameSerializer
 from django.contrib.auth import get_user_model
 from psychologists.models import (
     PsychologistUserProfile,
@@ -66,6 +65,7 @@ class PsyLanguageSerializer(ModelSerializer):
 
 
 class PsyProfileForListSerializer(ModelSerializer):
+    # user = UsernameSerializer()
     username = SerializerMethodField()
     statuses = PsyStatusSerializer(many=True)
 
