@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
                 ('email', models.EmailField(max_length=60, unique=True)),
-                ('user_type', models.CharField(choices=[('regular_user', 'regular_user'), ('psychologist_user', 'psychologist_user'), ('admin_user', 'admin_user')], max_length=50)),
+                ('user_type', models.CharField(choices=[('R', 'Regular'), ('P', 'Psychologist'), ('A', 'Admin')], max_length=50)),
                 ('is_superuser', models.BooleanField(default=False)),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),

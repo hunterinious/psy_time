@@ -1,4 +1,6 @@
+from datetime import date
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from users.models import PsychologistUser
 from locations.models import City
 
@@ -9,12 +11,20 @@ class PsychologistStatus(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_statuses(cls):
+        return cls.objects.all()
+
 
 class PsychologistWorkFormat(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_formats(cls):
+        return cls.objects.all()
 
 
 class PsychologistTheme(models.Model):
@@ -23,12 +33,20 @@ class PsychologistTheme(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_themes(cls):
+        return cls.objects.all()
+
 
 class PsychologistApproach(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_approaches(cls):
+        return cls.objects.all()
 
 
 class PsychologistSpecialization(models.Model):
@@ -37,12 +55,20 @@ class PsychologistSpecialization(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_specializations(cls):
+        return cls.objects.all()
+
 
 class PsychologistEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_educations(cls):
+        return cls.objects.all()
 
 
 class PsychologistSecondaryEducation(models.Model):
@@ -51,6 +77,10 @@ class PsychologistSecondaryEducation(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_secondary_educations(cls):
+        return cls.objects.all()
+
 
 class PsychologistLanguage(models.Model):
     name = models.CharField(unique=True, max_length=50)
@@ -58,8 +88,22 @@ class PsychologistLanguage(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_languages(cls):
+        return cls.objects.all()
+
 
 class PsychologistUserProfile(models.Model):
+
+    class Gender(models.TextChoices):
+        MALE = 'M', _('Male')
+        FEMALE = 'F', _('Female')
+
+        @classmethod
+        def get_genders(cls):
+            return cls.labels
+
+    gender = models.CharField(max_length=50, choices=Gender.choices)
     avatar = models.ImageField(null=False, blank=False, default="avatars/psy_avatar.jpg", upload_to='avatars')
     birth_date = models.DateField(null=False, blank=False)
     about = models.TextField(null=False, blank=False)
@@ -79,6 +123,12 @@ class PsychologistUserProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+    @classmethod
+    def get_ages(cls):
+        dates = cls.objects.order_by().values('birth_date').distinct()
+        today = date.today().year
+        return [today - d['birth_date'].year for d in dates]
 
 
 class Image(models.Model):

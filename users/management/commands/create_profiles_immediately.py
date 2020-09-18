@@ -14,7 +14,6 @@ from factories.specializations import SpecializationFactory
 from factories.statuses import StatusFactory
 from factories.themes import ThemeFactory
 from factories.locations import CountryWithCitiesFactory
-from users.models import UserTypes
 from random import choice, sample
 
 
@@ -56,7 +55,7 @@ class Command(BaseCommand):
         cities = [c.cities.all() for c in countries]
 
         for u in users:
-            if u.user_type == UserTypes.psychologist_user.name:
+            if u.user_type == User.UserTypes.PSYCHOLOGIST_USER:
                 city = choice(choice(cities))
                 r_statuses = sample(statuses, k=len(statuses) - 1)
                 r_formats = sample(formats, k=len(formats) - 1)
@@ -71,6 +70,6 @@ class Command(BaseCommand):
                                                       themes=r_themes, approaches=r_approaches, languages=r_languages,
                                                       specializations=r_specializations, educations=r_educations,
                                                       secondary_educations=r_secondary_educations)
-            elif u.user_type == UserTypes.regular_user.name:
+            elif u.user_type == User.UserTypes.REGULAR_USER:
                 RegularUserProfileFactory.create(user=u)
 

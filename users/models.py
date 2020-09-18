@@ -1,14 +1,8 @@
-from enum import Enum
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from locations.models import City
-
-
-class UserTypes(Enum):
-    regular_user = "Regular"
-    psychologist_user = "Psychologist"
-    admin_user = "Admin"
 
 
 class CustomUserManager(BaseUserManager):
@@ -28,7 +22,7 @@ class CustomUserManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username,
             password=password,
-            user_type=UserTypes.admin_user.name
+            user_type=CustomUser.UserTypes.ADMIN_USER
         )
 
         user.is_superuser = True
@@ -38,8 +32,14 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser, PermissionsMixin):
+
+    class UserTypes(models.TextChoices):
+        REGULAR_USER = 'R', _('Regular')
+        PSYCHOLOGIST_USER = 'P', _('Psychologist')
+        ADMIN_USER = 'A', _('Admin')
+
     email = models.EmailField(max_length=60, unique=True)
-    user_type = models.CharField(max_length=50, choices=[(tag.name, tag.value) for tag in UserTypes])
+    user_type = models.CharField(max_length=50, choices=UserTypes.choices)
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
@@ -61,11 +61,11 @@ class CustomUser(AbstractUser, PermissionsMixin):
     @property
     def profile(self):
         user_type = self.user_type
-        if user_type == UserTypes.regular_user.name:
+        if user_type == CustomUser.UserTypes.REGULAR_USER:
             return self.regularuserprofile
-        elif user_type == UserTypes.psychologist_user.name:
+        elif user_type == CustomUser.UserTypes.PSYCHOLOGIST_USER:
             return self.psychologistuserprofile
-        elif user_type == UserTypes.admin_user.name:
+        elif user_type == CustomUser.UserTypes.ADMIN_USER:
             return None
 
 

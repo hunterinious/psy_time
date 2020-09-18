@@ -27,7 +27,6 @@ from .forms import (
     CountryForm,
     CityForm,
 )
-from users.models import UserTypes
 from psychologists.models import (
     PsychologistStatus,
     PsychologistApproach,
@@ -42,16 +41,12 @@ from locations.models import City, Country
 
 User = get_user_model()
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 class AdminOnlyView(LoginRequiredMixin, UserPassesTestMixin, View):
     permission_denied_message = 'Only admin has access to this view'
 
     def test_func(self):
-        return self.request.user.user_type == UserTypes.admin_user.name
+        return self.request.user.user_type == User.UserTypes.ADMIN_USER
 
 
 class MainAdminView(AdminOnlyView, TemplateView):
@@ -98,7 +93,7 @@ class CountryDeleteView(AdminOnlyView, DeleteView):
 
 
 class CityListView(AdminOnlyView, ListView):
-    model=City
+    model = City
     template_name = 'cadmin/locations/city_list.html'
     context_object_name = 'cities'
 
@@ -174,7 +169,7 @@ class PsychologistUserListView(AdminOnlyView, ListView):
     context_object_name = 'psychologists'
 
     def get_queryset(self):
-        return User.objects.filter(user_type=UserTypes.psychologist_user.name)
+        return User.objects.filter(user_type=User.UserTypes.PSYCHOLOGIST_USER)
 
 
 class PsychologistUserAndProfileCreateView(AdminOnlyView, CreateView):

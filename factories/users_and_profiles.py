@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
-from users.models import RegularUserProfile, UserTypes
+from users.models import RegularUserProfile
 from psychologists.models import PsychologistUserProfile
 from .locations import CityFactory
 from random import randint
@@ -24,11 +24,11 @@ class UserFactory(factory.django.DjangoModelFactory):
         rand_value = randint(0, 120)
 
         if rand_value < 50:
-            user_type = UserTypes.regular_user.name
+            user_type = User.UserTypes.REGULAR_USER
         elif rand_value < 100:
-            user_type = UserTypes.psychologist_user.name
+            user_type = User.UserTypes.PSYCHOLOGIST_USER
         else:
-            user_type = UserTypes.admin_user.name
+            user_type = User.UserTypes.ADMIN_USER
 
         return user_type
 
