@@ -36,7 +36,6 @@ class PsyProfileFilterCriteriaView(APIView):
     permission_classes = []
 
     def get(self, request, format=None):
-        ages = PsychologistUserProfile.get_ages()
         genders = PsychologistUserProfile.Gender.get_genders()
         statuses = PsychologistStatus.get_statuses()
         formats = PsychologistWorkFormat.get_formats()
@@ -49,7 +48,6 @@ class PsyProfileFilterCriteriaView(APIView):
 
         data = dict()
 
-        data['ages'] = ages
         data['genders'] = genders
         data['statuses'] = PsyStatusSerializer(statuses, many=True).data
         data['formats'] = PsyFormatSerializer(formats, many=True).data

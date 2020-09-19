@@ -124,12 +124,6 @@ class PsychologistUserProfile(models.Model):
     def __str__(self):
         return str(self.user)
 
-    @classmethod
-    def get_ages(cls):
-        dates = cls.objects.order_by().values('birth_date').distinct()
-        today = date.today().year
-        return [today - d['birth_date'].year for d in dates]
-
 
 class Image(models.Model):
     name = models.CharField(unique=True, max_length=255)
