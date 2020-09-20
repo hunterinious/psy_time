@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from factories.users_and_profiles import RegularUserProfileFactory, PsychologistUserProfileFactory
-from users.models import UserTypes
 from locations.models import City
 from psychologists.models import (
     PsychologistTheme,
@@ -35,7 +34,7 @@ class Command(BaseCommand):
         languages = list(PsychologistLanguage.objects.all())
 
         for u in users:
-            if u.user_type == UserTypes.psychologist_user.value:
+            if u.user_type == User.UserTypes.PSYCHOLOGIST_USER:
                 city = choice(cities)
                 r_statuses = sample(statuses, k=len(statuses) - 1)
                 r_formats = sample(formats, k=len(formats) - 1)
@@ -50,6 +49,6 @@ class Command(BaseCommand):
                                                       themes=r_themes, approaches=r_approaches, languages=r_languages,
                                                       specializations=r_specializations, educations=r_educations,
                                                       secondary_educations=r_secondary_educations)
-            elif u.user_type == UserTypes.regular_user:
+            elif u.user_type == User.UserTypes.REGULAR_USER:
                 RegularUserProfileFactory.create(user=u)
 
