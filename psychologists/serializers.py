@@ -65,7 +65,6 @@ class PsyLanguageSerializer(ModelSerializer):
 
 
 class PsyProfileForListSerializer(ModelSerializer):
-    # user = UsernameSerializer()
     username = SerializerMethodField()
     statuses = PsyStatusSerializer(many=True)
 

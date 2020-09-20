@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from django.db import transaction
-from django.db.models import Count, Q
 from django.views import View
 from django.views.generic import (
     CreateView,
@@ -98,10 +97,7 @@ class CityListView(AdminOnlyView, ListView):
     context_object_name = 'cities'
 
     def get_queryset(self):
-        cities = City.objects.annotate(
-            Count('psychologistuserprofile'),
-            Count('regularuserprofile')).filter(
-            Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))
+        cities = City.objects.get_cities_not_related_to_profiles()
         return cities
 
 
@@ -169,7 +165,7 @@ class PsychologistUserListView(AdminOnlyView, ListView):
     context_object_name = 'psychologists'
 
     def get_queryset(self):
-        return User.objects.filter(user_type=User.UserTypes.PSYCHOLOGIST_USER)
+        return User.objects.get_psychologists_users()
 
 
 class PsychologistUserAndProfileCreateView(AdminOnlyView, CreateView):
@@ -244,11 +240,6 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
 
     def get_success_url(self):
         return reverse('psy-status-create')
-
-
-class PsychologistStatusCreateAsModalView(PsychologistStatusCreateView):
-    def get_success_url(self):
-        return self.request.META.get('HTTP_REFERER')
 
 
 class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
