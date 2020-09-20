@@ -117,7 +117,7 @@ class CityUpdateView(AdminOnlyView, UpdateView):
     def get_object(self):
         city_id = self.kwargs.get("id")
         city = get_object_or_404(City, id=city_id)
-        if city.regularuserprofile_set.count():
+        if city.is_related_to_regular_user_profile():
             raise PermissionDenied("You cant update city which refers not to psychologist profile")
         return city
 
@@ -132,7 +132,7 @@ class CityDeleteView(AdminOnlyView, DeleteView):
     def get_object(self):
         city_id = self.kwargs.get("id")
         city = get_object_or_404(City, id=city_id)
-        if city.regularuserprofile_set.count() or city.psychologistuserprofile_set.count():
+        if city.is_related_to_profiles():
             raise PermissionDenied("You cant delete city which refers to profile")
         return city
 

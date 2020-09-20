@@ -25,3 +25,10 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_related_to_regular_user_profile(self):
+        return self.regularuserprofile_set.count()
+
+    def is_related_to_profiles(self):
+        return self.regularuserprofile_set.count() or self.psychologistuserprofile_set.count()
+
