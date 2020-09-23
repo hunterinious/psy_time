@@ -56,7 +56,10 @@ class PsyProfileFilterCriteriaView(APIView):
 
         data = dict()
 
-        data['genders'] = genders
+        data['genders'] = []
+        for gender in genders:
+            data['genders'].append({'name': gender})
+
         data['statuses'] = PsyStatusSerializer(statuses, many=True).data
         data['formats'] = PsyFormatSerializer(formats, many=True).data
         data['themes'] = PsyThemeSerializer(themes, many=True).data
