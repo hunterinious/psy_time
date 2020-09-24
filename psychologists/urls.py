@@ -9,5 +9,5 @@ from .views import (
 urlpatterns = [
     path('',  PsyProfileListView.as_view(), name="api-psy-list"),
     path('criteria', PsyProfileFilterCriteriaView.as_view(), name="api-psy-criteria"),
-    path('how_to_choose_psychologist', HowToChoosePsychologistView.as_view(), name="api-how-to-choose-psy"),
+    path('how-to-choose-psychologist', HowToChoosePsychologistView.as_view(), name="api-how-to-choose-psy"),
 ]
