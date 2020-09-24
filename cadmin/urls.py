@@ -61,9 +61,9 @@ urlpatterns = [
     path("users/create", UserCreateView.as_view(), name='user-create'),
     path("users/<int:id>/delete", UserDeleteView.as_view(), name='user-delete'),
 
-    path("psychologists_profiles/create", PsychologistUserAndProfileCreateView.as_view(),
+    path("psychologists-profiles/create", PsychologistUserAndProfileCreateView.as_view(),
          name='psy-user-profile-create'),
-    path("psychologists_profiles/<int:id>/update", PsychologistUserAndProfileUpdateView.as_view(),
+    path("psychologists-profiles/<int:id>/update", PsychologistUserAndProfileUpdateView.as_view(),
          name='psy-user-profile-update'),
     path("psychologists", PsychologistUserListView.as_view(), name='psy-list'),
 
@@ -107,13 +107,13 @@ urlpatterns = [
          name='psy-education-delete'),
 
 
-    path("psychologists/secondary_educations", PsychologistSecondaryEducationListView.as_view(),
+    path("psychologists/secondary-educations", PsychologistSecondaryEducationListView.as_view(),
          name='psy-secondary-education-list'),
-    path("psychologists/secondary_educations/create", PsychologistSecondaryEducationCreateView.as_view(),
+    path("psychologists/secondary-educations/create", PsychologistSecondaryEducationCreateView.as_view(),
          name='psy-secondary-education-create'),
-    path("psychologists/secondary_educations/<int:id>/update", PsychologistSecondaryEducationUpdateView.as_view(),
+    path("psychologists/secondary-educations/<int:id>/update", PsychologistSecondaryEducationUpdateView.as_view(),
          name='psy-secondary-education-update'),
-    path("psychologists/secondary_educations/<int:id>/delete", PsychologistSecondaryEducationDeleteView.as_view(),
+    path("psychologists/secondary-educations/<int:id>/delete", PsychologistSecondaryEducationDeleteView.as_view(),
          name='psy-secondary-education-delete'),
 
     path("psychologists/languages", PsychologistLanguageListView.as_view(), name='psy-language-list'),

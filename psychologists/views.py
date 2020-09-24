@@ -43,7 +43,7 @@ class PsyProfileFilterCriteriaView(APIView):
     authentication_classes = []
     permission_classes = []
 
-    def get(self, request, format=None):
+    def get(self, request):
         genders = PsychologistUserProfile.Gender.get_genders()
         statuses = PsychologistStatus.get_statuses()
         formats = PsychologistWorkFormat.get_formats()
@@ -70,3 +70,15 @@ class PsyProfileFilterCriteriaView(APIView):
         data['languages'] = PsyLanguageSerializer(languages, many=True).data
 
         return Response(data)
+
+
+class HowToChoosePsychologistView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        with open('static/files/how_to_choose_psychologist.txt', 'r') as file:
+            text = file.read()
+        return Response(text, content_type='text')
+
+
