@@ -53,6 +53,17 @@ class PsychologistUserProfileFactory(factory.django.DjangoModelFactory):
     city = factory.SubFactory(CityFactory)
     user = factory.SubFactory(UserFactory)
 
+    @factory.lazy_attribute
+    def gender(self):
+        rand_value = randint(0, 1)
+
+        if rand_value == 0:
+            gender = PsychologistUserProfile.Gender.FEMALE
+        elif rand_value == 1:
+            gender = PsychologistUserProfile.Gender.MALE
+
+        return gender
+
     @factory.post_generation
     def statuses(self, create, extracted):
         if not create:

@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from .views import (
@@ -132,4 +130,4 @@ urlpatterns = [
     path("cities/create", CityCreateView.as_view(), name='city-create'),
     path("cities/<int:id>/update", CityUpdateView.as_view(), name='city-update'),
     path("cities/<int:id>/delete", CityDeleteView.as_view(), name='city-delete')
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
