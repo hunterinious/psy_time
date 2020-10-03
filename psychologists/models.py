@@ -70,10 +70,10 @@ class PsychologistSpecializationManager(models.Manager):
 class PsychologistSpecialization(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistSpecializationManager()
+
     def __str__(self):
         return self.name
-
-    objects = PsychologistSpecializationManager()
 
 
 class PsychologistEducationManager(models.Manager):
