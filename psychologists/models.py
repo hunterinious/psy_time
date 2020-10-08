@@ -1,3 +1,4 @@
+from random import choice
 from datetime import date
 from django.db import models
 from django.db.models import Count
@@ -124,6 +125,9 @@ class PsychologistUserProfileManager(models.Manager):
 
     def get_profiles(self):
         return self.model.objects.all()
+
+    def get_random_profile(self):
+        return choice(self.model.objects.all())
 
     def get_profiles_by_criteria(self, age, genders, statuses, formats, themes, approaches,
                                  specializations, educations, secondary_educations, languages):

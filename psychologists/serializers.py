@@ -74,3 +74,17 @@ class PsyProfileForListSerializer(ModelSerializer):
 
     def get_username(self, obj):
         return obj.user.username
+
+import logging
+logger = logging.getLogger(__name__)
+class PsyProfileSerializer(ModelSerializer):
+    username = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistUserProfile
+        fields = ('username', 'avatar')
+
+    def get_username(self, obj):
+        logger.warning(obj.user)
+        return obj.user.username
+

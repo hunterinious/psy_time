@@ -4,10 +4,12 @@ from users.models import RegularUserProfile
 from psychologists.models import PsychologistUserProfile
 from .locations import CityFactory
 from random import randint
+from factory.faker import faker
 import factory
 
 
 User = get_user_model()
+fake = faker.Faker()
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -16,7 +18,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('email', 'username', 'password')
 
     email = factory.Sequence(lambda e: 'user{}@gmail.com'.format(e))
-    username = factory.Sequence(lambda u: 'user{}'.format(u))
+    username = factory.Sequence(lambda u: '{}'.format(fake.name()))
     password = factory.Sequence(lambda p: make_password('password1234{}'.format(p)))
 
     @factory.lazy_attribute

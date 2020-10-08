@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
 from .models import (
     PsychologistUserProfile,
@@ -15,6 +15,7 @@ from .models import (
 )
 from .serializers import (
     PsyProfileForListSerializer,
+    PsyProfileSerializer,
     PsyStatusSerializer,
     PsyFormatSerializer,
     PsyThemeSerializer,
@@ -103,6 +104,15 @@ class PsyProfileCriteriaView(APIView):
         data['languages'] = PsyLanguageSerializer(languages, many=True).data
 
         return Response(data)
+
+
+class RandomPsyProfileView(RetrieveAPIView):
+    serializer_class = PsyProfileSerializer
+    authentication_classes = []
+    permission_classes = []
+
+    def get_object(self):
+        return PsychologistUserProfile.objects.get_random_profile()
 
 
 class HowToChoosePsychologistView(APIView):
