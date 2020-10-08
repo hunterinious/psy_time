@@ -69,7 +69,8 @@ class PsyProfileFilteredListView(ListAPIView):
             get_profiles_by_criteria(ages, genders, statuses, formats, themes, approaches, specializations,
                                      educations, secondary_educations, languages)
 
-
+import logging
+logger = logging.getLogger(__name__)
 class PsyProfileCriteriaView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -88,7 +89,9 @@ class PsyProfileCriteriaView(APIView):
         data = dict()
 
         data['ages'] = []
-        data['ages'].append({'name': '18-100'})
+        min_age = PsychologistUserProfile.objects.get_min_age()
+        max_age = PsychologistUserProfile.objects.get_max_age()
+        data['ages'].append({'name': f'{min_age}-{max_age}'})
 
         data['genders'] = []
         for gender in genders:

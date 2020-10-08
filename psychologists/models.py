@@ -1,7 +1,7 @@
 from random import choice
 from datetime import date
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Min, Max
 from django.utils.translation import gettext_lazy as _
 from users.models import PsychologistUser
 from locations.models import City
@@ -120,6 +120,16 @@ class PsychologistLanguage(models.Model):
 
 
 class PsychologistUserProfileManager(models.Manager):
+    def get_min_age(self):
+        min_age_qs = self.model.objects.all().aggregate(Max('birth_date__year'))
+        current_year = date.today().year
+        return current_year - min_age_qs['birth_date__year__max'].year
+
+    def get_max_age(self):
+        max_age_qs = self.model.objects.all().aggregate(Min('birth_date__year'))
+        current_year = date.today().year
+        return current_year - max_age_qs['birth_date__year__min'].year
+
     def get_genders(self):
         return self.model.Gender.labels
 
