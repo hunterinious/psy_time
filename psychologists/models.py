@@ -1,96 +1,174 @@
 from datetime import date
 from django.db import models
+from django.db.models import Count
 from django.utils.translation import gettext_lazy as _
 from users.models import PsychologistUser
 from locations.models import City
 
 
+class PsychologistStatusManager(models.Manager):
+    def get_statuses(self):
+        return self.model.objects.all()
+
+
 class PsychologistStatus(models.Model):
     name = models.CharField(unique=True, max_length=50)
+
+    objects = PsychologistStatusManager()
 
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_statuses(cls):
-        return cls.objects.all()
+
+class PsychologistWorkFormatManager(models.Manager):
+    def get_formats(self):
+        return self.model.objects.all()
 
 
 class PsychologistWorkFormat(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistWorkFormatManager()
+
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_formats(cls):
-        return cls.objects.all()
+
+class PsychologistThemeManager(models.Manager):
+    def get_themes(self):
+        return self.model.objects.all()
 
 
 class PsychologistTheme(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistThemeManager()
+
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_themes(cls):
-        return cls.objects.all()
+
+class PsychologistApproachManager(models.Manager):
+    def get_approaches(self):
+        return self.model.objects.all()
 
 
 class PsychologistApproach(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistApproachManager()
+
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_approaches(cls):
-        return cls.objects.all()
+
+class PsychologistSpecializationManager(models.Manager):
+    def get_specializations(self):
+        return self.model.objects.all()
 
 
 class PsychologistSpecialization(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistSpecializationManager()
+
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_specializations(cls):
-        return cls.objects.all()
+
+class PsychologistEducationManager(models.Manager):
+    def get_educations(self):
+        return self.model.objects.all()
 
 
 class PsychologistEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistEducationManager()
+
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_educations(cls):
-        return cls.objects.all()
+
+class PsychologistSecondaryEducationManager(models.Manager):
+    def get_secondary_educations(self):
+        return self.model.objects.all()
 
 
 class PsychologistSecondaryEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistSecondaryEducationManager()
+
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_secondary_educations(cls):
-        return cls.objects.all()
+
+class PsychologistLanguageManager(models.Manager):
+    def get_languages(self):
+        return self.model.objects.all()
 
 
 class PsychologistLanguage(models.Model):
     name = models.CharField(unique=True, max_length=50)
 
+    objects = PsychologistLanguageManager()
+
     def __str__(self):
         return self.name
 
-    @classmethod
-    def get_languages(cls):
-        return cls.objects.all()
+
+class PsychologistUserProfileManager(models.Manager):
+    def get_genders(self):
+        return self.model.Gender.labels
+
+    def get_profiles(self):
+        return self.model.objects.all()
+
+    def get_profiles_by_criteria(self, age, genders, statuses, formats, themes, approaches,
+                                 specializations, educations, secondary_educations, languages):
+
+        profiles = self.get_profiles()
+
+        if genders:
+            gender = genders[0]
+            if gender == 'Male':
+                gender = self.model.Gender.MALE.value
+            else:
+                gender = self.model.Gender.FEMALE.value
+            profiles = profiles.filter(gender=gender)
+        if age:
+            current_year = date.today().year
+            age_min = age[0]
+            age_max = age[1]
+            profiles = profiles.filter(
+                birth_date__year__range=(current_year - age_max, current_year - age_min))
+        if statuses:
+            profiles = profiles.filter(statuses__name__in=statuses).annotate(
+                st=Count('statuses__name', distinct=True)).filter(st__gte=len(statuses))
+        if formats:
+            profiles = profiles.filter(formats__name__in=formats).annotate(
+                st=Count('formats__name', distinct=True)).filter(st=len(formats))
+        if themes:
+            profiles = profiles.filter(themes__name__in=themes).annotate(
+                st=Count('themes__name', distinct=True)).filter(st=len(themes))
+        if approaches:
+            profiles = profiles.filter(approaches__name__in=approaches).annotate(
+                st=Count('approaches__name', distinct=True)).filter(st=len(approaches))
+        if specializations:
+            profiles = profiles.filter(specializations__name__in=specializations).annotate(
+                st=Count('specializations__name', distinct=True)).filter(st=len(specializations))
+        if educations:
+            profiles = profiles.filter(educations__name__in=educations).annotate(
+                st=Count('educations__name', distinct=True)).filter(st=len(educations))
+        if secondary_educations:
+            profiles = profiles.filter(secondary_educations__name__in=secondary_educations).annotate(
+                st=Count('secondary_educations__name', distinct=True)).filter(st=len(secondary_educations))
+        if languages:
+            profiles = profiles.filter(languages__name__in=languages).annotate(
+                l=Count('languages__name', distinct=True)).filter(l__gte=len(languages))
+
+        return profiles
 
 
 class PsychologistUserProfile(models.Model):
@@ -99,9 +177,7 @@ class PsychologistUserProfile(models.Model):
         MALE = 'M', _('Male')
         FEMALE = 'F', _('Female')
 
-        @classmethod
-        def get_genders(cls):
-            return cls.labels
+    objects = PsychologistUserProfileManager()
 
     gender = models.CharField(max_length=50, choices=Gender.choices)
     avatar = models.ImageField(null=False, blank=False, default="avatars/psy_avatar.jpg", upload_to='avatars')

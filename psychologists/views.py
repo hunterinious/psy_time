@@ -34,27 +34,60 @@ class PsyProfileForListPagination(PageNumberPagination):
 
 class PsyProfileListView(ListAPIView):
     queryset = PsychologistUserProfile.objects.all()
-    serializer_class = PsyProfileForListSerializer
     pagination_class = PsyProfileForListPagination
+    serializer_class = PsyProfileForListSerializer
+    authentication_classes = []
     permission_classes = []
 
 
-class PsyProfileFilterCriteriaView(APIView):
+class PsyProfileFilteredListView(ListAPIView):
+    pagination_class = PsyProfileForListPagination
+    serializer_class = PsyProfileForListSerializer
+    authentication_classes = []
+    permission_classes = []
+
+    def get_queryset(self):
+        params = self.request.query_params
+
+        ages = params.getlist('ages', None)
+        if ages:
+            for i, v in enumerate(ages):
+                ages[i] = int(v)
+
+        genders = params.getlist('genders', None)
+        statuses = params.getlist('statuses', None)
+        formats = params.getlist('formats', None)
+        themes = params.getlist('themes', None)
+        approaches = params.getlist('approaches', None)
+        specializations = params.getlist('specializations', None)
+        educations = params.getlist('educations', None)
+        secondary_educations = params.getlist('secondary_educations', None)
+        languages = params.getlist('languages', None)
+
+        return PsychologistUserProfile.objects.\
+            get_profiles_by_criteria(ages, genders, statuses, formats, themes, approaches, specializations,
+                                     educations, secondary_educations, languages)
+
+
+class PsyProfileCriteriaView(APIView):
     authentication_classes = []
     permission_classes = []
 
     def get(self, request):
-        genders = PsychologistUserProfile.Gender.get_genders()
-        statuses = PsychologistStatus.get_statuses()
-        formats = PsychologistWorkFormat.get_formats()
-        themes = PsychologistTheme.get_themes()
-        approaches = PsychologistApproach.get_approaches()
-        specializations = PsychologistSpecialization.get_specializations()
-        educations = PsychologistEducation.get_educations()
-        secondary_educations = PsychologistSecondaryEducation.get_secondary_educations()
-        languages = PsychologistLanguage.get_languages()
+        genders = PsychologistUserProfile.objects.get_genders()
+        statuses = PsychologistStatus.objects.get_statuses()
+        formats = PsychologistWorkFormat.objects.get_formats()
+        themes = PsychologistTheme.objects.get_themes()
+        approaches = PsychologistApproach.objects.get_approaches()
+        specializations = PsychologistSpecialization.objects.get_specializations()
+        educations = PsychologistEducation.objects.get_educations()
+        secondary_educations = PsychologistSecondaryEducation.objects.get_secondary_educations()
+        languages = PsychologistLanguage.objects.get_languages()
 
         data = dict()
+
+        data['ages'] = []
+        data['ages'].append({'name': '18-100'})
 
         data['genders'] = []
         for gender in genders:
