@@ -49,47 +49,20 @@ class PsyProfileFilteredListView(ListAPIView):
     def get_queryset(self):
         params = self.request.query_params
 
-        ages = params.get('ages', None).replace(' ', '')
+        ages = params.getlist('ages', None)
         if ages:
-            ages = ages.strip().split(',')
             for i, v in enumerate(ages):
                 ages[i] = int(v)
 
-        genders = params.get('genders', None).replace(' ', '')
-        if genders:
-            genders = genders.strip().split(',')
-
-        statuses = params.get('statuses', None).replace(' ', '')
-        if statuses:
-            statuses = statuses.strip().split(',')
-
-        formats = params.get('formats', None).replace(' ', '')
-        if formats:
-            formats = formats.strip().split(',')
-
-        themes = params.get('themes', None).replace(' ', '')
-        if themes:
-            themes = themes.strip().split(',')
-
-        approaches = params.get('approaches', None).replace(' ', '')
-        if approaches:
-            approaches = approaches.strip().split(',')
-
-        specializations = params.get('specializations', None).replace(' ', '')
-        if specializations:
-            specializations = specializations.strip().split(',')
-
-        educations = params.get('educations', None).replace(' ', '')
-        if educations:
-            educations = educations.strip().split(',')
-
-        secondary_educations = params.get('secondary_educations', None).replace(' ', '')
-        if secondary_educations:
-            secondary_educations = secondary_educations.strip().split(',')
-
-        languages = params.get('languages', None).replace(' ', '')
-        if languages:
-            languages = languages.strip().split(',')
+        genders = params.getlist('genders', None)
+        statuses = params.getlist('statuses', None)
+        formats = params.getlist('formats', None)
+        themes = params.getlist('themes', None)
+        approaches = params.getlist('approaches', None)
+        specializations = params.getlist('specializations', None)
+        educations = params.getlist('educations', None)
+        secondary_educations = params.getlist('secondary_educations', None)
+        languages = params.getlist('languages', None)
 
         return PsychologistUserProfile.objects.\
             get_profiles_by_criteria(ages, genders, statuses, formats, themes, approaches, specializations,

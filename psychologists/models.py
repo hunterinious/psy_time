@@ -1,6 +1,6 @@
 from datetime import date
 from django.db import models
-from django.db.models import Count, F, Q
+from django.db.models import Count
 from django.utils.translation import gettext_lazy as _
 from users.models import PsychologistUser
 from locations.models import City
@@ -145,28 +145,28 @@ class PsychologistUserProfileManager(models.Manager):
                 birth_date__year__range=(current_year - age_max, current_year - age_min))
         if statuses:
             profiles = profiles.filter(statuses__name__in=statuses).annotate(
-                st=Count('statuses__name')).filter(st=len(statuses))
+                st=Count('statuses__name', distinct=True)).filter(st__gte=len(statuses))
         if formats:
             profiles = profiles.filter(formats__name__in=formats).annotate(
-                st=Count('formats__name')).filter(st=len(formats))
+                st=Count('formats__name', distinct=True)).filter(st=len(formats))
         if themes:
             profiles = profiles.filter(themes__name__in=themes).annotate(
-                st=Count('themes__name')).filter(st=len(themes))
+                st=Count('themes__name', distinct=True)).filter(st=len(themes))
         if approaches:
             profiles = profiles.filter(approaches__name__in=approaches).annotate(
-                st=Count('approaches__name')).filter(st=len(approaches))
+                st=Count('approaches__name', distinct=True)).filter(st=len(approaches))
         if specializations:
             profiles = profiles.filter(specializations__name__in=specializations).annotate(
-                st=Count('specializations__name')).filter(st=len(specializations))
+                st=Count('specializations__name', distinct=True)).filter(st=len(specializations))
         if educations:
             profiles = profiles.filter(educations__name__in=educations).annotate(
-                st=Count('educations__name')).filter(st=len(educations))
+                st=Count('educations__name', distinct=True)).filter(st=len(educations))
         if secondary_educations:
             profiles = profiles.filter(secondary_educations__name__in=secondary_educations).annotate(
-                st=Count('secondary_educations__name')).filter(st=len(secondary_educations))
+                st=Count('secondary_educations__name', distinct=True)).filter(st=len(secondary_educations))
         if languages:
             profiles = profiles.filter(languages__name__in=languages).annotate(
-                st=Count('languages__name')).filter(st=len(languages))
+                l=Count('languages__name', distinct=True)).filter(l__gte=len(languages))
 
         return profiles
 
