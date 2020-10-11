@@ -1,5 +1,4 @@
-from rest_framework import serializers
-from rest_framework.serializers import SerializerMethodField, ModelSerializer, Serializer
+from rest_framework.serializers import SerializerMethodField, ModelSerializer
 from django.contrib.auth import get_user_model
 from psychologists.models import (
     PsychologistUserProfile,
@@ -75,8 +74,7 @@ class PsyProfileForListSerializer(ModelSerializer):
     def get_username(self, obj):
         return obj.user.username
 
-import logging
-logger = logging.getLogger(__name__)
+
 class PsyProfileSerializer(ModelSerializer):
     username = SerializerMethodField()
 
@@ -85,6 +83,5 @@ class PsyProfileSerializer(ModelSerializer):
         fields = ('username', 'avatar')
 
     def get_username(self, obj):
-        logger.warning(obj.user)
         return obj.user.username
 

@@ -69,8 +69,7 @@ class PsyProfileFilteredListView(ListAPIView):
             get_profiles_by_criteria(ages, genders, statuses, formats, themes, approaches, specializations,
                                      educations, secondary_educations, languages)
 
-import logging
-logger = logging.getLogger(__name__)
+
 class PsyProfileCriteriaView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -118,7 +117,7 @@ class RandomPsyProfileView(RetrieveAPIView):
         return PsychologistUserProfile.objects.get_random_profile()
 
 
-class HowToChoosePsychologistView(APIView):
+class HowToChoosePsyView(APIView):
     authentication_classes = []
     permission_classes = []
 
@@ -126,5 +125,3 @@ class HowToChoosePsychologistView(APIView):
         with open('static/files/how_to_choose_psychologist.txt', 'r') as file:
             text = file.read()
         return Response(text, content_type='text')
-
-

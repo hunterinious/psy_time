@@ -24,5 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cadmin/', include('cadmin.urls')),
     path('api/psychologists/', include('psychologists.urls')),
+    path('api/core/', include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
