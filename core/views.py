@@ -20,7 +20,3 @@ class HelpCreateView(generics.CreateAPIView):
     serializer_class = HelpSerializer
     authentication_classes = []
     permission_classes = []
-
-    def post(self, request, *args, **kwargs):
-        request.data['status'] = Help.Status.PENDING
-        return super(HelpCreateView, self).post(request, *args, **kwargs)

@@ -13,4 +13,4 @@ class Help(models.Model):
     country = models.CharField(max_length=255)
     theme = models.CharField(max_length=255)
     message = models.TextField()
-    status = models.CharField(max_length=50, choices=Status.choices)
+    status = models.CharField(max_length=50, choices=Status.choices, default=Status.PENDING)
