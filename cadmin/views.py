@@ -25,6 +25,7 @@ from .forms import (
     PsychologistProfileFormSet,
     CountryForm,
     CityForm,
+    HelpForm,
 )
 from psychologists.models import (
     PsychologistStatus,
@@ -37,6 +38,7 @@ from psychologists.models import (
     PsychologistLanguage,
 )
 from locations.models import City, Country
+from core.models import Help
 
 User = get_user_model()
 
@@ -282,7 +284,7 @@ class PsychologistApproachCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
-    template_name = 'cadmin/psychologists/psy_approach_update.html'
+    template_name = 'cadmin/psychologists/help_request_update.html'
     form_class = PsychologistApproachForm
     context_object_name = 'approach'
 
@@ -538,3 +540,22 @@ class PsychologistLanguageDeleteView(AdminOnlyView, DeleteView):
 
     def get_success_url(self):
         return reverse('psy-language-list')
+
+
+class HelpRequestListView(AdminOnlyView, ListView):
+    model = Help
+    template_name = 'cadmin/help_requests/help_request_list.html'
+    context_object_name = 'help_requests'
+
+
+class HelpRequestUpdateView(AdminOnlyView, UpdateView):
+    template_name = 'cadmin/help_requests/help_request_update.html'
+    form_class = HelpForm
+    context_object_name = 'help_request'
+
+    def get_object(self):
+        request_id = self.kwargs.get("id")
+        return get_object_or_404(Help, id=request_id)
+
+    def get_success_url(self):
+        return reverse('help-request-update', kwargs={'id': self.kwargs['id']})

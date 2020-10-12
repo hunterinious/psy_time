@@ -47,6 +47,8 @@ from .views import (
     CityCreateView,
     CityUpdateView,
     CityDeleteView,
+    HelpRequestListView,
+    HelpRequestUpdateView
 )
 
 
@@ -129,5 +131,8 @@ urlpatterns = [
     path("cities", CityListView.as_view(), name='city-list'),
     path("cities/create", CityCreateView.as_view(), name='city-create'),
     path("cities/<int:id>/update", CityUpdateView.as_view(), name='city-update'),
-    path("cities/<int:id>/delete", CityDeleteView.as_view(), name='city-delete')
+    path("cities/<int:id>/delete", CityDeleteView.as_view(), name='city-delete'),
+
+    path("help-requests", HelpRequestListView.as_view(), name='help-request-list'),
+    path("help-requests/<int:id>/update", HelpRequestUpdateView.as_view(), name='help-request-update'),
 ]

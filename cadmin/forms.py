@@ -14,6 +14,7 @@ from psychologists.models import (
     PsychologistSecondaryEducation,
     PsychologistLanguage,
 )
+from core.models import Help
 
 User = get_user_model()
 
@@ -112,3 +113,16 @@ class PsychologistLanguageForm(forms.ModelForm):
         model = PsychologistLanguage
         fields = '__all__'
 
+
+import logging
+logger = logging.getLogger(__name__)
+class HelpForm(forms.ModelForm):
+    class Meta:
+        model = Help
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(HelpForm, self).__init__(*args, **kwargs)
+        for key in self.fields.keys():
+            if key != 'status':
+                self.fields[key].widget.attrs['readonly'] = True

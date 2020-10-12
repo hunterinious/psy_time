@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import HelpSerializer
+from .models import Help
 import json
 
 
@@ -15,8 +16,11 @@ class WorldCountriesListView(APIView):
         return Response(data)
 
 
-class HelpView(generics.CreateAPIView):
+class HelpCreateView(generics.CreateAPIView):
     serializer_class = HelpSerializer
     authentication_classes = []
     permission_classes = []
 
+    def post(self, request, *args, **kwargs):
+        request.data['status'] = Help.Status.PENDING
+        return super(HelpCreateView, self).post(request, *args, **kwargs)
