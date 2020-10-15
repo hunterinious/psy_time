@@ -12,10 +12,13 @@ from .models import (
     PsychologistEducation,
     PsychologistSecondaryEducation,
     PsychologistLanguage,
+    PsychologistReview
 )
 from .serializers import (
     PsyProfileForListSerializer,
-    PsyProfileSerializer,
+    PsyRandomProfileSerializer,
+    PsyPublicProfileSerializer,
+    PsyExtendedPublicProfileSerializer,
     PsyStatusSerializer,
     PsyFormatSerializer,
     PsyThemeSerializer,
@@ -69,8 +72,7 @@ class PsyProfileFilteredListView(ListAPIView):
             get_profiles_by_criteria(ages, genders, statuses, formats, themes, approaches, specializations,
                                      educations, secondary_educations, languages)
 
-import logging
-logger = logging.getLogger(__name__)
+
 class PsyProfileCriteriaView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -110,12 +112,26 @@ class PsyProfileCriteriaView(APIView):
 
 
 class RandomPsyProfileView(RetrieveAPIView):
-    serializer_class = PsyProfileSerializer
+    serializer_class = PsyRandomProfileSerializer
     authentication_classes = []
     permission_classes = []
 
     def get_object(self):
         return PsychologistUserProfile.objects.get_random_profile()
+
+
+class PsyPublicProfileView(RetrieveAPIView):
+    queryset = PsychologistUserProfile.objects.get_profiles()
+    serializer_class = PsyPublicProfileSerializer
+    authentication_classes = []
+    permission_classes = []
+
+
+class PsyExtendedPublicProfileView(RetrieveAPIView):
+    queryset = PsychologistUserProfile.objects.get_profiles()
+    serializer_class = PsyExtendedPublicProfileSerializer
+    authentication_classes = []
+    permission_classes = []
 
 
 class HowToChoosePsychologistView(APIView):

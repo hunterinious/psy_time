@@ -1,5 +1,5 @@
-from rest_framework import serializers
-from rest_framework.serializers import SerializerMethodField, ModelSerializer, Serializer
+from rest_framework.serializers import SerializerMethodField, ModelSerializer
+from locations.serializers import CitySerializer
 from django.contrib.auth import get_user_model
 from psychologists.models import (
     PsychologistUserProfile,
@@ -12,6 +12,7 @@ from psychologists.models import (
     PsychologistSecondaryEducation,
     PsychologistLanguage,
 )
+from datetime import date
 
 User = get_user_model()
 
@@ -75,16 +76,51 @@ class PsyProfileForListSerializer(ModelSerializer):
     def get_username(self, obj):
         return obj.user.username
 
-import logging
-logger = logging.getLogger(__name__)
-class PsyProfileSerializer(ModelSerializer):
+
+class PsyRandomProfileSerializer(ModelSerializer):
     username = SerializerMethodField()
 
     class Meta:
         model = PsychologistUserProfile
-        fields = ('username', 'avatar')
+        fields = ('username', 'avatar', 'id')
 
     def get_username(self, obj):
-        logger.warning(obj.user)
         return obj.user.username
+
+
+class PsyPublicProfileSerializer(ModelSerializer):
+    username = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistUserProfile
+        fields = ('username', 'avatar', 'id', 'about', 'duration', 'price')
+
+    def get_username(self, obj):
+        return obj.user.username
+
+    def get_reviews_count(self, obj):
+        return PsychologistUserProfile.objects.get_reviews_count(obj)
+
+
+class PsyExtendedPublicProfileSerializer(ModelSerializer):
+    city = CitySerializer()
+    age = SerializerMethodField()
+    statuses = PsyStatusSerializer(many=True)
+    formats = PsyFormatSerializer(many=True)
+    themes = PsyThemeSerializer(many=True)
+    approaches = PsyApproachSerializer(many=True)
+    specializations = PsySpecializationSerializer(many=True)
+    educations = PsyEducationSerializer(many=True)
+    secondary_educations = PsySecondaryEducationSerializer(many=True)
+    languages = PsyLanguageSerializer(many=True)
+
+    class Meta:
+        model = PsychologistUserProfile
+        exclude = ('user', 'avatar', 'id', 'about', 'duration', 'price', 'gender', 'birth_date')
+
+    def get_age(self, obj):
+        current_year = date.today().year
+        birth_year = obj.birth_date.year
+        return current_year - birth_year
+
 
