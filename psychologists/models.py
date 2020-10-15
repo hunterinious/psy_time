@@ -139,6 +139,9 @@ class PsychologistUserProfileManager(models.Manager):
     def get_random_profile(self):
         return choice(self.model.objects.all())
 
+    def get_reviews_count(self, obj):
+        return obj.reviews.count()
+
     def get_profiles_by_criteria(self, age, genders, statuses, formats, themes, approaches,
                                  specializations, educations, secondary_educations, languages):
 
@@ -213,6 +216,12 @@ class PsychologistUserProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class PsychologistReview(models.Model):
+    username = models.CharField(max_length=100)
+    text = models.TextField()
+    profile = models.ForeignKey(PsychologistUserProfile, related_name="reviews", on_delete=models.CASCADE)
 
 
 class Image(models.Model):

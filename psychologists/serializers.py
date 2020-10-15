@@ -90,10 +90,11 @@ class PsyRandomProfileSerializer(ModelSerializer):
 
 class PsyPublicProfileSerializer(ModelSerializer):
     username = SerializerMethodField()
+    reviews_count = SerializerMethodField()
 
     class Meta:
         model = PsychologistUserProfile
-        fields = ('username', 'avatar', 'id', 'about', 'duration', 'price')
+        fields = ('username', 'avatar', 'id', 'about', 'duration', 'price', 'reviews_count')
 
     def get_username(self, obj):
         return obj.user.username
