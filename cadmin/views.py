@@ -284,7 +284,7 @@ class PsychologistApproachCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
-    template_name = 'cadmin/psychologists/help_request_update.html'
+    template_name = 'cadmin/psychologists/psy_approach_update.html'
     form_class = PsychologistApproachForm
     context_object_name = 'approach'
 
