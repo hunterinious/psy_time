@@ -121,14 +121,14 @@ class PsychologistLanguage(models.Model):
 
 class PsychologistUserProfileManager(models.Manager):
     def get_min_age(self):
-        min_age_qs = self.model.objects.all().aggregate(Max('birth_date__year'))
+        min_age = self.model.objects.all().aggregate(Max('birth_date__year'))
         current_year = date.today().year
-        return current_year - min_age_qs['birth_date__year__max'].year
+        return current_year - min_age['birth_date__year__max'].year
 
     def get_max_age(self):
-        max_age_qs = self.model.objects.all().aggregate(Min('birth_date__year'))
+        max_age = self.model.objects.all().aggregate(Min('birth_date__year'))
         current_year = date.today().year
-        return current_year - max_age_qs['birth_date__year__min'].year
+        return current_year - max_age['birth_date__year__min'].year
 
     def get_genders(self):
         return self.model.Gender.labels
