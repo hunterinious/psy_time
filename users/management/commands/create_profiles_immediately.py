@@ -14,6 +14,7 @@ from factories.specializations import SpecializationFactory
 from factories.statuses import StatusFactory
 from factories.themes import ThemeFactory
 from factories.locations import CountryWithCitiesFactory
+from factories.psy_reviews import PsychologistReviewFactory
 from random import choice, sample
 
 
@@ -54,6 +55,8 @@ class Command(BaseCommand):
         countries = CountryWithCitiesFactory.create_batch(size=total, cities=4)
         cities = [c.cities.all() for c in countries]
 
+        psychologist_profiles = []
+        regular_profiles = []
         for u in users:
             if u.user_type == User.UserTypes.PSYCHOLOGIST_USER:
                 city = choice(choice(cities))
@@ -66,10 +69,24 @@ class Command(BaseCommand):
                 r_secondary_educations = sample(secondary_educations, k=len(secondary_educations) - 2)
                 r_languages = sample(languages, k=len(languages) - 1)
 
-                PsychologistUserProfileFactory.create(user=u, city=city, statuses=r_statuses, formats=r_formats,
-                                                      themes=r_themes, approaches=r_approaches, languages=r_languages,
-                                                      specializations=r_specializations, educations=r_educations,
-                                                      secondary_educations=r_secondary_educations)
+                profile = PsychologistUserProfileFactory.create(user=u,
+                                                                city=city,
+                                                                statuses=r_statuses,
+                                                                formats=r_formats,
+                                                                themes=r_themes,
+                                                                approaches=r_approaches,
+                                                                languages=r_languages,
+                                                                specializations=r_specializations,
+                                                                educations=r_educations,
+                                                                secondary_educations=r_secondary_educations)
+                psychologist_profiles.append(profile)
             elif u.user_type == User.UserTypes.REGULAR_USER:
-                RegularUserProfileFactory.create(user=u)
+                profile = RegularUserProfileFactory.create(user=u)
+                regular_profiles.append(profile)
+
+        for _ in users:
+            psy_profile = choice(psychologist_profiles)
+            regular_profile = choice(regular_profiles)
+            PsychologistReviewFactory.create(author_profile=regular_profile, psychologist_profile=psy_profile)
+
 

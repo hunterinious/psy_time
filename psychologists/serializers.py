@@ -11,6 +11,7 @@ from psychologists.models import (
     PsychologistEducation,
     PsychologistSecondaryEducation,
     PsychologistLanguage,
+    PsychologistReview,
 )
 from datetime import date
 
@@ -65,6 +66,17 @@ class PsyLanguageSerializer(ModelSerializer):
         fields = ('name',)
 
 
+class PsyReviewSerializer(ModelSerializer):
+    username = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistReview
+        fields = ('username', 'text')
+
+    def get_username(self, obj):
+        return obj.author_profile.user.username
+
+
 class PsyProfileForListSerializer(ModelSerializer):
     username = SerializerMethodField()
     statuses = PsyStatusSerializer(many=True)
@@ -100,7 +112,7 @@ class PsyPublicProfileSerializer(ModelSerializer):
         return obj.user.username
 
     def get_reviews_count(self, obj):
-        return PsychologistUserProfile.objects.get_reviews_count(obj)
+        return PsychologistUserProfile.objects.get_reviews_count(obj.id)
 
 
 class PsyExtendedPublicProfileSerializer(ModelSerializer):
@@ -123,5 +135,3 @@ class PsyExtendedPublicProfileSerializer(ModelSerializer):
         current_year = date.today().year
         birth_year = obj.birth_date.year
         return current_year - birth_year
-
-

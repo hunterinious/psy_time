@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -27,6 +29,7 @@ from .serializers import (
     PsyEducationSerializer,
     PsySecondaryEducationSerializer,
     PsyLanguageSerializer,
+    PsyReviewSerializer,
 )
 
 
@@ -134,6 +137,29 @@ class PsyExtendedPublicProfileView(RetrieveAPIView):
     permission_classes = []
 
 
+class PsyReviewListView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        if not pk:
+            raise AttributeError("View %s must be called with "
+                                 "either an object pk."
+                                 % self.__class__.__name__)
+        try:
+            PsychologistUserProfile.objects.get_profile(pk)
+        except ObjectDoesNotExist:
+            raise Http404("Object with the given pk not found")
+
+        reviews = PsychologistUserProfile.objects.get_reviews(pk)
+        data = dict()
+        data['reviews'] = PsyReviewSerializer(reviews, many=True).data
+
+        return Response(data)
+
+
 class HowToChoosePsychologistView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -142,5 +168,3 @@ class HowToChoosePsychologistView(APIView):
         with open('static/files/how_to_choose_psychologist.txt', 'r') as file:
             text = file.read()
         return Response(text, content_type='text')
-
-
