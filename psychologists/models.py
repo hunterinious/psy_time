@@ -3,7 +3,7 @@ from datetime import date
 from django.db import models
 from django.db.models import Count, Min, Max
 from django.utils.translation import gettext_lazy as _
-from users.models import RegularUserProfile, PsychologistUser
+from users.models import RegularUser, PsychologistUser
 from locations.models import City
 
 
@@ -136,17 +136,8 @@ class PsychologistUserProfileManager(models.Manager):
     def get_profiles(self):
         return self.model.objects.all()
 
-    def get_profile(self, id):
-        return self.model.objects.get(id=id)
-
     def get_random_profile(self):
         return choice(self.model.objects.all())
-
-    def get_reviews(self, id):
-        return self.model.objects.get(id=id).reviews.all()
-
-    def get_reviews_count(self, id):
-        return self.model.objects.get(id=id).reviews.count()
 
     def get_profiles_by_criteria(self, age, genders, statuses, formats, themes, approaches,
                                  specializations, educations, secondary_educations, languages):
@@ -226,8 +217,8 @@ class PsychologistUserProfile(models.Model):
 
 class PsychologistReview(models.Model):
     text = models.TextField()
-    author_profile = models.ForeignKey(RegularUserProfile, related_name="reviews", on_delete=models.CASCADE)
-    psychologist_profile = models.ForeignKey(PsychologistUserProfile, related_name="reviews", on_delete=models.CASCADE)
+    author = models.ForeignKey(RegularUser, related_name="reviews", on_delete=models.CASCADE)
+    psychologist = models.ForeignKey(PsychologistUser, related_name="psy_reviews", on_delete=models.CASCADE)
 
 
 class Image(models.Model):

@@ -13,6 +13,7 @@ from psychologists.models import (
     PsychologistLanguage,
     PsychologistReview,
 )
+from users.models import PsychologistUser
 from datetime import date
 
 User = get_user_model()
@@ -74,7 +75,7 @@ class PsyReviewSerializer(ModelSerializer):
         fields = ('username', 'text')
 
     def get_username(self, obj):
-        return obj.author_profile.user.username
+        return obj.author.username
 
 
 class PsyProfileForListSerializer(ModelSerializer):
@@ -112,7 +113,7 @@ class PsyPublicProfileSerializer(ModelSerializer):
         return obj.user.username
 
     def get_reviews_count(self, obj):
-        return PsychologistUserProfile.objects.get_reviews_count(obj.id)
+        return PsychologistUser.objects.get_reviews_count(obj.id)
 
 
 class PsyExtendedPublicProfileSerializer(ModelSerializer):

@@ -14,8 +14,8 @@ from .models import (
     PsychologistEducation,
     PsychologistSecondaryEducation,
     PsychologistLanguage,
-    PsychologistReview
 )
+from users.models import PsychologistUser
 from .serializers import (
     PsyProfileForListSerializer,
     PsyRandomProfileSerializer,
@@ -149,11 +149,11 @@ class PsyReviewListView(APIView):
                                  "either an object pk."
                                  % self.__class__.__name__)
         try:
-            PsychologistUserProfile.objects.get_profile(pk)
+            PsychologistUser.objects.get_user(pk)
         except ObjectDoesNotExist:
             raise Http404("Object with the given pk not found")
 
-        reviews = PsychologistUserProfile.objects.get_reviews(pk)
+        reviews = PsychologistUser.objects.get_reviews(pk)
         data = dict()
         data['reviews'] = PsyReviewSerializer(reviews, many=True).data
 
