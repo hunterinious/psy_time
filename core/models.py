@@ -14,3 +14,18 @@ class Help(models.Model):
     theme = models.CharField(max_length=255)
     message = models.TextField()
     status = models.CharField(max_length=50, choices=Status.choices, default=Status.PENDING)
+
+
+class WorldCountryManager(models.Manager):
+    def get_countries(self):
+        return self.model.objects.all()
+
+    def create_country_from_json(self, country):
+        self.model.objects.create(name=country['name'], code=country['code'])
+
+
+class WorldCountry(models.Model):
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=10)
+
+    objects = WorldCountryManager()

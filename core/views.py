@@ -1,19 +1,15 @@
 from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .serializers import HelpSerializer
-from .models import Help
-import json
+from rest_framework.generics import ListAPIView
+from .models import WorldCountry
+from .serializers import HelpSerializer, WorldCountrySerializer
 
 
-class WorldCountriesListView(APIView):
+class WorldCountryListView(ListAPIView):
+    queryset = WorldCountry.objects.get_countries()
+    pagination_class = None
+    serializer_class = WorldCountrySerializer
     authentication_classes = []
     permission_classes = []
-
-    def get(self, request):
-        with open('static/files/countries.json', 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        return Response(data)
 
 
 class HelpCreateView(generics.CreateAPIView):
