@@ -75,7 +75,7 @@ class CountryUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'country'
 
     def get_success_url(self):
-        return reverse('country-update', kwargs={'id': self.kwargs['id']})
+        return reverse('country-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class CountryDeleteView(AdminOnlyView, DeleteView):
@@ -111,14 +111,14 @@ class CityUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'city'
 
     def get_object(self):
-        city_id = self.kwargs.get("id")
+        city_id = self.kwargs.get("pk")
         city = get_object_or_404(City, id=city_id)
         if city.is_related_to_regular_user_profile():
             raise PermissionDenied("You cant update city which refers not to psychologist profile")
         return city
 
     def get_success_url(self):
-        return reverse('city-update', kwargs={'id': self.kwargs['id']})
+        return reverse('city-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class CityDeleteView(AdminOnlyView, DeleteView):
@@ -126,7 +126,7 @@ class CityDeleteView(AdminOnlyView, DeleteView):
     context_object_name = 'city'
 
     def get_object(self):
-        city_id = self.kwargs.get("id")
+        city_id = self.kwargs.get("pk")
         city = get_object_or_404(City, id=city_id)
         if city.is_related_to_profiles():
             raise PermissionDenied("You cant delete city which refers to profile")
@@ -195,11 +195,11 @@ class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'user'
 
     def get_object(self):
-        user_id = self.kwargs.get("id")
+        user_id = self.kwargs.get("pk")
         return get_object_or_404(User, id=user_id)
 
     def get_success_url(self):
-        return reverse('psy-user-profile-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-user-profile-update', kwargs={'pk': self.kwargs['pk']})
 
     def get_context_data(self, **kwargs):
         data = super(PsychologistUserAndProfileUpdateView, self).get_context_data(**kwargs)
@@ -242,7 +242,7 @@ class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'status'
 
     def get_success_url(self):
-        return reverse('psy-status-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-status-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
@@ -275,7 +275,7 @@ class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'approach'
 
     def get_success_url(self):
-        return reverse('psy-approach-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-approach-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistApproachDeleteView(AdminOnlyView, DeleteView):
@@ -308,7 +308,7 @@ class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'specialization'
 
     def get_success_url(self):
-        return reverse('psy-specialization-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-specialization-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistSpecializationDeleteView(AdminOnlyView, DeleteView):
@@ -341,7 +341,7 @@ class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'format'
 
     def get_success_url(self):
-        return reverse('psy-format-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-format-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistFormatDeleteView(AdminOnlyView, DeleteView):
@@ -374,7 +374,7 @@ class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'theme'
 
     def get_success_url(self):
-        return reverse('psy-theme-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-theme-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistThemeDeleteView(AdminOnlyView, DeleteView):
@@ -407,7 +407,7 @@ class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'education'
 
     def get_success_url(self):
-        return reverse('psy-education-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-education-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistEducationDeleteView(AdminOnlyView, DeleteView):
@@ -440,7 +440,7 @@ class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'secondary_education'
 
     def get_success_url(self):
-        return reverse('psy-secondary-education-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-secondary-education-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistSecondaryEducationDeleteView(AdminOnlyView, DeleteView):
@@ -473,7 +473,7 @@ class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'language'
 
     def get_success_url(self):
-        return reverse('psy-language-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-language-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistLanguageDeleteView(AdminOnlyView, DeleteView):
@@ -498,4 +498,4 @@ class HelpRequestUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'help_request'
 
     def get_success_url(self):
-        return reverse('help-request-update', kwargs={'id': self.kwargs['id']})
+        return reverse('help-request-update', kwargs={'pk': self.kwargs['pk']})
