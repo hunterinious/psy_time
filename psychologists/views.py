@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -13,9 +15,12 @@ from .models import (
     PsychologistSecondaryEducation,
     PsychologistLanguage,
 )
+from users.models import PsychologistUser
 from .serializers import (
     PsyProfileForListSerializer,
-    PsyProfileSerializer,
+    PsyRandomProfileSerializer,
+    PsyPublicProfileSerializer,
+    PsyExtendedPublicProfileSerializer,
     PsyStatusSerializer,
     PsyFormatSerializer,
     PsyThemeSerializer,
@@ -24,6 +29,7 @@ from .serializers import (
     PsyEducationSerializer,
     PsySecondaryEducationSerializer,
     PsyLanguageSerializer,
+    PsyReviewSerializer,
 )
 
 
@@ -88,7 +94,9 @@ class PsyProfileCriteriaView(APIView):
         data = dict()
 
         data['ages'] = []
-        data['ages'].append({'name': '18-100'})
+        min_age = PsychologistUserProfile.objects.get_min_age()
+        max_age = PsychologistUserProfile.objects.get_max_age()
+        data['ages'].append({'name': f'{min_age}-{max_age}'})
 
         data['genders'] = []
         for gender in genders:
@@ -107,12 +115,49 @@ class PsyProfileCriteriaView(APIView):
 
 
 class RandomPsyProfileView(RetrieveAPIView):
-    serializer_class = PsyProfileSerializer
+    serializer_class = PsyRandomProfileSerializer
     authentication_classes = []
     permission_classes = []
 
     def get_object(self):
         return PsychologistUserProfile.objects.get_random_profile()
+
+
+class PsyPublicProfileView(RetrieveAPIView):
+    queryset = PsychologistUserProfile.objects.get_profiles()
+    serializer_class = PsyPublicProfileSerializer
+    authentication_classes = []
+    permission_classes = []
+
+
+class PsyExtendedPublicProfileView(RetrieveAPIView):
+    queryset = PsychologistUserProfile.objects.get_profiles()
+    serializer_class = PsyExtendedPublicProfileSerializer
+    authentication_classes = []
+    permission_classes = []
+
+
+class PsyReviewListView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        if not pk:
+            raise AttributeError("View %s must be called with "
+                                 "either an object pk."
+                                 % self.__class__.__name__)
+        try:
+            PsychologistUser.objects.get_user(pk)
+        except ObjectDoesNotExist:
+            raise Http404("Object with the given pk not found")
+
+        reviews = PsychologistUser.objects.get_reviews(pk)
+        data = dict()
+        data['reviews'] = PsyReviewSerializer(reviews, many=True).data
+
+        return Response(data)
 
 
 class HowToChoosePsychologistView(APIView):
@@ -123,5 +168,3 @@ class HowToChoosePsychologistView(APIView):
         with open('static/files/how_to_choose_psychologist.txt', 'r') as file:
             text = file.read()
         return Response(text, content_type='text')
-
-

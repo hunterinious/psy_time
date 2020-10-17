@@ -78,9 +78,22 @@ class RegularUser(CustomUser):
         proxy = True
 
 
+class PsychologistUserManager(models.Manager):
+    def get_user(self, id):
+        return self.model.objects.get(id=id)
+
+    def get_reviews(self, id):
+        return self.model.objects.get(id=id).psy_reviews.all()
+
+    def get_reviews_count(self, id):
+        return self.model.objects.get(id=id).psy_reviews.count()
+
+
 class PsychologistUser(CustomUser):
     class Meta:
         proxy = True
+
+    objects = PsychologistUserManager()
 
 
 class AdminUser(CustomUser):
