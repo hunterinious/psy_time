@@ -21,7 +21,7 @@ class CityManager(models.Manager):
         return self.all()
 
     def get_cities_not_related_to_profiles(self):
-        return self.model.objects.annotate(
+        return self.annotate(
                 Count('psychologistuserprofile'),
                 Count('regularuserprofile')).filter(
                 Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))
