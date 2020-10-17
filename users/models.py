@@ -30,9 +30,11 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def get_users(self):
+        return self.all()
+
     def get_psychologists_users(self):
-        model = self.model
-        return model.objects.filter(user_type=model.UserTypes.PSYCHOLOGIST_USER)
+        return self.filter(user_type=self.model.UserTypes.PSYCHOLOGIST_USER)
 
 
 class CustomUser(AbstractUser, PermissionsMixin):

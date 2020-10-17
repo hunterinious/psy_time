@@ -160,7 +160,7 @@ class PsyReviewListView(APIView):
         return Response(data)
 
 
-class HowToChoosePsychologistView(APIView):
+class HowToChoosePsyView(APIView):
     authentication_classes = []
     permission_classes = []
 

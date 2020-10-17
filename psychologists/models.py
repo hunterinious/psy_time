@@ -9,7 +9,7 @@ from locations.models import City
 
 class PsychologistStatusManager(models.Manager):
     def get_statuses(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistStatus(models.Model):
@@ -23,7 +23,7 @@ class PsychologistStatus(models.Model):
 
 class PsychologistWorkFormatManager(models.Manager):
     def get_formats(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistWorkFormat(models.Model):
@@ -37,7 +37,7 @@ class PsychologistWorkFormat(models.Model):
 
 class PsychologistThemeManager(models.Manager):
     def get_themes(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistTheme(models.Model):
@@ -51,7 +51,7 @@ class PsychologistTheme(models.Model):
 
 class PsychologistApproachManager(models.Manager):
     def get_approaches(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistApproach(models.Model):
@@ -65,7 +65,7 @@ class PsychologistApproach(models.Model):
 
 class PsychologistSpecializationManager(models.Manager):
     def get_specializations(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistSpecialization(models.Model):
@@ -79,7 +79,7 @@ class PsychologistSpecialization(models.Model):
 
 class PsychologistEducationManager(models.Manager):
     def get_educations(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistEducation(models.Model):
@@ -93,7 +93,7 @@ class PsychologistEducation(models.Model):
 
 class PsychologistSecondaryEducationManager(models.Manager):
     def get_secondary_educations(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistSecondaryEducation(models.Model):
@@ -107,7 +107,7 @@ class PsychologistSecondaryEducation(models.Model):
 
 class PsychologistLanguageManager(models.Manager):
     def get_languages(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class PsychologistLanguage(models.Model):
@@ -121,23 +121,23 @@ class PsychologistLanguage(models.Model):
 
 class PsychologistUserProfileManager(models.Manager):
     def get_min_age(self):
-        min_age_qs = self.model.objects.all().aggregate(Max('birth_date__year'))
+        min_age = self.all().aggregate(Max('birth_date__year'))
         current_year = date.today().year
-        return current_year - min_age_qs['birth_date__year__max'].year
+        return current_year - min_age['birth_date__year__max'].year
 
     def get_max_age(self):
-        max_age_qs = self.model.objects.all().aggregate(Min('birth_date__year'))
+        max_age = self.all().aggregate(Min('birth_date__year'))
         current_year = date.today().year
-        return current_year - max_age_qs['birth_date__year__min'].year
+        return current_year - max_age['birth_date__year__min'].year
 
     def get_genders(self):
         return self.model.Gender.labels
 
     def get_profiles(self):
-        return self.model.objects.all()
+        return self.all()
 
     def get_random_profile(self):
-        return choice(self.model.objects.all())
+        return choice(self.all())
 
     def get_profiles_by_criteria(self, age, genders, statuses, formats, themes, approaches,
                                  specializations, educations, secondary_educations, languages):

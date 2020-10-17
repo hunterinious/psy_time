@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'cadmin',
     'corsheaders',
+    'core',
     'users',
     'psychologists',
     'admins',

@@ -25,6 +25,7 @@ from .forms import (
     PsychologistProfileFormSet,
     CountryForm,
     CityForm,
+    HelpForm,
 )
 from psychologists.models import (
     PsychologistStatus,
@@ -37,6 +38,7 @@ from psychologists.models import (
     PsychologistLanguage,
 )
 from locations.models import City, Country
+from core.models import Help
 
 User = get_user_model()
 
@@ -67,25 +69,19 @@ class CountryCreateView(AdminOnlyView, CreateView):
 
 
 class CountryUpdateView(AdminOnlyView, UpdateView):
+    model = Country
     template_name = 'cadmin/locations/country_update.html'
     form_class = CountryForm
     context_object_name = 'country'
 
-    def get_object(self):
-        country_id = self.kwargs.get("id")
-        return get_object_or_404(Country, id=country_id)
-
     def get_success_url(self):
-        return reverse('country-update', kwargs={'id': self.kwargs['id']})
+        return reverse('country-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class CountryDeleteView(AdminOnlyView, DeleteView):
+    model = Country
     template_name = 'cadmin/locations/country_delete.html'
     context_object_name = 'country'
-
-    def get_object(self):
-        country_id = self.kwargs.get("id")
-        return get_object_or_404(Country, id=country_id)
 
     def get_success_url(self):
         return reverse('country-list')
@@ -115,14 +111,14 @@ class CityUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'city'
 
     def get_object(self):
-        city_id = self.kwargs.get("id")
+        city_id = self.kwargs.get("pk")
         city = get_object_or_404(City, id=city_id)
         if city.is_related_to_regular_user_profile():
             raise PermissionDenied("You cant update city which refers not to psychologist profile")
         return city
 
     def get_success_url(self):
-        return reverse('city-update', kwargs={'id': self.kwargs['id']})
+        return reverse('city-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class CityDeleteView(AdminOnlyView, DeleteView):
@@ -130,7 +126,7 @@ class CityDeleteView(AdminOnlyView, DeleteView):
     context_object_name = 'city'
 
     def get_object(self):
-        city_id = self.kwargs.get("id")
+        city_id = self.kwargs.get("pk")
         city = get_object_or_404(City, id=city_id)
         if city.is_related_to_profiles():
             raise PermissionDenied("You cant delete city which refers to profile")
@@ -149,12 +145,9 @@ class UserCreateView(AdminOnlyView, CreateView):
 
 
 class UserDeleteView(AdminOnlyView, DeleteView):
+    model = User
     template_name = 'cadmin/users/user_delete.html'
     context_object_name = 'user'
-
-    def get_object(self):
-        user_id = self.kwargs.get("id")
-        return get_object_or_404(User, id=user_id)
 
     def get_success_url(self):
         return reverse('psy-list')
@@ -202,11 +195,11 @@ class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
     context_object_name = 'user'
 
     def get_object(self):
-        user_id = self.kwargs.get("id")
+        user_id = self.kwargs.get("pk")
         return get_object_or_404(User, id=user_id)
 
     def get_success_url(self):
-        return reverse('psy-user-profile-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-user-profile-update', kwargs={'pk': self.kwargs['pk']})
 
     def get_context_data(self, **kwargs):
         data = super(PsychologistUserAndProfileUpdateView, self).get_context_data(**kwargs)
@@ -243,25 +236,19 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistStatus
     template_name = 'cadmin/psychologists/psy_status_update.html'
     form_class = PsychologistStatusForm
     context_object_name = 'status'
 
-    def get_object(self):
-        status_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistStatus, id=status_id)
-
     def get_success_url(self):
-        return reverse('psy-status-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-status-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistStatus
     template_name = 'cadmin/psychologists/psy_status_delete.html'
     context_object_name = 'status'
-
-    def get_object(self):
-        status_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistStatus, id=status_id)
 
     def get_success_url(self):
         return reverse('psy-status-list')
@@ -282,25 +269,19 @@ class PsychologistApproachCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistApproach
     template_name = 'cadmin/psychologists/psy_approach_update.html'
     form_class = PsychologistApproachForm
     context_object_name = 'approach'
 
-    def get_object(self):
-        approach_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistApproach, id=approach_id)
-
     def get_success_url(self):
-        return reverse('psy-approach-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-approach-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistApproachDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistApproach
     template_name = 'cadmin/psychologists/psy_approach_delete.html'
     context_object_name = 'approach'
-
-    def get_object(self):
-        approach_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistApproach, id=approach_id)
 
     def get_success_url(self):
         return reverse('psy-approach-list')
@@ -321,25 +302,19 @@ class PsychologistSpecializationCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistSpecialization
     template_name = 'cadmin/psychologists/psy_specialization_update.html'
     form_class = PsychologistSpecializationForm
     context_object_name = 'specialization'
 
-    def get_object(self):
-        specialization_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistSpecialization, id=specialization_id)
-
     def get_success_url(self):
-        return reverse('psy-specialization-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-specialization-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistSpecializationDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistSpecialization
     template_name = 'cadmin/psychologists/psy_specialization_delete.html'
     context_object_name = 'specialization'
-
-    def get_object(self):
-        specialization_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistSpecialization, id=specialization_id)
 
     def get_success_url(self):
         return reverse('psy-specialization-list')
@@ -360,25 +335,19 @@ class PsychologistFormatCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/psy_format_update.html'
     form_class = PsychologistFormatForm
     context_object_name = 'format'
 
-    def get_object(self):
-        format_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistWorkFormat, id=format_id)
-
     def get_success_url(self):
-        return reverse('psy-format-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-format-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistFormatDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/psy_format_delete.html'
     context_object_name = 'format'
-
-    def get_object(self):
-        format_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistWorkFormat, id=format_id)
 
     def get_success_url(self):
         return reverse('psy-format-list')
@@ -399,25 +368,19 @@ class PsychologistThemeCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistTheme
     template_name = 'cadmin/psychologists/psy_theme_update.html'
     form_class = PsychologistThemeForm
     context_object_name = 'theme'
 
-    def get_object(self):
-        theme_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistTheme, id=theme_id)
-
     def get_success_url(self):
-        return reverse('psy-theme-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-theme-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistThemeDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistTheme
     template_name = 'cadmin/psychologists/psy_theme_delete.html'
     context_object_name = 'theme'
-
-    def get_object(self):
-        theme_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistTheme, id=theme_id)
 
     def get_success_url(self):
         return reverse('psy-theme-list')
@@ -438,25 +401,19 @@ class PsychologistEducationCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistEducation
     template_name = 'cadmin/psychologists/psy_education_update.html'
     form_class = PsychologistEducationForm
     context_object_name = 'education'
 
-    def get_object(self):
-        education_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistEducation, id=education_id)
-
     def get_success_url(self):
-        return reverse('psy-education-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-education-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistEducationDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistEducation
     template_name = 'cadmin/psychologists/psy_education_delete.html'
     context_object_name = 'education'
-
-    def get_object(self):
-        education_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistEducation, id=education_id)
 
     def get_success_url(self):
         return reverse('psy-education-list')
@@ -477,25 +434,19 @@ class PsychologistSecondaryEducationCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/psy_secondary_education_update.html'
     form_class = PsychologistSecondaryEducationForm
     context_object_name = 'secondary_education'
 
-    def get_object(self):
-        secondary_education_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistSecondaryEducation, id=secondary_education_id)
-
     def get_success_url(self):
-        return reverse('psy-secondary-education-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-secondary-education-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistSecondaryEducationDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/psy_secondary_education_delete.html'
     context_object_name = 'secondary_education'
-
-    def get_object(self):
-        secondary_education_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistSecondaryEducation, id=secondary_education_id)
 
     def get_success_url(self):
         return reverse('psy-secondary-education-list')
@@ -516,25 +467,35 @@ class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistLanguage
     template_name = 'cadmin/psychologists/psy_language_update.html'
     form_class = PsychologistLanguageForm
     context_object_name = 'language'
 
-    def get_object(self):
-        language_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistLanguage, id=language_id)
-
     def get_success_url(self):
-        return reverse('psy-language-update', kwargs={'id': self.kwargs['id']})
+        return reverse('psy-language-update', kwargs={'pk': self.kwargs['pk']})
 
 
 class PsychologistLanguageDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistLanguage
     template_name = 'cadmin/psychologists/psy_language_delete.html'
     context_object_name = 'language'
 
-    def get_object(self):
-        language_id = self.kwargs.get("id")
-        return get_object_or_404(PsychologistLanguage, id=language_id)
-
     def get_success_url(self):
         return reverse('psy-language-list')
+
+
+class HelpRequestListView(AdminOnlyView, ListView):
+    model = Help
+    template_name = 'cadmin/help_requests/help_request_list.html'
+    context_object_name = 'help_requests'
+
+
+class HelpRequestUpdateView(AdminOnlyView, UpdateView):
+    model = Help
+    template_name = 'cadmin/help_requests/help_request_update.html'
+    form_class = HelpForm
+    context_object_name = 'help_request'
+
+    def get_success_url(self):
+        return reverse('help-request-update', kwargs={'pk': self.kwargs['pk']})
