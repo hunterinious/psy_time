@@ -25,7 +25,7 @@ class Help(models.Model):
 
 class WorldCountryManager(models.Manager):
     def get_countries(self):
-        return self.model.objects.all()
+        return self.all()
 
     def create_country_from_json(self, country):
         self.model.objects.create(name=country['name'], code=country['code'])

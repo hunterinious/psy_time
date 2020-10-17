@@ -69,7 +69,7 @@ class CountryCreateView(AdminOnlyView, CreateView):
 
 
 class CountryUpdateView(AdminOnlyView, UpdateView):
-    queryset = Country.objects.get_countries()
+    model = Country
     template_name = 'cadmin/locations/country_update.html'
     form_class = CountryForm
     context_object_name = 'country'
@@ -79,7 +79,7 @@ class CountryUpdateView(AdminOnlyView, UpdateView):
 
 
 class CountryDeleteView(AdminOnlyView, DeleteView):
-    queryset = Country.objects.get_countries()
+    model = Country
     template_name = 'cadmin/locations/country_delete.html'
     context_object_name = 'country'
 
@@ -145,7 +145,7 @@ class UserCreateView(AdminOnlyView, CreateView):
 
 
 class UserDeleteView(AdminOnlyView, DeleteView):
-    queryset = User.objects.get_users()
+    model = User
     template_name = 'cadmin/users/user_delete.html'
     context_object_name = 'user'
 
@@ -236,7 +236,7 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistStatus.objects.get_statuses()
+    model = PsychologistStatus
     template_name = 'cadmin/psychologists/psy_status_update.html'
     form_class = PsychologistStatusForm
     context_object_name = 'status'
@@ -246,7 +246,7 @@ class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistStatus.objects.get_statuses()
+    model = PsychologistStatus
     template_name = 'cadmin/psychologists/psy_status_delete.html'
     context_object_name = 'status'
 
@@ -269,7 +269,7 @@ class PsychologistApproachCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistApproach.objects.get_approaches()
+    model = PsychologistApproach
     template_name = 'cadmin/psychologists/psy_approach_update.html'
     form_class = PsychologistApproachForm
     context_object_name = 'approach'
@@ -279,7 +279,7 @@ class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistApproachDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistApproach.objects.get_approaches()
+    model = PsychologistApproach
     template_name = 'cadmin/psychologists/psy_approach_delete.html'
     context_object_name = 'approach'
 
@@ -302,7 +302,7 @@ class PsychologistSpecializationCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistSpecialization.objects.get_specializations()
+    model = PsychologistSpecialization
     template_name = 'cadmin/psychologists/psy_specialization_update.html'
     form_class = PsychologistSpecializationForm
     context_object_name = 'specialization'
@@ -312,7 +312,7 @@ class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistSpecializationDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistSpecialization.objects.get_specializations()
+    model = PsychologistSpecialization
     template_name = 'cadmin/psychologists/psy_specialization_delete.html'
     context_object_name = 'specialization'
 
@@ -335,7 +335,7 @@ class PsychologistFormatCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistWorkFormat.objects.get_formats()
+    model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/psy_format_update.html'
     form_class = PsychologistFormatForm
     context_object_name = 'format'
@@ -345,7 +345,7 @@ class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistFormatDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistWorkFormat.objects.get_formats()
+    model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/psy_format_delete.html'
     context_object_name = 'format'
 
@@ -368,7 +368,7 @@ class PsychologistThemeCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistTheme.objects.get_themes()
+    model = PsychologistTheme
     template_name = 'cadmin/psychologists/psy_theme_update.html'
     form_class = PsychologistThemeForm
     context_object_name = 'theme'
@@ -378,7 +378,7 @@ class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistThemeDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistTheme.objects.get_themes()
+    model = PsychologistTheme
     template_name = 'cadmin/psychologists/psy_theme_delete.html'
     context_object_name = 'theme'
 
@@ -401,7 +401,7 @@ class PsychologistEducationCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistEducation.objects.get_educations()
+    model = PsychologistEducation
     template_name = 'cadmin/psychologists/psy_education_update.html'
     form_class = PsychologistEducationForm
     context_object_name = 'education'
@@ -411,7 +411,7 @@ class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistEducationDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistEducation.objects.get_educations()
+    model = PsychologistEducation
     template_name = 'cadmin/psychologists/psy_education_delete.html'
     context_object_name = 'education'
 
@@ -434,7 +434,7 @@ class PsychologistSecondaryEducationCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistSecondaryEducation.objects.get_secondary_educations()
+    model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/psy_secondary_education_update.html'
     form_class = PsychologistSecondaryEducationForm
     context_object_name = 'secondary_education'
@@ -444,7 +444,7 @@ class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistSecondaryEducationDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistSecondaryEducation.objects.get_secondary_educations()
+    model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/psy_secondary_education_delete.html'
     context_object_name = 'secondary_education'
 
@@ -467,7 +467,7 @@ class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
 
 
 class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
-    queryset = PsychologistLanguage.objects.get_languages()
+    model = PsychologistLanguage
     template_name = 'cadmin/psychologists/psy_language_update.html'
     form_class = PsychologistLanguageForm
     context_object_name = 'language'
@@ -477,7 +477,7 @@ class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
 
 
 class PsychologistLanguageDeleteView(AdminOnlyView, DeleteView):
-    queryset = PsychologistLanguage.objects.get_languages()
+    model = PsychologistLanguage
     template_name = 'cadmin/psychologists/psy_language_delete.html'
     context_object_name = 'language'
 
@@ -492,7 +492,7 @@ class HelpRequestListView(AdminOnlyView, ListView):
 
 
 class HelpRequestUpdateView(AdminOnlyView, UpdateView):
-    queryset = Help.objects.get_help_request()
+    model = Help
     template_name = 'cadmin/help_requests/help_request_update.html'
     form_class = HelpForm
     context_object_name = 'help_request'

@@ -4,7 +4,7 @@ from django.db.models import Count, Q
 
 class CountryManager(models.Manager):
     def get_countries(self):
-        return self.model.objects.all()
+        return self.all()
 
 
 class Country(models.Model):
@@ -18,7 +18,7 @@ class Country(models.Model):
 
 class CityManager(models.Manager):
     def get_cities(self):
-        return self.model.objects.all()
+        return self.all()
 
     def get_cities_not_related_to_profiles(self):
         return self.model.objects.annotate(
