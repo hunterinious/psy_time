@@ -9,6 +9,8 @@ from .views import (
     PsychologistUserListView,
     PsychologistStatusListView,
     PsychologistStatusCreateView,
+    PsychologistStatusDynamicCreateView,
+    PsychologistStatusDynamicUpdateView,
     PsychologistStatusUpdateView,
     PsychologistStatusDeleteView,
     PsychologistApproachListView,
@@ -69,7 +71,11 @@ urlpatterns = [
 
     path("psychologists/statuses", PsychologistStatusListView.as_view(), name='psy-status-list'),
     path("psychologists/statuses/create", PsychologistStatusCreateView.as_view(), name='psy-status-create'),
+    path("psychologists/statuses/create-dynamic", PsychologistStatusDynamicCreateView.as_view(),
+         name='psy-status-create-dynamic'),
     path("psychologists/statuses/<int:pk>/update", PsychologistStatusUpdateView.as_view(), name='psy-status-update'),
+    path("psychologists/statuses/<int:pk>/update-dynamic", PsychologistStatusDynamicUpdateView.as_view(),
+         name='psy-status-update-dynamic'),
     path("psychologists/statuses/<int:pk>/delete", PsychologistStatusDeleteView.as_view(), name='psy-status-delete'),
 
     path("psychologists/approaches", PsychologistApproachListView.as_view(), name='psy-approach-list'),

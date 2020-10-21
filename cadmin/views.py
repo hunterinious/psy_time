@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -39,6 +39,10 @@ from psychologists.models import (
 )
 from locations.models import City, Country
 from core.models import Help
+
+from django.http import HttpResponse, JsonResponse
+from django.template.loader import render_to_string
+from django.views import View
 
 User = get_user_model()
 
@@ -233,6 +237,59 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
 
     def get_success_url(self):
         return reverse('psy-status-create')
+
+
+class DynamicPsyUserOperationsView(AdminOnlyView, View):
+    form_class = PsychologistStatusForm
+    template_name = None
+
+    def save_status_form(self, request, form, method):
+        data = dict()
+
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            data['name'] = form.data['name']
+        else:
+            data['form_is_valid'] = False
+
+        context = {'form': form, 'modal': True}
+        data['method'] = method
+        data['html_form'] = render_to_string(self.template_name,
+                                             context,
+                                             request=request
+                                             )
+        return data
+
+
+class PsychologistStatusDynamicCreateView(DynamicPsyUserOperationsView):
+    template_name = 'cadmin/psychologists/psy_status_create_dynamic.html'
+
+    def get(self, request):
+        form = self.form_class()
+        data = self.save_status_form(request, form, 'get')
+        return JsonResponse(data)
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        data = self.save_status_form(request, form, 'create')
+        return JsonResponse(data)
+
+
+class PsychologistStatusDynamicUpdateView(DynamicPsyUserOperationsView):
+    template_name = 'cadmin/psychologists/psy_status_update_dynamic.html'
+
+    def get(self, request, pk):
+        status = get_object_or_404(PsychologistStatus, pk=pk)
+        form = self.form_class(instance=status)
+        data = self.save_status_form(request, form, 'get')
+        return JsonResponse(data)
+
+    def post(self, request, pk):
+        status = get_object_or_404(PsychologistStatus, pk=pk)
+        form = self.form_class(request.POST, instance=status)
+        data = self.save_status_form(request, form, 'update')
+        return JsonResponse(data)
 
 
 class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
