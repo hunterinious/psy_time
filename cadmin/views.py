@@ -239,8 +239,27 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
         return reverse('psy-status-create')
 
 
-class DynamicPsyUserOperationsView(AdminOnlyView, View):
+class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
+    model = PsychologistStatus
+    template_name = 'cadmin/psychologists/psy_status_update.html'
     form_class = PsychologistStatusForm
+    context_object_name = 'status'
+
+    def get_success_url(self):
+        return reverse('psy-status-update', kwargs={'pk': self.kwargs['pk']})
+
+
+class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
+    model = PsychologistStatus
+    template_name = 'cadmin/psychologists/psy_status_delete.html'
+    context_object_name = 'status'
+
+    def get_success_url(self):
+        return reverse('psy-status-list')
+
+
+class DynamicPsyUserOperationsView(AdminOnlyView, View):
+    form_class = None
     template_name = None
 
     def save_status_form(self, request, form, method):
@@ -259,56 +278,35 @@ class DynamicPsyUserOperationsView(AdminOnlyView, View):
                                              context,
                                              request=request
                                              )
-        return data
+        return JsonResponse(data)
 
 
 class PsychologistStatusDynamicCreateView(DynamicPsyUserOperationsView):
+    form_class = PsychologistStatusForm
     template_name = 'cadmin/psychologists/psy_status_create_dynamic.html'
 
     def get(self, request):
         form = self.form_class()
-        data = self.save_status_form(request, form, 'get')
-        return JsonResponse(data)
+        return self.save_status_form(request, form, 'get')
 
     def post(self, request):
         form = self.form_class(request.POST)
-        data = self.save_status_form(request, form, 'create')
-        return JsonResponse(data)
+        return self.save_status_form(request, form, 'create')
 
 
 class PsychologistStatusDynamicUpdateView(DynamicPsyUserOperationsView):
+    form_class = PsychologistStatusForm
     template_name = 'cadmin/psychologists/psy_status_update_dynamic.html'
 
     def get(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(instance=status)
-        data = self.save_status_form(request, form, 'get')
-        return JsonResponse(data)
+        return self.save_status_form(request, form, 'get')
 
     def post(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(request.POST, instance=status)
-        data = self.save_status_form(request, form, 'update')
-        return JsonResponse(data)
-
-
-class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
-    model = PsychologistStatus
-    template_name = 'cadmin/psychologists/psy_status_update.html'
-    form_class = PsychologistStatusForm
-    context_object_name = 'status'
-
-    def get_success_url(self):
-        return reverse('psy-status-update', kwargs={'pk': self.kwargs['pk']})
-
-
-class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
-    model = PsychologistStatus
-    template_name = 'cadmin/psychologists/psy_status_delete.html'
-    context_object_name = 'status'
-
-    def get_success_url(self):
-        return reverse('psy-status-list')
+        return self.save_status_form(request, form, 'update')
 
 
 class PsychologistApproachListView(AdminOnlyView, ListView):
