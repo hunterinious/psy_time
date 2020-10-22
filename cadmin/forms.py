@@ -26,7 +26,7 @@ class DateInput(forms.DateInput):
 
 class CustomSelect(forms.SelectMultiple):
     def __init__(self, *args, **kwargs):
-        self.model = kwargs.pop('model')
+        self.set = kwargs.pop('set')
         super(CustomSelect, self).__init__(*args, **kwargs)
 
     def create_option(
@@ -37,7 +37,8 @@ class CustomSelect(forms.SelectMultiple):
         )
         if value:
             option['attrs'].update({
-                'data-url': reverse('psy-status-update-dynamic', kwargs={'pk': value}),
+                'data-url': reverse(f'psy-{self.set}-update-dynamic', kwargs={'pk': value}),
+                'delete-url': reverse(f'psy-{self.set}-delete-dynamic', kwargs={'pk': value})
             })
         return option
 
@@ -78,9 +79,8 @@ class PsychologistProfileForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'birth_date': DateInput(),
-            'statuses': CustomSelect(model=PsychologistStatus)
+            'statuses': CustomSelect(set='status')
         }
-
 
 
 PsychologistProfileFormSet = inlineformset_factory(PsychologistUser, PsychologistUserProfile,

@@ -1,13 +1,11 @@
 $(function () {
     let id = undefined
-    let option_id = undefined
     let form_name = ''
+    let customSelect = $('.customselect')
 
-    var loadForm = function (e) {
-        let data_url = e.target.getAttribute("data-url")
-
+    var loadForm = function (e, url) {
         $.ajax({
-          url: data_url,
+          url: url,
           type: 'get',
           dataType: 'json',
           beforeSend: function () {
@@ -21,48 +19,63 @@ $(function () {
 
     var saveForm = function() {
         let form = $(`.${id}-${form_name}`);
-        let method = form.attr("method")
 
         $.ajax({
           url: form.attr("action"),
           data: form.serialize(),
-          type: method,
+          type: form.attr("method"),
           dataType: 'json',
           success: function (data) {
             if (data.form_is_valid) {
-              let select = $(`#${id}-div select`)
-              if (data.method === 'create') {
-                let data_url = select.children().first().attr('data-url')
-                let length = select.children().length + 1
-                data_url = data_url.replace(/\d+/, length)
-                select.append(`<option value=${length} data-url=${data_url}>${data.name}</option>`)
-              } else if(data.method === 'update'){
-                select.find(`option[value=${option_id}]`).text(data.name)
-              }
-              $("#modal-dynamic").modal("hide");
+                let select = $(`#${id}-div select`)
+
+                select.empty()
+
+                data[data['list_name']].forEach(e => {
+                   select.append(`<option value=${e.id} data-url=${e.data_url}>${e.name}</option>`)
+                })
+
+                $("#modal-dynamic").modal("hide");
             }
             else {
-              $("#modal-dynamic .modal-content").html(data.html_form);
+                $("#modal-dynamic .modal-content").html(data.html_form);
             }
           }
         });
         return false;
      };
 
-     $(".dynamic-create").click(e => {
-        id = e.target.id
-        form_name = 'create-form'
-        loadForm(e)
-     })
-     $("#modal-dynamic").on("submit", e => saveForm())
 
-     $('.customselect').dblclick(e => {
-        target = e.target
-        if(target.tagName === 'OPTION'){
-            option_id = target.value
+    $("#modal-dynamic").on("submit", e => saveForm())
+
+    $(".dynamic-create").click(e => {
+        id = e.target.id
+        url = e.target.getAttribute("data-url")
+        form_name = 'create-form'
+        loadForm(e, url)
+    })
+
+    customSelect.dblclick(e => {
+        if(e.target.tagName === 'OPTION'){
             id = $('.customselect').parents("div[id*='-div']").attr('id').split('-')[0]
+            url = e.target.getAttribute("data-url")
             form_name = 'update-form'
-            loadForm(e)
+            loadForm(e, url)
         }
     })
+
+    $('.customselect').keyup(e => {
+        let value = customSelect.val()
+        value = value[value.length - 1]
+        target = customSelect.find(`option[value=${value}]`)
+        if(e.keyCode == 8) {
+            if (customSelect.val()){
+                id = customSelect.parents("div[id*='-div']").attr('id').split('-')[0]
+                url = target.attr("delete-url")
+                form_name = 'delete-form'
+                loadForm(e, url)
+            }
+        }
+    })
+
 })
