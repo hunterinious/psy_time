@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -28,6 +30,7 @@ from .forms import (
     HelpForm,
 )
 from psychologists.models import (
+    PsychologistUserProfile,
     PsychologistStatus,
     PsychologistApproach,
     PsychologistSpecialization,
@@ -39,6 +42,10 @@ from psychologists.models import (
 )
 from locations.models import City, Country
 from core.models import Help
+from psychologists.serializers import (
+    PsyStatusDynamicSerializer
+)
+
 
 User = get_user_model()
 
@@ -252,6 +259,85 @@ class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
 
     def get_success_url(self):
         return reverse('psy-status-list')
+
+
+class PsyStatusDynamicOperationsView(AdminOnlyView, View):
+    model = PsychologistStatus
+    form_class = PsychologistStatusForm
+    template_name = None
+
+    def save_status_form(self, request, form):
+        data = dict()
+
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            data['statuses'] = PsyStatusDynamicSerializer(self.model.objects.get_statuses(), many=True).data
+            data['list_name'] = 'statuses'
+        else:
+            data['form_is_valid'] = False
+
+        context = {'form': form}
+        data['html_form'] = render_to_string(self.template_name, context, request=request)
+        return JsonResponse(data)
+
+    def manage_delete(self, request, obj):
+        data = dict()
+
+        if request.POST:
+            deleted = self.model.objects.delete_status_by_name(name=obj.name)
+
+            if deleted:
+                data['form_is_valid'] = True
+                data['statuses'] = PsyStatusDynamicSerializer(self.model.objects.get_statuses(), many=True).data
+                data['list_name'] = 'statuses'
+            else:
+                context = {'obj_name': 'status'}
+                data['html_form'] = render_to_string(self.forbidden_template_name, context, request=request)
+        else:
+            context = {'status': obj}
+            data['html_form'] = render_to_string(self.template_name, context, request=request)
+
+        return JsonResponse(data)
+
+
+class PsychologistStatusDynamicCreateView(PsyStatusDynamicOperationsView):
+    template_name = 'cadmin/psychologists/psy_status_create_dynamic.html'
+
+    def get(self, request):
+        form = self.form_class()
+        return self.save_status_form(request, form)
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        return self.save_status_form(request, form)
+
+
+class PsychologistStatusDynamicUpdateView(PsyStatusDynamicOperationsView):
+    template_name = 'cadmin/psychologists/psy_status_update_dynamic.html'
+
+    def get(self, request, pk):
+        status = get_object_or_404(PsychologistStatus, pk=pk)
+        form = self.form_class(instance=status)
+        return self.save_status_form(request, form)
+
+    def post(self, request, pk):
+        status = get_object_or_404(PsychologistStatus, pk=pk)
+        form = self.form_class(request.POST, instance=status)
+        return self.save_status_form(request, form)
+
+
+class PsychologistStatusDynamicDeleteView(PsyStatusDynamicOperationsView):
+    template_name = 'cadmin/psychologists/psy_status_delete_dynamic.html'
+    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+
+    def get(self, request, pk):
+        status = get_object_or_404(PsychologistStatus, pk=pk)
+        return self.manage_delete(request, status)
+
+    def post(self, request, pk):
+        status = get_object_or_404(PsychologistStatus, pk=pk)
+        return self.manage_delete(request, status)
 
 
 class PsychologistApproachListView(AdminOnlyView, ListView):

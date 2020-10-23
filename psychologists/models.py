@@ -11,6 +11,13 @@ class PsychologistStatusManager(models.Manager):
     def get_statuses(self):
         return self.all()
 
+    def delete_status_by_name(self, name):
+        status = self.get(name=name)
+        if status.profiles.count():
+            return False
+        status.delete()
+        return True
+
 
 class PsychologistStatus(models.Model):
     name = models.CharField(unique=True, max_length=50)

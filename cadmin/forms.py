@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 from psychologists.models import PsychologistUser
 from locations.models import Country, City
 from psychologists.models import (
@@ -21,6 +22,25 @@ User = get_user_model()
 
 class DateInput(forms.DateInput):
     input_type = 'date'
+
+
+class CustomSelect(forms.SelectMultiple):
+    def __init__(self, *args, **kwargs):
+        self.set = kwargs.pop('set')
+        super(CustomSelect, self).__init__(*args, **kwargs)
+
+    def create_option(
+            self, name, value, label, selected, index, subindex=None, attrs=None
+    ):
+        option = super().create_option(
+            name, value, label, selected, index, subindex, attrs
+        )
+        if value:
+            option['attrs'].update({
+                'data-url': reverse(f'psy-{self.set}-update-dynamic', kwargs={'pk': value}),
+                'delete-url': reverse(f'psy-{self.set}-delete-dynamic', kwargs={'pk': value})
+            })
+        return option
 
 
 class LoginForm(forms.Form):
@@ -58,7 +78,8 @@ class PsychologistProfileForm(forms.ModelForm):
         model = PsychologistUserProfile
         fields = '__all__'
         widgets = {
-            'birth_date': DateInput()
+            'birth_date': DateInput(),
+            'statuses': CustomSelect(set='status')
         }
 
 
@@ -114,8 +135,6 @@ class PsychologistLanguageForm(forms.ModelForm):
         fields = '__all__'
 
 
-import logging
-logger = logging.getLogger(__name__)
 class HelpForm(forms.ModelForm):
     class Meta:
         model = Help

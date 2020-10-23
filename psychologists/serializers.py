@@ -1,6 +1,7 @@
 from rest_framework.serializers import SerializerMethodField, ModelSerializer
 from locations.serializers import CitySerializer
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 from psychologists.models import (
     PsychologistUserProfile,
     PsychologistStatus,
@@ -23,6 +24,21 @@ class PsyStatusSerializer(ModelSerializer):
     class Meta:
         model = PsychologistStatus
         fields = ('name', )
+
+
+class PsyStatusDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistStatus
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-status-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-status-delete-dynamic', kwargs={'pk': obj.id})
 
 
 class PsyFormatSerializer(ModelSerializer):
