@@ -12,12 +12,12 @@ from psychologists.models import PsychologistSpecialization
 
 class PsychologistSpecializationListView(AdminOnlyView, ListView):
     model = PsychologistSpecialization
-    template_name = 'cadmin/psychologists/psy_specialization_list.html'
+    template_name = 'cadmin/psychologists/specializations/psy_specialization_list.html'
     context_object_name = 'specializations'
 
 
 class PsychologistSpecializationCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psychologists/psy_specialization_create.html'
+    template_name = 'cadmin/psychologists/specializations/psy_specialization_create.html'
     form_class = PsychologistSpecializationForm
 
     def get_success_url(self):
@@ -26,7 +26,7 @@ class PsychologistSpecializationCreateView(AdminOnlyView, CreateView):
 
 class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistSpecialization
-    template_name = 'cadmin/psychologists/psy_specialization_update.html'
+    template_name = 'cadmin/psychologists/specializations/psy_specialization_update.html'
     form_class = PsychologistSpecializationForm
     context_object_name = 'specialization'
 
@@ -36,7 +36,7 @@ class PsychologistSpecializationUpdateView(AdminOnlyView, UpdateView):
 
 class PsychologistSpecializationDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistSpecialization
-    template_name = 'cadmin/psychologists/psy_specialization_delete.html'
+    template_name = 'cadmin/psychologists/specializations/psy_specialization_delete.html'
     context_object_name = 'specialization'
 
     def get_success_url(self):

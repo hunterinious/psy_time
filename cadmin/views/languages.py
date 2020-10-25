@@ -12,12 +12,12 @@ from psychologists.models import PsychologistLanguage
 
 class PsychologistLanguageListView(AdminOnlyView, ListView):
     model = PsychologistLanguage
-    template_name = 'cadmin/psychologists/psy_language_list.html'
+    template_name = 'cadmin/psychologists/languages/psy_language_list.html'
     context_object_name = 'languages'
 
 
 class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psychologists/psy_language_create.html'
+    template_name = 'cadmin/psychologists/languages/psy_language_create.html'
     form_class = PsychologistLanguageForm
 
     def get_success_url(self):
@@ -26,7 +26,7 @@ class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
 
 class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistLanguage
-    template_name = 'cadmin/psychologists/psy_language_update.html'
+    template_name = 'cadmin/psychologists/languages/psy_language_update.html'
     form_class = PsychologistLanguageForm
     context_object_name = 'language'
 
@@ -36,7 +36,7 @@ class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
 
 class PsychologistLanguageDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistLanguage
-    template_name = 'cadmin/psychologists/psy_language_delete.html'
+    template_name = 'cadmin/psychologists/languages/psy_language_delete.html'
     context_object_name = 'language'
 
     def get_success_url(self):

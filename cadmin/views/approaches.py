@@ -12,12 +12,12 @@ from psychologists.models import PsychologistApproach
 
 class PsychologistApproachListView(AdminOnlyView, ListView):
     model = PsychologistApproach
-    template_name = 'cadmin/psychologists/psy_approach_list.html'
+    template_name = 'cadmin/psychologists/approaches/psy_approach_list.html'
     context_object_name = 'approaches'
 
 
 class PsychologistApproachCreateView(AdminOnlyView, CreateView):
-    template_name = 'cadmin/psychologists/psy_approach_create.html'
+    template_name = 'cadmin/psychologists/approaches/psy_approach_create.html'
     form_class = PsychologistApproachForm
 
     def get_success_url(self):
@@ -26,7 +26,7 @@ class PsychologistApproachCreateView(AdminOnlyView, CreateView):
 
 class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistApproach
-    template_name = 'cadmin/psychologists/psy_approach_update.html'
+    template_name = 'cadmin/psychologists/approaches/psy_approach_update.html'
     form_class = PsychologistApproachForm
     context_object_name = 'approach'
 
@@ -36,7 +36,7 @@ class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
 
 class PsychologistApproachDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistApproach
-    template_name = 'cadmin/psychologists/psy_approach_delete.html'
+    template_name = 'cadmin/psychologists/approaches/psy_approach_delete.html'
     context_object_name = 'approach'
 
     def get_success_url(self):
