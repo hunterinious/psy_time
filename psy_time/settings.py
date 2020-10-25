@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'admins',
     'locations',
     'django_bootstrap_breadcrumbs',
-    'bootstrap_modal_forms',
 ]
 
 REST_FRAMEWORK = {

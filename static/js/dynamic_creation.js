@@ -30,8 +30,8 @@ $(function () {
 
                 select.empty()
 
-                data[data['list_name']].forEach(e => {
-                   select.append(`<option value=${e.id} data-url=${e.data_url}>${e.name}</option>`)
+                data['data'].forEach(e => {
+                   select.append(`<option value=${e.id} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
                 })
 
                 $("#modal-dynamic").modal("hide");

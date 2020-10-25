@@ -82,14 +82,14 @@ class PsyProfileCriteriaView(APIView):
 
     def get(self, request):
         genders = PsychologistUserProfile.objects.get_genders()
-        statuses = PsychologistStatus.objects.get_statuses()
-        formats = PsychologistWorkFormat.objects.get_formats()
-        themes = PsychologistTheme.objects.get_themes()
-        approaches = PsychologistApproach.objects.get_approaches()
-        specializations = PsychologistSpecialization.objects.get_specializations()
-        educations = PsychologistEducation.objects.get_educations()
-        secondary_educations = PsychologistSecondaryEducation.objects.get_secondary_educations()
-        languages = PsychologistLanguage.objects.get_languages()
+        statuses = PsychologistStatus.objects.get_all()
+        formats = PsychologistWorkFormat.objects.get_all()
+        themes = PsychologistTheme.objects.get_all()
+        approaches = PsychologistApproach.objects.get_all()
+        specializations = PsychologistSpecialization.objects.get_all()
+        educations = PsychologistEducation.objects.get_all()
+        secondary_educations = PsychologistSecondaryEducation.objects.get_all()
+        languages = PsychologistLanguage.objects.get_all()
 
         data = dict()
 

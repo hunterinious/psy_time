@@ -261,19 +261,20 @@ class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
         return reverse('psy-status-list')
 
 
-class PsyStatusDynamicOperationsView(AdminOnlyView, View):
-    model = PsychologistStatus
-    form_class = PsychologistStatusForm
+class PsyDynamicOperationsView(AdminOnlyView, View):
+    model = None
+    form_class = None
+    serializer_class = None
     template_name = None
+    forbidden_template_name = None
 
-    def save_status_form(self, request, form):
+    def save_form(self, request, form):
         data = dict()
 
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            data['statuses'] = PsyStatusDynamicSerializer(self.model.objects.get_statuses(), many=True).data
-            data['list_name'] = 'statuses'
+            data['data'] = self.serializer_class(self.model.objects.get_all(), many=True).data
         else:
             data['form_is_valid'] = False
 
@@ -283,51 +284,58 @@ class PsyStatusDynamicOperationsView(AdminOnlyView, View):
 
     def manage_delete(self, request, obj):
         data = dict()
+        template = self.template_name
 
         if request.POST:
-            deleted = self.model.objects.delete_status_by_name(name=obj.name)
+            deleted = self.model.objects.delete_by_name(name=obj.name)
 
             if deleted:
                 data['form_is_valid'] = True
-                data['statuses'] = PsyStatusDynamicSerializer(self.model.objects.get_statuses(), many=True).data
-                data['list_name'] = 'statuses'
+                data['data'] = self.serializer_class(self.model.objects.get_all(), many=True).data
             else:
-                context = {'obj_name': 'status'}
-                data['html_form'] = render_to_string(self.forbidden_template_name, context, request=request)
-        else:
-            context = {'status': obj}
-            data['html_form'] = render_to_string(self.template_name, context, request=request)
+                template = self.forbidden_template_name
+
+        context = {'instance': obj}
+        data['html_form'] = render_to_string(template, context, request=request)
 
         return JsonResponse(data)
 
 
-class PsychologistStatusDynamicCreateView(PsyStatusDynamicOperationsView):
+class PsychologistStatusDynamicCreateView(PsyDynamicOperationsView):
+    model = PsychologistStatus
+    form_class = PsychologistStatusForm
+    serializer_class = PsyStatusDynamicSerializer
     template_name = 'cadmin/psychologists/psy_status_create_dynamic.html'
 
     def get(self, request):
         form = self.form_class()
-        return self.save_status_form(request, form)
+        return self.save_form(request, form)
 
     def post(self, request):
         form = self.form_class(request.POST)
-        return self.save_status_form(request, form)
+        return self.save_form(request, form)
 
 
-class PsychologistStatusDynamicUpdateView(PsyStatusDynamicOperationsView):
+class PsychologistStatusDynamicUpdateView(PsyDynamicOperationsView):
+    model = PsychologistStatus
+    form_class = PsychologistStatusForm
+    serializer_class = PsyStatusDynamicSerializer
     template_name = 'cadmin/psychologists/psy_status_update_dynamic.html'
 
     def get(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(instance=status)
-        return self.save_status_form(request, form)
+        return self.save_form(request, form)
 
     def post(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(request.POST, instance=status)
-        return self.save_status_form(request, form)
+        return self.save_form(request, form)
 
 
-class PsychologistStatusDynamicDeleteView(PsyStatusDynamicOperationsView):
+class PsychologistStatusDynamicDeleteView(PsyDynamicOperationsView):
+    model = PsychologistStatus
+    serializer_class = PsyStatusDynamicSerializer
     template_name = 'cadmin/psychologists/psy_status_delete_dynamic.html'
     forbidden_template_name = 'cadmin/psychologists/modal_403.html'
 

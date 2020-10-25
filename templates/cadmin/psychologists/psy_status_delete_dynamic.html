@@ -1,6 +1,6 @@
 {% load crispy_forms_tags %}
 
-<form method="post" action="{% url 'psy-status-delete-dynamic' status.id %}" class="statuses-delete-form">
+<form method="post" action="{% url 'psy-status-delete-dynamic' instance.id %}" class="statuses-delete-form">
   {% csrf_token %}
   <div class="modal-header">
     <h4 class="modal-title">Delete the status</h4>
@@ -9,7 +9,7 @@
     </button>
   </div>
   <div class="modal-body">
-    Do you want to delete the status "{{ status.name }}?"
+    Do you want to delete the status "{{ instance.name }}?"
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -8,10 +8,10 @@ from locations.models import City
 
 
 class PsychologistStatusManager(models.Manager):
-    def get_statuses(self):
+    def get_all(self):
         return self.all()
 
-    def delete_status_by_name(self, name):
+    def delete_by_name(self, name):
         status = self.get(name=name)
         if status.profiles.count():
             return False
@@ -29,7 +29,7 @@ class PsychologistStatus(models.Model):
 
 
 class PsychologistWorkFormatManager(models.Manager):
-    def get_formats(self):
+    def get_all(self):
         return self.all()
 
 
@@ -43,7 +43,7 @@ class PsychologistWorkFormat(models.Model):
 
 
 class PsychologistThemeManager(models.Manager):
-    def get_themes(self):
+    def get_all(self):
         return self.all()
 
 
@@ -57,7 +57,7 @@ class PsychologistTheme(models.Model):
 
 
 class PsychologistApproachManager(models.Manager):
-    def get_approaches(self):
+    def get_all(self):
         return self.all()
 
 
@@ -71,7 +71,7 @@ class PsychologistApproach(models.Model):
 
 
 class PsychologistSpecializationManager(models.Manager):
-    def get_specializations(self):
+    def get_all(self):
         return self.all()
 
 
@@ -85,7 +85,7 @@ class PsychologistSpecialization(models.Model):
 
 
 class PsychologistEducationManager(models.Manager):
-    def get_educations(self):
+    def get_all(self):
         return self.all()
 
 
@@ -99,7 +99,7 @@ class PsychologistEducation(models.Model):
 
 
 class PsychologistSecondaryEducationManager(models.Manager):
-    def get_secondary_educations(self):
+    def get_all(self):
         return self.all()
 
 
@@ -113,7 +113,7 @@ class PsychologistSecondaryEducation(models.Model):
 
 
 class PsychologistLanguageManager(models.Manager):
-    def get_languages(self):
+    def get_all(self):
         return self.all()
 
 
