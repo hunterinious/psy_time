@@ -1,7 +1,7 @@
 $(function () {
-    let id = undefined
-    let form_name = ''
-    let customSelect = $('.customselect')
+    var id = undefined
+    var form_name = ''
+    var customSelect = $('.customselect')
 
     var loadForm = function (e, url) {
         $.ajax({
@@ -18,7 +18,7 @@ $(function () {
     };
 
     var saveForm = function() {
-        let form = $(`.${id}-${form_name}`);
+        var form = $(`.${id}-${form_name}`);
         $.ajax({
           url: form.attr("action"),
           data: form.serialize(),
@@ -26,7 +26,7 @@ $(function () {
           dataType: 'json',
           success: function (data) {
             if (data.form_is_valid) {
-                let select = $(`#${id}-div select`)
+                var select = $(`#${id}-div select`)
 
                 select.empty()
 
@@ -64,7 +64,7 @@ $(function () {
     })
 
     $('.customselect').keyup(e => {
-        let value = customSelect.val()
+        var value = customSelect.val()
         value = value[value.length - 1]
         target = customSelect.find(`option[value=${value}]`)
         if(e.keyCode == 8) {
