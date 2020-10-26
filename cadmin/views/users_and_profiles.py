@@ -16,7 +16,7 @@ from cadmin.forms import (
 User = get_user_model()
 
 
-class PsychologistUserAndProfileCreateView(AdminOnlyView, CreateView):
+class PsyUserAndProfileCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/psy_user_profile_create.html'
     form_class = UserForm
     context_object_name = 'user'
@@ -25,7 +25,7 @@ class PsychologistUserAndProfileCreateView(AdminOnlyView, CreateView):
         return reverse('psy-user-profile-create')
 
     def get_context_data(self, **kwargs):
-        data = super(PsychologistUserAndProfileCreateView, self).get_context_data(**kwargs)
+        data = super(PsyUserAndProfileCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
             data['profile'] = PsychologistProfileFormSet(self.request.POST, self.request.FILES)
         else:
@@ -41,10 +41,10 @@ class PsychologistUserAndProfileCreateView(AdminOnlyView, CreateView):
             if profile.is_valid():
                 profile.instance = self.object
                 profile.save()
-        return super(PsychologistUserAndProfileCreateView, self).form_valid(form)
+        return super(PsyUserAndProfileCreateView, self).form_valid(form)
 
 
-class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
+class PsyUserAndProfileUpdateView(AdminOnlyView, UpdateView):
     template_name = 'cadmin/psychologists/psy_user_profile_update.html'
     form_class = UserForm
     context_object_name = 'user'
@@ -57,7 +57,7 @@ class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-user-profile-update', kwargs={'pk': self.kwargs['pk']})
 
     def get_context_data(self, **kwargs):
-        data = super(PsychologistUserAndProfileUpdateView, self).get_context_data(**kwargs)
+        data = super(PsyUserAndProfileUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
             data['profile'] = PsychologistProfileFormSet(self.request.POST, self.request.FILES, instance=self.object)
         else:
@@ -73,4 +73,4 @@ class PsychologistUserAndProfileUpdateView(AdminOnlyView, UpdateView):
             if profile.is_valid():
                 profile.instance = self.object
                 profile.save()
-        return super(PsychologistUserAndProfileUpdateView, self).form_valid(form)
+        return super(PsyUserAndProfileUpdateView, self).form_valid(form)

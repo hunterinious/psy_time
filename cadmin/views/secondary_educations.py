@@ -10,13 +10,13 @@ from cadmin.forms import PsychologistSecondaryEducationForm
 from psychologists.models import PsychologistSecondaryEducation
 
 
-class PsychologistSecondaryEducationListView(AdminOnlyView, ListView):
+class PsySecondaryEducationListView(AdminOnlyView, ListView):
     model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_list.html'
     context_object_name = 'secondary_educations'
 
 
-class PsychologistSecondaryEducationCreateView(AdminOnlyView, CreateView):
+class PsySecondaryEducationCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_create.html'
     form_class = PsychologistSecondaryEducationForm
 
@@ -24,7 +24,7 @@ class PsychologistSecondaryEducationCreateView(AdminOnlyView, CreateView):
         return reverse('psy-secondary-education-create')
 
 
-class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
+class PsySecondaryEducationUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_update.html'
     form_class = PsychologistSecondaryEducationForm
@@ -34,7 +34,7 @@ class PsychologistSecondaryEducationUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-secondary-education-update', kwargs={'pk': self.kwargs['pk']})
 
 
-class PsychologistSecondaryEducationDeleteView(AdminOnlyView, DeleteView):
+class PsySecondaryEducationDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_delete.html'
     context_object_name = 'secondary_education'

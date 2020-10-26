@@ -29,7 +29,7 @@ class UserDeleteView(AdminOnlyView, DeleteView):
         return reverse('user-delete')
 
 
-class PsychologistUserListView(AdminOnlyView, ListView):
+class PsyUserListView(AdminOnlyView, ListView):
     template_name = 'cadmin/psychologists/psy_list.html'
     context_object_name = 'psychologists'
 

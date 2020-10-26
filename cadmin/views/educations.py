@@ -10,13 +10,13 @@ from cadmin.forms import PsychologistEducationForm
 from psychologists.models import PsychologistEducation
 
 
-class PsychologistEducationListView(AdminOnlyView, ListView):
+class PsyEducationListView(AdminOnlyView, ListView):
     model = PsychologistEducation
     template_name = 'cadmin/psychologists/educations/psy_education_list.html'
     context_object_name = 'educations'
 
 
-class PsychologistEducationCreateView(AdminOnlyView, CreateView):
+class PsyEducationCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/educations/psy_education_create.html'
     form_class = PsychologistEducationForm
 
@@ -24,7 +24,7 @@ class PsychologistEducationCreateView(AdminOnlyView, CreateView):
         return reverse('psy-education-create')
 
 
-class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
+class PsyEducationUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistEducation
     template_name = 'cadmin/psychologists/educations/psy_education_update.html'
     form_class = PsychologistEducationForm
@@ -34,7 +34,7 @@ class PsychologistEducationUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-education-update', kwargs={'pk': self.kwargs['pk']})
 
 
-class PsychologistEducationDeleteView(AdminOnlyView, DeleteView):
+class PsyEducationDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistEducation
     template_name = 'cadmin/psychologists/educations/psy_education_delete.html'
     context_object_name = 'education'

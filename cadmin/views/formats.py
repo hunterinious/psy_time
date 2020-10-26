@@ -10,13 +10,13 @@ from cadmin.forms import PsychologistFormatForm
 from psychologists.models import PsychologistWorkFormat
 
 
-class PsychologistFormatListView(AdminOnlyView, ListView):
+class PsyFormatListView(AdminOnlyView, ListView):
     model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/formats/psy_format_list.html'
     context_object_name = 'formats'
 
 
-class PsychologistFormatCreateView(AdminOnlyView, CreateView):
+class PsyFormatCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/formats/psy_format_create.html'
     form_class = PsychologistFormatForm
 
@@ -24,7 +24,7 @@ class PsychologistFormatCreateView(AdminOnlyView, CreateView):
         return reverse('psy-format-create')
 
 
-class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
+class PsyFormatUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/formats/psy_format_update.html'
     form_class = PsychologistFormatForm
@@ -34,7 +34,7 @@ class PsychologistFormatUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-format-update', kwargs={'pk': self.kwargs['pk']})
 
 
-class PsychologistFormatDeleteView(AdminOnlyView, DeleteView):
+class PsyFormatDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistWorkFormat
     template_name = 'cadmin/psychologists/formats/psy_format_delete.html'
     context_object_name = 'format'

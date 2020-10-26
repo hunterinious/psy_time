@@ -15,13 +15,13 @@ from psychologists.models import PsychologistStatus
 from psychologists.serializers import PsyStatusDynamicSerializer
 
 
-class PsychologistStatusListView(AdminOnlyView, ListView):
+class PsyStatusListView(AdminOnlyView, ListView):
     model = PsychologistStatus
     template_name = 'cadmin/psychologists/statuses/psy_status_list.html'
     context_object_name = 'statuses'
 
 
-class PsychologistStatusCreateView(AdminOnlyView, CreateView):
+class PsyStatusCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/statuses/psy_status_create.html'
     form_class = PsychologistStatusForm
 
@@ -29,7 +29,7 @@ class PsychologistStatusCreateView(AdminOnlyView, CreateView):
         return reverse('psy-status-create')
 
 
-class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
+class PsyStatusUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistStatus
     template_name = 'cadmin/psychologists/statuses/psy_status_update.html'
     form_class = PsychologistStatusForm
@@ -39,7 +39,7 @@ class PsychologistStatusUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-status-update', kwargs={'pk': self.kwargs['pk']})
 
 
-class PsychologistStatusDeleteView(AdminOnlyView, DeleteView):
+class PsyStatusDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistStatus
     template_name = 'cadmin/psychologists/statuses/psy_status_delete.html'
     context_object_name = 'status'
@@ -88,7 +88,7 @@ class PsyDynamicOperationsView(AdminOnlyView, View):
         return JsonResponse(data)
 
 
-class PsychologistStatusDynamicCreateView(PsyDynamicOperationsView):
+class PsyStatusDynamicCreateView(PsyDynamicOperationsView):
     model = PsychologistStatus
     form_class = PsychologistStatusForm
     serializer_class = PsyStatusDynamicSerializer
@@ -103,7 +103,7 @@ class PsychologistStatusDynamicCreateView(PsyDynamicOperationsView):
         return self.save_form(request, form)
 
 
-class PsychologistStatusDynamicUpdateView(PsyDynamicOperationsView):
+class PsyStatusDynamicUpdateView(PsyDynamicOperationsView):
     model = PsychologistStatus
     form_class = PsychologistStatusForm
     serializer_class = PsyStatusDynamicSerializer
@@ -120,7 +120,7 @@ class PsychologistStatusDynamicUpdateView(PsyDynamicOperationsView):
         return self.save_form(request, form)
 
 
-class PsychologistStatusDynamicDeleteView(PsyDynamicOperationsView):
+class PsyStatusDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistStatus
     serializer_class = PsyStatusDynamicSerializer
     template_name = 'cadmin/psychologists/statuses/psy_status_delete_dynamic.html'

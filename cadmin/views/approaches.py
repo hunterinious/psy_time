@@ -10,13 +10,13 @@ from cadmin.forms import PsychologistApproachForm
 from psychologists.models import PsychologistApproach
 
 
-class PsychologistApproachListView(AdminOnlyView, ListView):
+class PsyApproachListView(AdminOnlyView, ListView):
     model = PsychologistApproach
     template_name = 'cadmin/psychologists/approaches/psy_approach_list.html'
     context_object_name = 'approaches'
 
 
-class PsychologistApproachCreateView(AdminOnlyView, CreateView):
+class PsyApproachCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/approaches/psy_approach_create.html'
     form_class = PsychologistApproachForm
 
@@ -24,7 +24,7 @@ class PsychologistApproachCreateView(AdminOnlyView, CreateView):
         return reverse('psy-approach-create')
 
 
-class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
+class PsyApproachUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistApproach
     template_name = 'cadmin/psychologists/approaches/psy_approach_update.html'
     form_class = PsychologistApproachForm
@@ -34,7 +34,7 @@ class PsychologistApproachUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-approach-update', kwargs={'pk': self.kwargs['pk']})
 
 
-class PsychologistApproachDeleteView(AdminOnlyView, DeleteView):
+class PsyApproachDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistApproach
     template_name = 'cadmin/psychologists/approaches/psy_approach_delete.html'
     context_object_name = 'approach'

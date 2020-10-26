@@ -10,13 +10,13 @@ from cadmin.forms import PsychologistThemeForm
 from psychologists.models import PsychologistTheme
 
 
-class PsychologistThemeListView(AdminOnlyView, ListView):
+class PsyThemeListView(AdminOnlyView, ListView):
     model = PsychologistTheme
     template_name = 'cadmin/psychologists/themes/psy_theme_list.html'
     context_object_name = 'themes'
 
 
-class PsychologistThemeCreateView(AdminOnlyView, CreateView):
+class PsyThemeCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/themes/psy_theme_create.html'
     form_class = PsychologistThemeForm
 
@@ -24,7 +24,7 @@ class PsychologistThemeCreateView(AdminOnlyView, CreateView):
         return reverse('psy-theme-create')
 
 
-class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
+class PsyThemeUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistTheme
     template_name = 'cadmin/psychologists/themes/psy_theme_update.html'
     form_class = PsychologistThemeForm
@@ -34,7 +34,7 @@ class PsychologistThemeUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-theme-update', kwargs={'pk': self.kwargs['pk']})
 
 
-class PsychologistThemeDeleteView(AdminOnlyView, DeleteView):
+class PsyThemeDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistTheme
     template_name = 'cadmin/psychologists/themes/psy_theme_delete.html'
     context_object_name = 'theme'

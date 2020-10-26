@@ -10,13 +10,13 @@ from cadmin.forms import PsychologistLanguageForm
 from psychologists.models import PsychologistLanguage
 
 
-class PsychologistLanguageListView(AdminOnlyView, ListView):
+class PsyLanguageListView(AdminOnlyView, ListView):
     model = PsychologistLanguage
     template_name = 'cadmin/psychologists/languages/psy_language_list.html'
     context_object_name = 'languages'
 
 
-class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
+class PsyLanguageCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/languages/psy_language_create.html'
     form_class = PsychologistLanguageForm
 
@@ -24,7 +24,7 @@ class PsychologistLanguageCreateView(AdminOnlyView, CreateView):
         return reverse('psy-language-create')
 
 
-class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
+class PsyLanguageUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistLanguage
     template_name = 'cadmin/psychologists/languages/psy_language_update.html'
     form_class = PsychologistLanguageForm
@@ -34,7 +34,7 @@ class PsychologistLanguageUpdateView(AdminOnlyView, UpdateView):
         return reverse('psy-language-update', kwargs={'pk': self.kwargs['pk']})
 
 
-class PsychologistLanguageDeleteView(AdminOnlyView, DeleteView):
+class PsyLanguageDeleteView(AdminOnlyView, DeleteView):
     model = PsychologistLanguage
     template_name = 'cadmin/psychologists/languages/psy_language_delete.html'
     context_object_name = 'language'
