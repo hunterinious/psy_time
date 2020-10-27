@@ -1,5 +1,6 @@
 {% load crispy_forms_tags %}
 
+
 <form method="post" action="{% url 'psy-status-update-dynamic' form.instance.pk %}" class="statuses-update-form">
   {% csrf_token %}
   <div class="modal-header">
@@ -9,11 +10,7 @@
     </button>
   </div>
   <div class="modal-body">
-<<<<<<< HEAD
       {{ form|crispy }}
-=======
-    You
->>>>>>> a79adb266e59ac48afd2397ec86ae0dfa46cd5ac
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
