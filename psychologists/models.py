@@ -32,6 +32,13 @@ class PsychologistWorkFormatManager(models.Manager):
     def get_all(self):
         return self.all()
 
+    def delete_by_name(self, name):
+        format = self.get(name=name)
+        if format.profiles.count():
+            return False
+        format.delete()
+        return True
+
 
 class PsychologistWorkFormat(models.Model):
     name = models.CharField(unique=True, max_length=50)
@@ -45,6 +52,13 @@ class PsychologistWorkFormat(models.Model):
 class PsychologistThemeManager(models.Manager):
     def get_all(self):
         return self.all()
+
+    def delete_by_name(self, name):
+        theme = self.get(name=name)
+        if theme.profiles.count():
+            return False
+        theme.delete()
+        return True
 
 
 class PsychologistTheme(models.Model):
@@ -60,6 +74,13 @@ class PsychologistApproachManager(models.Manager):
     def get_all(self):
         return self.all()
 
+    def delete_by_name(self, name):
+        approach = self.get(name=name)
+        if approach.profiles.count():
+            return False
+        approach.delete()
+        return True
+
 
 class PsychologistApproach(models.Model):
     name = models.CharField(unique=True, max_length=50)
@@ -73,6 +94,13 @@ class PsychologistApproach(models.Model):
 class PsychologistSpecializationManager(models.Manager):
     def get_all(self):
         return self.all()
+
+    def delete_by_name(self, name):
+        specialization = self.get(name=name)
+        if specialization.profiles.count():
+            return False
+        specialization.delete()
+        return True
 
 
 class PsychologistSpecialization(models.Model):
@@ -88,6 +116,13 @@ class PsychologistEducationManager(models.Manager):
     def get_all(self):
         return self.all()
 
+    def delete_by_name(self, name):
+        education = self.get(name=name)
+        if education.profiles.count():
+            return False
+        education.delete()
+        return True
+
 
 class PsychologistEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
@@ -102,6 +137,13 @@ class PsychologistSecondaryEducationManager(models.Manager):
     def get_all(self):
         return self.all()
 
+    def delete_by_name(self, name):
+        secondary_education = self.get(name=name)
+        if secondary_education.profiles.count():
+            return False
+        secondary_education.delete()
+        return True
+
 
 class PsychologistSecondaryEducation(models.Model):
     name = models.CharField(unique=True, max_length=50)
@@ -115,6 +157,13 @@ class PsychologistSecondaryEducation(models.Model):
 class PsychologistLanguageManager(models.Manager):
     def get_all(self):
         return self.all()
+
+    def delete_by_name(self, name):
+        language = self.get(name=name)
+        if language.profiles.count():
+            return False
+        language.delete()
+        return True
 
 
 class PsychologistLanguage(models.Model):

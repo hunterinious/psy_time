@@ -60,76 +60,89 @@ class CityForm(forms.ModelForm):
         fields = '__all__'
 
 
-class UserForm(forms.ModelForm):
+class UserCreateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'username', 'password', 'user_type')
 
     def save(self, commit=True):
-        user = super(UserForm, self).save(commit=False)
+        user = super(UserCreateForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password"])
         if commit:
             user.save()
         return user
 
 
-class PsychologistProfileForm(forms.ModelForm):
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'user_type')
+
+
+class PsyProfileForm(forms.ModelForm):
     class Meta:
         model = PsychologistUserProfile
         fields = '__all__'
         widgets = {
             'birth_date': DateInput(),
-            'statuses': CustomSelect(set='status')
+            'statuses': CustomSelect(set='status', attrs={'size': 10}),
+            'approaches': CustomSelect(set='approach', attrs={'size': 10}),
+            'specializations': CustomSelect(set='specialization', attrs={'size': 10}),
+            'formats': CustomSelect(set='format', attrs={'size': 10}),
+            'themes': CustomSelect(set='theme', attrs={'size': 10}),
+            'educations': CustomSelect(set='education', attrs={'size': 10}),
+            'secondary_educations': CustomSelect(set='secondary-education', attrs={'size': 10}),
+            'languages': CustomSelect(set='language', attrs={'size': 10})
         }
 
 
-PsychologistProfileFormSet = inlineformset_factory(PsychologistUser, PsychologistUserProfile,
-                                                   form=PsychologistProfileForm, can_delete=False)
+PsyProfileFormSet = inlineformset_factory(PsychologistUser, PsychologistUserProfile,
+                                          form=PsyProfileForm, can_delete=False)
 
 
-class PsychologistStatusForm(forms.ModelForm):
+class PsyStatusForm(forms.ModelForm):
     class Meta:
         model = PsychologistStatus
         fields = '__all__'
 
 
-class PsychologistApproachForm(forms.ModelForm):
+class PsyApproachForm(forms.ModelForm):
     class Meta:
         model = PsychologistApproach
         fields = '__all__'
 
 
-class PsychologistSpecializationForm(forms.ModelForm):
+class PsySpecializationForm(forms.ModelForm):
     class Meta:
         model = PsychologistSpecialization
         fields = '__all__'
 
 
-class PsychologistFormatForm(forms.ModelForm):
+class PsyFormatForm(forms.ModelForm):
     class Meta:
         model = PsychologistWorkFormat
         fields = '__all__'
 
 
-class PsychologistThemeForm(forms.ModelForm):
+class PsyThemeForm(forms.ModelForm):
     class Meta:
         model = PsychologistTheme
         fields = '__all__'
 
 
-class PsychologistEducationForm(forms.ModelForm):
+class PsyEducationForm(forms.ModelForm):
     class Meta:
         model = PsychologistEducation
         fields = '__all__'
 
 
-class PsychologistSecondaryEducationForm(forms.ModelForm):
+class PsySecondaryEducationForm(forms.ModelForm):
     class Meta:
         model = PsychologistSecondaryEducation
         fields = '__all__'
 
 
-class PsychologistLanguageForm(forms.ModelForm):
+class PsyLanguageForm(forms.ModelForm):
     class Meta:
         model = PsychologistLanguage
         fields = '__all__'

@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    path("select2/", include("django_select2.urls")),
     path('', RedirectView.as_view(url=reverse_lazy('admin-main'), permanent=False)),
     path('admin/', admin.site.urls),
     path('cadmin/', include('cadmin.urls')),

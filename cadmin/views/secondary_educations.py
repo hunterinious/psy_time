@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import (
     CreateView,
@@ -5,9 +6,10 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from .core import AdminOnlyView
-from cadmin.forms import PsychologistSecondaryEducationForm
+from .core import AdminOnlyView, PsyDynamicOperationsView
+from cadmin.forms import PsySecondaryEducationForm
 from psychologists.models import PsychologistSecondaryEducation
+from psychologists.serializers import PsySecondaryEducationDynamicSerializer
 
 
 class PsySecondaryEducationListView(AdminOnlyView, ListView):
@@ -18,7 +20,7 @@ class PsySecondaryEducationListView(AdminOnlyView, ListView):
 
 class PsySecondaryEducationCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_create.html'
-    form_class = PsychologistSecondaryEducationForm
+    form_class = PsySecondaryEducationForm
 
     def get_success_url(self):
         return reverse('psy-secondary-education-create')
@@ -27,7 +29,7 @@ class PsySecondaryEducationCreateView(AdminOnlyView, CreateView):
 class PsySecondaryEducationUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistSecondaryEducation
     template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_update.html'
-    form_class = PsychologistSecondaryEducationForm
+    form_class = PsySecondaryEducationForm
     context_object_name = 'secondary_education'
 
     def get_success_url(self):
@@ -41,3 +43,50 @@ class PsySecondaryEducationDeleteView(AdminOnlyView, DeleteView):
 
     def get_success_url(self):
         return reverse('psy-secondary-education-list')
+
+
+class PsySecondaryEducationDynamicCreateView(PsyDynamicOperationsView):
+    model = PsychologistSecondaryEducation
+    form_class = PsySecondaryEducationForm
+    serializer_class = PsySecondaryEducationDynamicSerializer
+    template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_create_dynamic.html'
+
+    def get(self, request):
+        form = self.form_class()
+        return self.save_form(request, form)
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        return self.save_form(request, form)
+
+
+class PsySecondaryEducationDynamicUpdateView(PsyDynamicOperationsView):
+    model = PsychologistSecondaryEducation
+    form_class = PsySecondaryEducationForm
+    serializer_class = PsySecondaryEducationDynamicSerializer
+    template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_update_dynamic.html'
+
+    def get(self, request, pk):
+        secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
+        form = self.form_class(instance=secondary_education)
+        return self.save_form(request, form)
+
+    def post(self, request, pk):
+        secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
+        form = self.form_class(request.POST, instance=secondary_education)
+        return self.save_form(request, form)
+
+
+class PsySecondaryEducationDynamicDeleteView(PsyDynamicOperationsView):
+    model = PsychologistSecondaryEducation
+    serializer_class = PsySecondaryEducationDynamicSerializer
+    template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_delete_dynamic.html'
+    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+
+    def get(self, request, pk):
+        secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
+        return self.manage_delete(request, secondary_education)
+
+    def post(self, request, pk):
+        secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
+        return self.manage_delete(request, secondary_education)

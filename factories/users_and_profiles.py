@@ -40,7 +40,7 @@ class RegularUserProfileFactory(factory.django.DjangoModelFactory):
         model = RegularUserProfile
     avatar = factory.Faker('name')
     city = factory.SubFactory(CityFactory)
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(UserFactory, user_type=User.UserTypes.REGULAR_USER)
 
 
 class PsychologistUserProfileFactory(factory.django.DjangoModelFactory):
@@ -53,7 +53,7 @@ class PsychologistUserProfileFactory(factory.django.DjangoModelFactory):
     price = randint(50, 100)
     duration = randint(50, 60)
     city = factory.SubFactory(CityFactory)
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(UserFactory, user_type=User.UserTypes.PSYCHOLOGIST_USER)
 
     @factory.lazy_attribute
     def gender(self):

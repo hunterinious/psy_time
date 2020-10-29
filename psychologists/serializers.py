@@ -47,10 +47,40 @@ class PsyFormatSerializer(ModelSerializer):
         fields = ('name',)
 
 
+class PsyFormatDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistWorkFormat
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-format-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-format-delete-dynamic', kwargs={'pk': obj.id})
+
+
 class PsyThemeSerializer(ModelSerializer):
     class Meta:
         model = PsychologistTheme
         fields = ('name',)
+
+
+class PsyThemeDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistTheme
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-theme-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-theme-delete-dynamic', kwargs={'pk': obj.id})
 
 
 class PsyApproachSerializer(ModelSerializer):
@@ -59,10 +89,40 @@ class PsyApproachSerializer(ModelSerializer):
         fields = ('name',)
 
 
+class PsyApproachDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistWorkFormat
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-approach-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-approach-delete-dynamic', kwargs={'pk': obj.id})
+
+
 class PsySpecializationSerializer(ModelSerializer):
     class Meta:
         model = PsychologistSpecialization
         fields = ('name',)
+
+
+class PsySpecializationDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistWorkFormat
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-specialization-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-specialization-delete-dynamic', kwargs={'pk': obj.id})
 
 
 class PsyEducationSerializer(ModelSerializer):
@@ -71,16 +131,61 @@ class PsyEducationSerializer(ModelSerializer):
         fields = ('name',)
 
 
+class PsyEducationDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistWorkFormat
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-education-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-education-delete-dynamic', kwargs={'pk': obj.id})
+
+
 class PsySecondaryEducationSerializer(ModelSerializer):
     class Meta:
         model = PsychologistSecondaryEducation
         fields = ('name',)
 
 
+class PsySecondaryEducationDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistWorkFormat
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-secondary-education-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-secondary-education-delete-dynamic', kwargs={'pk': obj.id})
+
+
 class PsyLanguageSerializer(ModelSerializer):
     class Meta:
         model = PsychologistLanguage
         fields = ('name',)
+
+
+class PsyLanguageDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+    delete_url = SerializerMethodField()
+
+    class Meta:
+        model = PsychologistWorkFormat
+        fields = ('id', 'name', 'data_url', 'delete_url')
+
+    def get_data_url(self, obj):
+        return reverse('psy-language-update-dynamic', kwargs={'pk': obj.id})
+
+    def get_delete_url(self, obj):
+        return reverse('psy-language-delete-dynamic', kwargs={'pk': obj.id})
 
 
 class PsyReviewSerializer(ModelSerializer):

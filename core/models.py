@@ -14,7 +14,6 @@ class Help(models.Model):
         CLOSED = 'C', _('Closed')
 
     objects = HelpManager()
-
     email = models.EmailField(max_length=255)
     username = models.CharField(max_length=255)
     country = models.CharField(max_length=255)

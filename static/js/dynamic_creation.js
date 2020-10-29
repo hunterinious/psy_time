@@ -1,7 +1,13 @@
 $(function () {
+
+    var customSelect = $('.customselect')
+    customSelect.select2()
+
     var id = undefined
     var form_name = ''
-    var customSelect = $('.customselect')
+    var select2 = $('.select2-selection')
+    var target = undefined
+
 
     var loadForm = function (e, url) {
         $.ajax({
@@ -26,14 +32,21 @@ $(function () {
           dataType: 'json',
           success: function (data) {
             if (data.form_is_valid) {
+                var data = data['data']
+
                 var select = $(`#${id}-div select`)
+                var select_val = select.val()
 
-                select.empty()
+                target.children('span')[0].nextSibling.textContent = data[data.length -1].name
 
-                data['data'].forEach(e => {
-                   select.append(`<option value=${e.id} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
+                data.forEach(e => {
+                   if(select_val.includes(e.id)){
+                        select.append(`<option selected value=${e.name} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
+                    }
+                   else{
+                        select.append(`<option value=${e.name} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
+                   }
                 })
-
                 $("#modal-dynamic").modal("hide");
             }
             else {
@@ -45,7 +58,7 @@ $(function () {
      };
 
 
-    $("#modal-dynamic").on("submit", e => saveForm())
+    $("#modal-dynamic").on("submit", e=> saveForm())
 
     $(".dynamic-create").click(e => {
         id = e.target.id
@@ -54,27 +67,34 @@ $(function () {
         loadForm(e, url)
     })
 
-    customSelect.dblclick(e => {
-        if(e.target.tagName === 'OPTION'){
-            id = $('.customselect').parents("div[id*='-div']").attr('id').split('-')[0]
-            url = e.target.getAttribute("data-url")
+
+    select2.dblclick(e => {
+        if(e.target.tagName === 'LI'){
+            var closestElem = $(e.currentTarget).closest("div[id*='-div']")
+            id = closestElem.attr('id').split('-')[0]
+            target = $(event.target)
+            var name = target.text().replace('×', '')
+            var option = closestElem.find(`select option:contains(${name})`)
+            url = option.attr('data-url')
+//            url = e.target.getAttribute("data-url")
             form_name = 'update-form'
             loadForm(e, url)
         }
     })
 
-    $('.customselect').keyup(e => {
-        var value = customSelect.val()
-        value = value[value.length - 1]
-        target = customSelect.find(`option[value=${value}]`)
-        if(e.keyCode == 8) {
-            if (customSelect.val()){
-                id = customSelect.parents("div[id*='-div']").attr('id').split('-')[0]
-                url = target.attr("delete-url")
-                form_name = 'delete-form'
-                loadForm(e, url)
-            }
-        }
-    })
+//    customSelect.keydown(e => {
+//        var currentTarget = $(e.currentTarget)
+//        var target = currentTarget.find(`option[value=${option_id}]`)
+//        if(e.keyCode == 8) {
+//            if (target.val()){
+//                id = currentTarget.closest("div[id*='-div']").attr('id').split('-')[0]
+//                url = target.attr("delete-url")
+//                form_name = 'delete-form'
+//                loadForm(e, url)
+//            }else{
+//                alert("You need to reselect option, which you want to delete")
+//            }
+//        }
+//    })
 
 })

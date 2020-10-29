@@ -1,5 +1,7 @@
 {% extends "cadmin/psychologists/psy_list.html" %}
 
+{% load static %}
+
 {% load crispy_forms_tags %}
 
 {% load django_bootstrap_breadcrumbs %}
@@ -9,6 +11,15 @@
         {% breadcrumb "Create psychologist" "psy-user-profile-create" %}
 {% endblock %}
 
+
+{% block extra_js %}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="{% static 'js/dynamic_creation.js' %}"></script>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -20,9 +31,12 @@
             Create psychologist user
         </div>
         <div class="card-body">
-            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
                  <div class="form-group">
                      {{ form.email|as_crispy_field }}
+                 </div>
+                 <div class="form-group">
+                     {{ form.password|as_crispy_field }}
                  </div>
                  <div class="form-group">
                      {{ form.username|as_crispy_field }}
@@ -35,10 +49,22 @@
 
                 {% for form in profile.forms %}
                     <div class="form-group">
+                         {{ form.gender|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                         {{ form.city|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
                         {{ form.avatar|as_crispy_field }}
                     </div>
                     <div class="form-group">
                         {{ form.birth_date|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                         {{ form.price|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                         {{ form.duration|as_crispy_field }}
                     </div>
                     <div class="form-group">
                         {{ form.about|as_crispy_field }}
@@ -49,7 +75,7 @@
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group" id="statuses-div">
+                            <div class="form-group" id="statuses-div">
                                 {{ form.statuses|as_crispy_field }}
                             </div>
                         </div>
@@ -63,104 +89,108 @@
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group">
+                            <div class="form-group" id="formats-div">
                                 {{ form.formats|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-1 align-self-center">
-                            <a href="{% url 'psy-format-create'%}" class="non-color-link">
-                                <i class="fa fa-plus-square"></i>
+                            <a class="non-color-link">
+                                <i id="formats" class="fa fa-plus-square dynamic-create"
+                                   data-url="{% url 'psy-format-create-dynamic' %}"></i>
                             </a>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group">
+                             <div class="form-group" id="themes-div">
                                 {{ form.themes|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-1 align-self-center">
-                            <a href="{% url 'psy-theme-create'%}" class="non-color-link">
-                                <i class="fa fa-plus-square"></i>
+                            <a class="non-color-link">
+                                <i id="theme" class="fa fa-plus-square dynamic-create"
+                                   data-url="{% url 'psy-theme-create-dynamic' %}"></i>
                             </a>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group">
+                             <div class="form-group" id="approaches-div">
                                 {{ form.approaches|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-1 align-self-center">
-                            <a href="{% url 'psy-approach-create'%}" class="non-color-link">
-                                <i class="fa fa-plus-square"></i>
+                            <a class="non-color-link">
+                                <i id="approaches" class="fa fa-plus-square dynamic-create"
+                                   data-url="{% url 'psy-approach-create-dynamic' %}"></i>
                             </a>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group">
+                             <div class="form-group" id="specializations-div">
                                 {{ form.specializations|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-1 align-self-center">
-                            <a href="{% url 'psy-specialization-create'%}" class="non-color-link">
-                                <i class="fa fa-plus-square"></i>
+                            <a class="non-color-link">
+                                <i id="specializations" class="fa fa-plus-square dynamic-create"
+                                   data-url="{% url 'psy-specialization-create-dynamic' %}"></i>
                             </a>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group">
+                             <div class="form-group" id="educations-div">
                                 {{ form.educations|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-1 align-self-center">
-                            <a href="{% url 'psy-education-create'%}" class="non-color-link">
-                                <i class="fa fa-plus-square"></i>
+                            <a class="non-color-link">
+                                <i id="educations" class="fa fa-plus-square dynamic-create"
+                                   data-url="{% url 'psy-education-create-dynamic' %}"></i>
                             </a>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group">
+                             <div class="form-group" id="secondary-educations-div">
                                 {{ form.secondary_educations|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-1 align-self-center">
-                            <a href="{% url 'psy-secondary-education-create'%}" class="non-color-link">
-                                <i class="fa fa-plus-square"></i>
+                            <a class="non-color-link">
+                                <i id="secondary-educations" class="fa fa-plus-square dynamic-create"
+                                   data-url="{% url 'psy-secondary-education-create-dynamic' %}"></i>
                             </a>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-11">
-                             <div class="form-group">
+                             <div class="form-group" id="languages-div">
                                 {{ form.languages|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-1 align-self-center">
-                            <a href="{% url 'psy-language-create'%}" class="non-color-link">
-                                <i class="fa fa-plus-square"></i>
+                            <a class="non-color-link">
+                                <i id="languages" class="fa fa-plus-square dynamic-create"
+                                   data-url="{% url 'psy-language-create-dynamic' %}"></i>
                             </a>
                         </div>
                     </div>
                 {% endfor %}
                 <button id="main-submit" type="submit" class="btn btn-primary">Save</button>
             </form>
-          <div class="modal fade" id="modal-dynamic">
-      <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
-      </div>
-    </div>
         </div>
     </div>
 </div>
+
+{% include 'cadmin/psychologists/modal_partial.html' %}
+
 {% endblock %}

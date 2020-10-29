@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import (
     CreateView,
@@ -5,9 +6,10 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from .core import AdminOnlyView
-from cadmin.forms import PsychologistEducationForm
+from .core import AdminOnlyView, PsyDynamicOperationsView
+from cadmin.forms import PsyEducationForm
 from psychologists.models import PsychologistEducation
+from psychologists.serializers import PsyEducationDynamicSerializer
 
 
 class PsyEducationListView(AdminOnlyView, ListView):
@@ -18,7 +20,7 @@ class PsyEducationListView(AdminOnlyView, ListView):
 
 class PsyEducationCreateView(AdminOnlyView, CreateView):
     template_name = 'cadmin/psychologists/educations/psy_education_create.html'
-    form_class = PsychologistEducationForm
+    form_class = PsyEducationForm
 
     def get_success_url(self):
         return reverse('psy-education-create')
@@ -27,7 +29,7 @@ class PsyEducationCreateView(AdminOnlyView, CreateView):
 class PsyEducationUpdateView(AdminOnlyView, UpdateView):
     model = PsychologistEducation
     template_name = 'cadmin/psychologists/educations/psy_education_update.html'
-    form_class = PsychologistEducationForm
+    form_class = PsyEducationForm
     context_object_name = 'education'
 
     def get_success_url(self):
@@ -41,3 +43,50 @@ class PsyEducationDeleteView(AdminOnlyView, DeleteView):
 
     def get_success_url(self):
         return reverse('psy-education-list')
+
+
+class PsyEducationDynamicCreateView(PsyDynamicOperationsView):
+    model = PsychologistEducation
+    form_class = PsyEducationForm
+    serializer_class = PsyEducationDynamicSerializer
+    template_name = 'cadmin/psychologists/educations/psy_education_create_dynamic.html'
+
+    def get(self, request):
+        form = self.form_class()
+        return self.save_form(request, form)
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        return self.save_form(request, form)
+
+
+class PsyEducationDynamicUpdateView(PsyDynamicOperationsView):
+    model = PsychologistEducation
+    form_class = PsyEducationForm
+    serializer_class = PsyEducationDynamicSerializer
+    template_name = 'cadmin/psychologists/educations/psy_education_update_dynamic.html'
+
+    def get(self, request, pk):
+        education = get_object_or_404(PsychologistEducation, pk=pk)
+        form = self.form_class(instance=education)
+        return self.save_form(request, form)
+
+    def post(self, request, pk):
+        education = get_object_or_404(PsychologistEducation, pk=pk)
+        form = self.form_class(request.POST, instance=education)
+        return self.save_form(request, form)
+
+
+class PsyEducationDynamicDeleteView(PsyDynamicOperationsView):
+    model = PsychologistEducation
+    serializer_class = PsyEducationDynamicSerializer
+    template_name = 'cadmin/psychologists/educations/psy_education_delete_dynamic.html'
+    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+
+    def get(self, request, pk):
+        education = get_object_or_404(PsychologistEducation, pk=pk)
+        return self.manage_delete(request, education)
+
+    def post(self, request, pk):
+        education = get_object_or_404(PsychologistEducation, pk=pk)
+        return self.manage_delete(request, education)
