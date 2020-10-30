@@ -43,8 +43,7 @@ class PsyUserAndProfileCreateView(AdminOnlyView, CreateView):
                 profile.save()
         return super(PsyUserAndProfileCreateView, self).form_valid(form)
 
-import logging
-loger = logging.getLogger(__name__)
+
 class PsyUserAndProfileUpdateView(UpdateView):
     template_name = 'cadmin/psychologists/psy_user_profile_update.html'
     form_class = UserUpdateForm
@@ -73,5 +72,4 @@ class PsyUserAndProfileUpdateView(UpdateView):
             if profile.is_valid():
                 profile.instance = self.object
                 profile.save()
-            loger.warning(profile.errors)
         return super(PsyUserAndProfileUpdateView, self).form_valid(form)

@@ -5,11 +5,11 @@ $(function () {
 
     var id = undefined
     var form_name = ''
-    var select2 = $('.select2-selection')
+    var modalChoice = $('#modal-choice')
+    var select2 = $('.select2-selection__rendered')
     var target = undefined
 
-
-    var loadForm = function (e, url) {
+    var load = function (e, url) {
         $.ajax({
           url: url,
           type: 'get',
@@ -21,9 +21,17 @@ $(function () {
             $("#modal-dynamic .modal-content").html(data.html_form);
           }
         });
+    }
+
+    var loadChoice = function (e, url) {
+        load(e, url)
+    }
+
+    var loadForm = function (e, url) {
+        load(e, url)
     };
 
-    var saveForm = function() {
+    var saveForm = () => {
         var form = $(`.${id}-${form_name}`);
         $.ajax({
           url: form.attr("action"),
@@ -37,17 +45,27 @@ $(function () {
                 var select = $(`#${id}-div select`)
                 var select_val = select.val()
 
-                target.children('span')[0].nextSibling.textContent = data[data.length -1].name
+                select.empty()
+
+                if(form_name == 'update-form'){
+                    target.children('span')[0].nextSibling.textContent = data.name
+                }
+
+                if(form_name == 'delete-form'){
+                    target.remove()
+                }
 
                 data.forEach(e => {
-                   if(select_val.includes(e.id)){
-                        select.append(`<option selected value=${e.name} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
+                   if(select_val.includes(e.id.toString())){
+
+                        select.append(`<option selected value=${e.id} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
                     }
                    else{
-                        select.append(`<option value=${e.name} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
+                        select.append(`<option value=${e.id} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
                    }
                 })
                 $("#modal-dynamic").modal("hide");
+
             }
             else {
                 $("#modal-dynamic .modal-content").html(data.html_form);
@@ -58,7 +76,7 @@ $(function () {
      };
 
 
-    $("#modal-dynamic").on("submit", e=> saveForm())
+    $("#modal-dynamic").on("submit", e => saveForm())
 
     $(".dynamic-create").click(e => {
         id = e.target.id
@@ -69,32 +87,27 @@ $(function () {
 
 
     select2.dblclick(e => {
+        var option = undefined
         if(e.target.tagName === 'LI'){
             var closestElem = $(e.currentTarget).closest("div[id*='-div']")
             id = closestElem.attr('id').split('-')[0]
-            target = $(event.target)
+            target = $(e.target)
             var name = target.text().replace('×', '')
-            var option = closestElem.find(`select option:contains(${name})`)
-            url = option.attr('data-url')
-//            url = e.target.getAttribute("data-url")
-            form_name = 'update-form'
-            loadForm(e, url)
+            option = closestElem.find(`select option:contains(${name})`)
+            var url = modalChoice.attr('get-url')
+            loadChoice(e, url)
+
+            $(document).unbind('click')
+
+            $(document).on('click', '#update-selected', function(e) {
+                form_name = 'update-form'
+                loadForm(e, option.attr('data-url'))
+            });
+
+            $(document).on('click', '#delete-selected', function(e) {
+                form_name = 'delete-form'
+                loadForm(e, option.attr('delete-url'))
+            });
         }
     })
-
-//    customSelect.keydown(e => {
-//        var currentTarget = $(e.currentTarget)
-//        var target = currentTarget.find(`option[value=${option_id}]`)
-//        if(e.keyCode == 8) {
-//            if (target.val()){
-//                id = currentTarget.closest("div[id*='-div']").attr('id').split('-')[0]
-//                url = target.attr("delete-url")
-//                form_name = 'delete-form'
-//                loadForm(e, url)
-//            }else{
-//                alert("You need to reselect option, which you want to delete")
-//            }
-//        }
-//    })
-
 })

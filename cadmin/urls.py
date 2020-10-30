@@ -18,6 +18,7 @@ from .views import (
 
 urlpatterns = [
     path("", core.MainAdminView.as_view(), name="admin-main"),
+    path("get-choice", core.ModalChoiceView.as_view(), name="modal-choice"),
 
     path("login", LoginView.as_view(), name="login"),
     path("logout", LogoutView.as_view(), name="logout"),

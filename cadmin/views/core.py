@@ -19,7 +19,7 @@ class MainAdminView(AdminOnlyView, TemplateView):
     template_name = 'cadmin/index.html'
 
 
-class PsyDynamicOperationsView(AdminOnlyView, View):
+class PsyDynamicOperationsView(AdminOnlyView):
     model = None
     form_class = None
     serializer_class = None
@@ -56,4 +56,13 @@ class PsyDynamicOperationsView(AdminOnlyView, View):
         context = {'instance': obj}
         data['html_form'] = render_to_string(template, context, request=request)
 
+        return JsonResponse(data)
+
+
+class ModalChoiceView(AdminOnlyView):
+    template_name = 'cadmin/psychologists/modal_choice.html'
+
+    def get(self, request):
+        data = dict()
+        data['html_form'] = render_to_string(self.template_name, request=request)
         return JsonResponse(data)
