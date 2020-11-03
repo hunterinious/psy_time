@@ -97,11 +97,13 @@ $(function () {
             id = closestElem.attr('id').split('-')[0]
             target = $(e.target)
 
-            var name = target.text()
             if(!singleSelect){
+                var name = target.text()
                 name = name.replace('×', '')
+                option = closestElem.find(`select option:contains(${name})`)
+            } else{
+                option = closestElem.find(`select option:selected`)
             }
-            option = closestElem.find(`select option:contains(${name})`)
             var url = modalChoice.attr('get-url')
 
             loadChoice(e, url)

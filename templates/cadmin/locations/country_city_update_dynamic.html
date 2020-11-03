@@ -1,6 +1,6 @@
 {% load crispy_forms_tags %}
 
-<form method="post" action="{% url 'country-city-update-dynamic' form.instance.pk %}" class="city-update-form">
+<form method="post" action="{% url 'country-city-update-dynamic' city_form.instance.pk %}" class="city-update-form">
   {% csrf_token %}
   <div class="modal-header">
     <h4 class="modal-title">Update the location</h4>
@@ -9,18 +9,14 @@
     </button>
   </div>
   <div class="modal-body">
+      <div>
+        {{ country_form|crispy }}
+      </div>
 
-      {{ form|crispy }}
+      <div>
+        {{ city_form|crispy }}
+      </div>
 
-      {{ city.management_form }}
-
-      {% for form in city.forms %}
-          {% for hidden in form.hidden_fields %}
-              {{ hidden }}
-          {% endfor %}
-
-          {{ form|crispy }}
-      {% endfor %}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

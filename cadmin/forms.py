@@ -73,14 +73,8 @@ class CountryForm(forms.ModelForm):
         model = Country
         fields = '__all__'
 
-
-class CountryDynamicForm(forms.ModelForm):
-    class Meta:
-        model = Country
-        fields = '__all__'
-
     def __init__(self, *args, **kwargs):
-        super(CountryDynamicForm, self).__init__(*args, **kwargs)
+        super(CountryForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = "Country name"
 
 
