@@ -1,4 +1,5 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import SerializerMethodField, ModelSerializer
+from django.urls import reverse
 from .models import City, Country
 
 
@@ -14,3 +15,14 @@ class CitySerializer(ModelSerializer):
     class Meta:
         model = City
         fields = ('name', 'country', )
+
+
+class CityDynamicSerializer(ModelSerializer):
+    data_url = SerializerMethodField()
+
+    class Meta:
+        model = City
+        fields = ('id', 'name', 'data_url')
+
+    def get_data_url(self, obj):
+        return reverse('country-city-update-dynamic', kwargs={'pk': obj.id})

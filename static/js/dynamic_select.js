@@ -1,7 +1,9 @@
 $(function () {
 
-    var customSelect = $('.customselect')
-    customSelect.select2()
+    var m2mSelect = $('.custommultipleselect')
+    m2mSelect.select2()
+    var citySelect = $('.django-select2')
+    citySelect.select2()
 
     var id = undefined
     var form_name = ''
@@ -33,6 +35,7 @@ $(function () {
 
     var saveForm = () => {
         var form = $(`.${id}-${form_name}`);
+        console.log(form.attr('action'))
         $.ajax({
           url: form.attr("action"),
           data: form.serialize(),
@@ -44,10 +47,9 @@ $(function () {
 
                 var select = $(`#${id}-div select`)
                 var select_val = select.val()
-
                 select.empty()
 
-                if(form_name == 'update-form'){
+                if(form_name == 'update-form' && target.tagName == "LI"){
                     target.children('span')[0].nextSibling.textContent = data.name
                 }
 
@@ -57,7 +59,6 @@ $(function () {
 
                 data.forEach(e => {
                    if(select_val.includes(e.id.toString())){
-
                         select.append(`<option selected value=${e.id} data-url=${e.data_url} delete-url=${e.delete_url}>${e.name}</option>`)
                     }
                    else{
@@ -88,13 +89,21 @@ $(function () {
 
     select2.dblclick(e => {
         var option = undefined
-        if(e.target.tagName === 'LI'){
+        var cTarget = e.target
+        var parentClass = $(cTarget).parent().attr('class')
+        var singleSelect = (cTarget.tagName === 'SPAN' && parentClass.includes('select2-selection--single'))
+        if(cTarget.tagName === 'LI' || singleSelect){
             var closestElem = $(e.currentTarget).closest("div[id*='-div']")
             id = closestElem.attr('id').split('-')[0]
             target = $(e.target)
-            var name = target.text().replace('×', '')
+
+            var name = target.text()
+            if(!singleSelect){
+                name = name.replace('×', '')
+            }
             option = closestElem.find(`select option:contains(${name})`)
             var url = modalChoice.attr('get-url')
+
             loadChoice(e, url)
 
             $(document).unbind('click')

@@ -3,6 +3,13 @@ from django.db.models import Count, Q
 
 
 class CountryManager(models.Manager):
+    def safe_get_by_name(self, name):
+        try:
+            country = Country.objects.get(name=name)
+        except self.model.DoesNotExist:
+            country = None
+        return country
+
     def get_countries(self):
         return self.all()
 
@@ -17,7 +24,7 @@ class Country(models.Model):
 
 
 class CityManager(models.Manager):
-    def get_cities(self):
+    def get_all(self):
         return self.all()
 
     def get_cities_not_related_to_profiles(self):

@@ -16,6 +16,7 @@ from psychologists.models import (
     PsychologistLanguage,
 )
 from core.models import Help
+from django_select2 import forms as s2forms
 
 User = get_user_model()
 
@@ -24,10 +25,10 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-class CustomSelect(forms.SelectMultiple):
+class CustomMultipleSelect(forms.SelectMultiple):
     def __init__(self, *args, **kwargs):
         self.set = kwargs.pop('set')
-        super(CustomSelect, self).__init__(*args, **kwargs)
+        super(CustomMultipleSelect, self).__init__(*args, **kwargs)
 
     def create_option(
             self, name, value, label, selected, index, subindex=None, attrs=None
@@ -43,6 +44,25 @@ class CustomSelect(forms.SelectMultiple):
         return option
 
 
+class CustomSelect(s2forms.Select2Widget):
+    def __init__(self, *args, **kwargs):
+        self.set = kwargs.pop('set')
+        super(CustomSelect, self).__init__(*args, **kwargs)
+
+    def create_option(
+            self, name, value, label, selected, index, subindex=None, attrs=None
+    ):
+        option = super().create_option(
+            name, value, label, selected, index, subindex, attrs
+        )
+        if value:
+            option['attrs'].update({
+                'data-url': reverse(f'{self.set}-update-dynamic', kwargs={'pk': value}),
+                'delete-url': reverse(f'{self.set}-delete-dynamic', kwargs={'pk': value})
+            })
+        return option
+
+
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput())
@@ -54,10 +74,28 @@ class CountryForm(forms.ModelForm):
         fields = '__all__'
 
 
+class CountryDynamicForm(forms.ModelForm):
+    class Meta:
+        model = Country
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(CountryDynamicForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = "Country name"
+
+
 class CityForm(forms.ModelForm):
     class Meta:
         model = City
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(CityForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = "City name"
+
+
+CityFormSet = inlineformset_factory(Country, City,
+                                    form=CityForm, can_delete=False, max_num=1)
 
 
 class UserCreateForm(forms.ModelForm):
@@ -85,14 +123,15 @@ class PsyProfileForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'birth_date': DateInput(),
-            'statuses': CustomSelect(set='status', attrs={'size': 10}),
-            'approaches': CustomSelect(set='approach', attrs={'size': 10}),
-            'specializations': CustomSelect(set='specialization', attrs={'size': 10}),
-            'formats': CustomSelect(set='format', attrs={'size': 10}),
-            'themes': CustomSelect(set='theme', attrs={'size': 10}),
-            'educations': CustomSelect(set='education', attrs={'size': 10}),
-            'secondary_educations': CustomSelect(set='secondary-education', attrs={'size': 10}),
-            'languages': CustomSelect(set='language', attrs={'size': 10})
+            'statuses': CustomMultipleSelect(set='status', attrs={'size': 10}),
+            'approaches': CustomMultipleSelect(set='approach', attrs={'size': 10}),
+            'specializations': CustomMultipleSelect(set='specialization', attrs={'size': 10}),
+            'formats': CustomMultipleSelect(set='format', attrs={'size': 10}),
+            'themes': CustomMultipleSelect(set='theme', attrs={'size': 10}),
+            'educations': CustomMultipleSelect(set='education', attrs={'size': 10}),
+            'secondary_educations': CustomMultipleSelect(set='secondary-education', attrs={'size': 10}),
+            'languages': CustomMultipleSelect(set='language', attrs={'size': 10}),
+            'city': CustomSelect(set='country-city')
         }
 
 

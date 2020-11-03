@@ -169,6 +169,13 @@ urlpatterns = [
     path("psychologists/languages/<int:pk>/delete-dynamic", languages.PsyLanguageDynamicDeleteView.as_view(),
          name='psy-language-delete-dynamic'),
 
+    path("countries-cities/create-dynamic", locations.CountryAndCityCreateView.as_view(),
+         name='country-city-create-dynamic'),
+    path("countries-cities/<int:pk>/update-dynamic", locations.CountryAndCityUpdateView.as_view(),
+         name='country-city-update-dynamic'),
+    path("countries-cities/<int:pk>/delete-dynamic", locations.CountryAndCityDeleteView.as_view(),
+         name='country-city-delete-dynamic'),
+
     path("countries", locations.CountryListView.as_view(), name='country-list'),
     path("countries/create", locations.CountryCreateView.as_view(), name='country-create'),
     path("countries/<int:pk>/update", locations.CountryUpdateView.as_view(), name='country-update'),

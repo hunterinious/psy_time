@@ -28,7 +28,6 @@ class PsyDynamicOperationsView(AdminOnlyView):
 
     def save_form(self, request, form):
         data = dict()
-
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
@@ -38,6 +37,7 @@ class PsyDynamicOperationsView(AdminOnlyView):
 
         context = {'form': form}
         data['html_form'] = render_to_string(self.template_name, context, request=request)
+
         return JsonResponse(data)
 
     def manage_delete(self, request, obj):
@@ -60,7 +60,7 @@ class PsyDynamicOperationsView(AdminOnlyView):
 
 
 class ModalChoiceView(AdminOnlyView):
-    template_name = 'cadmin/psychologists/modal_choice.html'
+    template_name = 'cadmin/modal_choice.html'
 
     def get(self, request):
         data = dict()

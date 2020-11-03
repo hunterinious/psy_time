@@ -44,7 +44,7 @@ class PsyUserAndProfileCreateView(AdminOnlyView, CreateView):
         return super(PsyUserAndProfileCreateView, self).form_valid(form)
 
 
-class PsyUserAndProfileUpdateView(UpdateView):
+class PsyUserAndProfileUpdateView(AdminOnlyView, UpdateView):
     template_name = 'cadmin/psychologists/psy_user_profile_update.html'
     form_class = UserUpdateForm
     context_object_name = 'user'
