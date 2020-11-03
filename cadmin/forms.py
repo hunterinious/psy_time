@@ -25,29 +25,10 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-class CustomMultipleSelect(forms.SelectMultiple):
+class CustomBaseSelect(forms.Select):
     def __init__(self, *args, **kwargs):
         self.set = kwargs.pop('set')
-        super(CustomMultipleSelect, self).__init__(*args, **kwargs)
-
-    def create_option(
-            self, name, value, label, selected, index, subindex=None, attrs=None
-    ):
-        option = super().create_option(
-            name, value, label, selected, index, subindex, attrs
-        )
-        if value:
-            option['attrs'].update({
-                'data-url': reverse(f'psy-{self.set}-update-dynamic', kwargs={'pk': value}),
-                'delete-url': reverse(f'psy-{self.set}-delete-dynamic', kwargs={'pk': value})
-            })
-        return option
-
-
-class CustomSelect(s2forms.Select2Widget):
-    def __init__(self, *args, **kwargs):
-        self.set = kwargs.pop('set')
-        super(CustomSelect, self).__init__(*args, **kwargs)
+        super(CustomBaseSelect, self).__init__(*args, **kwargs)
 
     def create_option(
             self, name, value, label, selected, index, subindex=None, attrs=None
@@ -61,6 +42,14 @@ class CustomSelect(s2forms.Select2Widget):
                 'delete-url': reverse(f'{self.set}-delete-dynamic', kwargs={'pk': value})
             })
         return option
+
+
+class CustomMultipleSelect(CustomBaseSelect, forms.SelectMultiple):
+    pass
+
+
+class CustomSelect(CustomBaseSelect, s2forms.Select2Widget):
+    pass
 
 
 class LoginForm(forms.Form):
@@ -117,15 +106,15 @@ class PsyProfileForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'birth_date': DateInput(),
-            'statuses': CustomMultipleSelect(set='status', attrs={'size': 10}),
-            'approaches': CustomMultipleSelect(set='approach', attrs={'size': 10}),
-            'specializations': CustomMultipleSelect(set='specialization', attrs={'size': 10}),
-            'formats': CustomMultipleSelect(set='format', attrs={'size': 10}),
-            'themes': CustomMultipleSelect(set='theme', attrs={'size': 10}),
-            'educations': CustomMultipleSelect(set='education', attrs={'size': 10}),
-            'secondary_educations': CustomMultipleSelect(set='secondary-education', attrs={'size': 10}),
-            'languages': CustomMultipleSelect(set='language', attrs={'size': 10}),
-            'city': CustomSelect(set='country-city')
+            'statuses': CustomMultipleSelect(set='psy-status', attrs={'size': 10}),
+            'approaches': CustomMultipleSelect(set='psy-approach', attrs={'size': 10}),
+            'specializations': CustomMultipleSelect(set='psy-specialization', attrs={'size': 10}),
+            'formats': CustomMultipleSelect(set='psy-format', attrs={'size': 10}),
+            'themes': CustomMultipleSelect(set='psy-theme', attrs={'size': 10}),
+            'educations': CustomMultipleSelect(set='psy-education', attrs={'size': 10}),
+            'secondary_educations': CustomMultipleSelect(set='psy-secondary-education', attrs={'size': 10}),
+            'languages': CustomMultipleSelect(set='psy-language', attrs={'size': 10}),
+            'city': CustomSelect(set='city')
         }
 
 

@@ -81,7 +81,7 @@ class PsyEducationDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistEducation
     serializer_class = PsyEducationDynamicSerializer
     template_name = 'cadmin/psychologists/educations/psy_education_delete_dynamic.html'
-    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+    forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         education = get_object_or_404(PsychologistEducation, pk=pk)

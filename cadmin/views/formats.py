@@ -81,7 +81,7 @@ class PsyFormatDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistWorkFormat
     serializer_class = PsyFormatDynamicSerializer
     template_name = 'cadmin/psychologists/formats/psy_format_delete_dynamic.html'
-    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+    forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         format = get_object_or_404(PsychologistWorkFormat, pk=pk)

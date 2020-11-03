@@ -53,8 +53,10 @@ $(function () {
                     target.children('span')[0].nextSibling.textContent = data.name
                 }
 
-                if(form_name == 'delete-form'){
+                if(form_name == 'delete-form' && target.tagName == "LI"){
                     target.remove()
+                }else if(target.tagName == "SPAN"){
+                    target.text('')
                 }
 
                 data.forEach(e => {

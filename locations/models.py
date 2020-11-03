@@ -27,6 +27,19 @@ class CityManager(models.Manager):
     def get_all(self):
         return self.all()
 
+    def delete_by_name(self, name):
+        city = self.get(name=name)
+        if self.is_related_to_profiles(city):
+            return False
+        city.delete()
+        return True
+
+    def is_related_to_regular_user_profile(self, city):
+        return city.regularuserprofile_set.count()
+
+    def is_related_to_profiles(self, city):
+        return city.regularuserprofile_set.count() or city.psychologistuserprofile_set.count()
+
     def get_cities_not_related_to_profiles(self):
         return self.annotate(
                 Count('psychologistuserprofile'),
@@ -42,10 +55,4 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
-
-    def is_related_to_regular_user_profile(self):
-        return self.regularuserprofile_set.count()
-
-    def is_related_to_profiles(self):
-        return self.regularuserprofile_set.count() or self.psychologistuserprofile_set.count()
 

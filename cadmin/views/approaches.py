@@ -81,7 +81,7 @@ class PsyApproachDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistApproach
     serializer_class = PsyApproachDynamicSerializer
     template_name = 'cadmin/psychologists/approaches/psy_approach_delete_dynamic.html'
-    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+    forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         approach = get_object_or_404(PsychologistApproach, pk=pk)

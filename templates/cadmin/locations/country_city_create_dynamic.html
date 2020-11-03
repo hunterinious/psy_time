@@ -1,6 +1,6 @@
 {% load crispy_forms_tags %}
 
-<form method="post" action="{% url 'country-city-create-dynamic' %}" class="city-create-form">
+<form method="post" action="{% url 'city-create-dynamic' %}" class="city-create-form">
   {% csrf_token %}
   <div class="modal-header">
     <h4 class="modal-title">Create a new location</h4>
@@ -29,5 +29,3 @@
 </form>
 
 {% include 'cadmin/modal_partial.html' %}
-<div id="modal-choice" get-url="{% url 'modal-choice' %}" style="display: none;">
-</div>

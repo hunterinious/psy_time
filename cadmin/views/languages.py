@@ -81,7 +81,7 @@ class PsyLanguageDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistLanguage
     serializer_class = PsyLanguageDynamicSerializer
     template_name = 'cadmin/psychologists/languages/psy_language_delete_dynamic.html'
-    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+    forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)

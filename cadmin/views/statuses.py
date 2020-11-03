@@ -81,7 +81,7 @@ class PsyStatusDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistStatus
     serializer_class = PsyStatusDynamicSerializer
     template_name = 'cadmin/psychologists/statuses/psy_status_delete_dynamic.html'
-    forbidden_template_name = 'cadmin/psychologists/modal_403.html'
+    forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
