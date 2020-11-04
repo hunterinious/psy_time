@@ -49,44 +49,44 @@ class PsyStatusDynamicCreateView(PsyDynamicOperationsView):
     model = PsychologistStatus
     form_class = PsyStatusForm
     serializer_class = PsyStatusDynamicSerializer
-    template_name = 'cadmin/psychologists/statuses/psy_status_create_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_create_dynamic.html'
 
-    def get(self, request):
+    def get(self):
         form = self.form_class()
-        return self.save_form(request, form)
+        return self.save_form(form)
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        return self.save_form(request, form)
+    def post(self):
+        form = self.form_class(self.request.POST)
+        return self.save_form(form)
 
 
 class PsyStatusDynamicUpdateView(PsyDynamicOperationsView):
     model = PsychologistStatus
     form_class = PsyStatusForm
     serializer_class = PsyStatusDynamicSerializer
-    template_name = 'cadmin/psychologists/statuses/psy_status_update_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_update_dynamic.html'
 
     def get(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(instance=status)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
     def post(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(request.POST, instance=status)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
 
 class PsyStatusDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistStatus
     serializer_class = PsyStatusDynamicSerializer
-    template_name = 'cadmin/psychologists/statuses/psy_status_delete_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_delete_dynamic.html'
     forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
-        return self.manage_delete(request, status)
+        return self.manage_delete(status)
 
     def post(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
-        return self.manage_delete(request, status)
+        return self.manage_delete(status)

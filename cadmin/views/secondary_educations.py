@@ -49,44 +49,44 @@ class PsySecondaryEducationDynamicCreateView(PsyDynamicOperationsView):
     model = PsychologistSecondaryEducation
     form_class = PsySecondaryEducationForm
     serializer_class = PsySecondaryEducationDynamicSerializer
-    template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_create_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_create_dynamic.html'
 
-    def get(self, request):
+    def get(self):
         form = self.form_class()
-        return self.save_form(request, form)
+        return self.save_form(form)
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        return self.save_form(request, form)
+    def post(self):
+        form = self.form_class(self.request.POST)
+        return self.save_form(form)
 
 
 class PsySecondaryEducationDynamicUpdateView(PsyDynamicOperationsView):
     model = PsychologistSecondaryEducation
     form_class = PsySecondaryEducationForm
     serializer_class = PsySecondaryEducationDynamicSerializer
-    template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_update_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_update_dynamic.html'
 
     def get(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
         form = self.form_class(instance=secondary_education)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
     def post(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
         form = self.form_class(request.POST, instance=secondary_education)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
 
 class PsySecondaryEducationDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistSecondaryEducation
     serializer_class = PsySecondaryEducationDynamicSerializer
-    template_name = 'cadmin/psychologists/secondary_educations/psy_secondary_education_delete_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_delete_dynamic.html'
     forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
-        return self.manage_delete(request, secondary_education)
+        return self.manage_delete(secondary_education)
 
     def post(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
-        return self.manage_delete(request, secondary_education)
+        return self.manage_delete(secondary_education)

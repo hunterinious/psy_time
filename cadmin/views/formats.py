@@ -49,44 +49,44 @@ class PsyFormatDynamicCreateView(PsyDynamicOperationsView):
     model = PsychologistWorkFormat
     form_class = PsyFormatForm
     serializer_class = PsyFormatDynamicSerializer
-    template_name = 'cadmin/psychologists/formats/psy_format_create_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_create_dynamic.html'
 
-    def get(self, request):
+    def get(self):
         form = self.form_class()
-        return self.save_form(request, form)
+        return self.save_form(form)
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        return self.save_form(request, form)
+    def post(self):
+        form = self.form_class(self.request.POST)
+        return self.save_form(form)
 
 
 class PsyFormatDynamicUpdateView(PsyDynamicOperationsView):
     model = PsychologistWorkFormat
     form_class = PsyFormatForm
     serializer_class = PsyFormatDynamicSerializer
-    template_name = 'cadmin/psychologists/formats/psy_format_update_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_update_dynamic.html'
 
     def get(self, request, pk):
         format = get_object_or_404(PsychologistWorkFormat, pk=pk)
         form = self.form_class(instance=format)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
     def post(self, request, pk):
         format = get_object_or_404(PsychologistWorkFormat, pk=pk)
         form = self.form_class(request.POST, instance=format)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
 
 class PsyFormatDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistWorkFormat
     serializer_class = PsyFormatDynamicSerializer
-    template_name = 'cadmin/psychologists/formats/psy_format_delete_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_delete_dynamic.html'
     forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         format = get_object_or_404(PsychologistWorkFormat, pk=pk)
-        return self.manage_delete(request, format)
+        return self.manage_delete(format)
 
     def post(self, request, pk):
         format = get_object_or_404(PsychologistWorkFormat, pk=pk)
-        return self.manage_delete(request, format)
+        return self.manage_delete(format)

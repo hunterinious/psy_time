@@ -13,7 +13,7 @@ $(function () {
 
     var load = function (e, url) {
         $.ajax({
-          url: url,
+          url: url + `?instance_name=${id}`,
           type: 'get',
           dataType: 'json',
           beforeSend: function () {
@@ -35,9 +35,8 @@ $(function () {
 
     var saveForm = () => {
         var form = $(`.${id}-${form_name}`);
-        console.log(form.attr('action'))
         $.ajax({
-          url: form.attr("action"),
+          url: form.attr("action") + `?instance_name=${id}`,
           data: form.serialize(),
           type: form.attr("method"),
           dataType: 'json',
@@ -96,7 +95,7 @@ $(function () {
         var singleSelect = (cTarget.tagName === 'SPAN' && parentClass.includes('select2-selection--single'))
         if(cTarget.tagName === 'LI' || singleSelect){
             var closestElem = $(e.currentTarget).closest("div[id*='-div']")
-            id = closestElem.attr('id').split('-')[0]
+            id = closestElem.attr('id').split('-div')[0]
             target = $(e.target)
 
             if(!singleSelect){

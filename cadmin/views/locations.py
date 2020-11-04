@@ -120,7 +120,7 @@ class CountryAndCityDynamicCreateView(AdminOnlyView, View):
         data = dict()
         context = self.get_context_data()
 
-        if form.is_valid():
+        if request.POST and form.is_valid():
             self.form_valid(form, context['city'])
             data['form_is_valid'] = True
             data['data'] = self.serializer_class(City.objects.get_all(), many=True).data
@@ -168,7 +168,7 @@ class CountryAndCityDynamicUpdateView(AdminOnlyView, View):
     def save_form(self, request, country_form, city_form):
         data = dict()
 
-        if country_form.is_valid() and city_form.is_valid():
+        if request.POST and country_form.is_valid() and city_form.is_valid():
             self.forms_valid(country_form, city_form)
             data['form_is_valid'] = True
             data['data'] = self.serializer_class(City.objects.get_all(), many=True).data

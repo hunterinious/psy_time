@@ -49,44 +49,44 @@ class PsyLanguageDynamicCreateView(PsyDynamicOperationsView):
     model = PsychologistLanguage
     form_class = PsyLanguageForm
     serializer_class = PsyLanguageDynamicSerializer
-    template_name = 'cadmin/psychologists/languages/psy_language_create_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_create_dynamic.html'
 
-    def get(self, request):
+    def get(self):
         form = self.form_class()
-        return self.save_form(request, form)
+        return self.save_form(form)
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        return self.save_form(request, form)
+    def post(self):
+        form = self.form_class(self.request.POST)
+        return self.save_form(form)
 
 
 class PsyLanguageDynamicUpdateView(PsyDynamicOperationsView):
     model = PsychologistLanguage
     form_class = PsyLanguageForm
     serializer_class = PsyLanguageDynamicSerializer
-    template_name = 'cadmin/psychologists/languages/psy_language_update_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_update_dynamic.html'
 
     def get(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
         form = self.form_class(instance=language)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
     def post(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
         form = self.form_class(request.POST, instance=language)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
 
 class PsyLanguageDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistLanguage
     serializer_class = PsyLanguageDynamicSerializer
-    template_name = 'cadmin/psychologists/languages/psy_language_delete_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_delete_dynamic.html'
     forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
-        return self.manage_delete(request, language)
+        return self.manage_delete(language)
 
     def post(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
-        return self.manage_delete(request, language)
+        return self.manage_delete(language)

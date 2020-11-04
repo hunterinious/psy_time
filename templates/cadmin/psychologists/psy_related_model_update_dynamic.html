@@ -1,20 +1,21 @@
 {% load crispy_forms_tags %}
 
 
-<form method="post" action="{% url 'psy-secondary-education-delete-dynamic' instance.id %}" class="secondary-educations-delete-form">
+{% with 'psy-'|add:instance_name|add:'-update-dynamic' as current_url %}
+<form method="post" action='{% url current_url form.instance.pk %}' class="{{instance_name}}-update-form">
+{% endwith %}
   {% csrf_token %}
   <div class="modal-header">
-    <h4 class="modal-title">Delete the secondary education</h4>
+    <h4 class="modal-title">Update the {{instance_name}}</h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    Do you want to delete the secondary education "{{ instance.name }}?"
+      {{ form|crispy }}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <button type="submit" class="btn btn-primary">Delete</button>
+    <button class="btn btn-primary">Save</button>
   </div>
 </form>
-

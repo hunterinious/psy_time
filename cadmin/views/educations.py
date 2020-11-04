@@ -49,44 +49,44 @@ class PsyEducationDynamicCreateView(PsyDynamicOperationsView):
     model = PsychologistEducation
     form_class = PsyEducationForm
     serializer_class = PsyEducationDynamicSerializer
-    template_name = 'cadmin/psychologists/educations/psy_education_create_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_create_dynamic.html'
 
-    def get(self, request):
+    def get(self):
         form = self.form_class()
-        return self.save_form(request, form)
+        return self.save_form(form)
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        return self.save_form(request, form)
+    def post(self):
+        form = self.form_class(self.request.POST)
+        return self.save_form(form)
 
 
 class PsyEducationDynamicUpdateView(PsyDynamicOperationsView):
     model = PsychologistEducation
     form_class = PsyEducationForm
     serializer_class = PsyEducationDynamicSerializer
-    template_name = 'cadmin/psychologists/educations/psy_education_update_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_update_dynamic.html'
 
     def get(self, request, pk):
         education = get_object_or_404(PsychologistEducation, pk=pk)
         form = self.form_class(instance=education)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
     def post(self, request, pk):
         education = get_object_or_404(PsychologistEducation, pk=pk)
         form = self.form_class(request.POST, instance=education)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
 
 class PsyEducationDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistEducation
     serializer_class = PsyEducationDynamicSerializer
-    template_name = 'cadmin/psychologists/educations/psy_education_delete_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_delete_dynamic.html'
     forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         education = get_object_or_404(PsychologistEducation, pk=pk)
-        return self.manage_delete(request, education)
+        return self.manage_delete(education)
 
     def post(self, request, pk):
         education = get_object_or_404(PsychologistEducation, pk=pk)
-        return self.manage_delete(request, education)
+        return self.manage_delete(education)

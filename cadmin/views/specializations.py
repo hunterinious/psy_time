@@ -44,48 +44,49 @@ class PsySpecializationDeleteView(AdminOnlyView, DeleteView):
     def get_success_url(self):
         return reverse('psy-specialization-list')
 
+
 class PsySpecializationDynamicCreateView(PsyDynamicOperationsView):
     model = PsychologistSpecialization
     form_class = PsySpecializationForm
     serializer_class = PsySpecializationDynamicSerializer
-    template_name = 'cadmin/psychologists/specializations/psy_specialization_create_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_create_dynamic.html'
 
-    def get(self, request):
+    def get(self):
         form = self.form_class()
-        return self.save_form(request, form)
+        return self.save_form(form)
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        return self.save_form(request, form)
+    def post(self):
+        form = self.form_class(self.request.POST)
+        return self.save_form(form)
 
 
 class PsySpecializationDynamicUpdateView(PsyDynamicOperationsView):
     model = PsychologistSpecialization
     form_class = PsySpecializationForm
     serializer_class = PsySpecializationDynamicSerializer
-    template_name = 'cadmin/psychologists/specializations/psy_specialization_update_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_update_dynamic.html'
 
     def get(self, request, pk):
         specialization = get_object_or_404(PsychologistSpecialization, pk=pk)
         form = self.form_class(instance=specialization)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
     def post(self, request, pk):
         specialization = get_object_or_404(PsychologistSpecialization, pk=pk)
         form = self.form_class(request.POST, instance=specialization)
-        return self.save_form(request, form)
+        return self.save_form(form)
 
 
 class PsySpecializationDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistSpecialization
     serializer_class = PsySpecializationDynamicSerializer
-    template_name = 'cadmin/psychologists/specializations/psy_specialization_delete_dynamic.html'
+    template_name = 'cadmin/psychologists/psy_related_model_delete_dynamic.html'
     forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         specialization = get_object_or_404(PsychologistSpecialization, pk=pk)
-        return self.manage_delete(request, specialization)
+        return self.manage_delete(specialization)
 
     def post(self, request, pk):
         specialization = get_object_or_404(PsychologistSpecialization, pk=pk)
-        return self.manage_delete(request, specialization)
+        return self.manage_delete(specialization)
