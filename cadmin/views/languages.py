@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from django.urls import reverse
 from django.views.generic import (
     CreateView,
@@ -53,11 +54,11 @@ class PsyLanguageDynamicCreateView(PsyDynamicOperationsView):
 
     def get(self):
         form = self.form_class()
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
     def post(self):
         form = self.form_class(self.request.POST)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
 
 class PsyLanguageDynamicUpdateView(PsyDynamicOperationsView):
@@ -69,12 +70,12 @@ class PsyLanguageDynamicUpdateView(PsyDynamicOperationsView):
     def get(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
         form = self.form_class(instance=language)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
     def post(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
         form = self.form_class(request.POST, instance=language)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
 
 class PsyLanguageDynamicDeleteView(PsyDynamicOperationsView):
@@ -85,8 +86,8 @@ class PsyLanguageDynamicDeleteView(PsyDynamicOperationsView):
 
     def get(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
-        return self.manage_delete(language)
+        return JsonResponse(self.manage_delete(language))
 
     def post(self, request, pk):
         language = get_object_or_404(PsychologistLanguage, pk=pk)
-        return self.manage_delete(language)
+        return JsonResponse(self.manage_delete(language))

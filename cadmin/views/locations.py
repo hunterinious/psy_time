@@ -106,7 +106,7 @@ class CountryAndCityDynamicCreateView(AdminOnlyView, View):
 
     def get(self, request):
         form = self.form_class()
-        return self.save_form(request, form)
+        return JsonResponse(self.save_form(request, form))
 
     def post(self, request):
         country = Country.objects.safe_get_by_name(name=request.POST.get('name'))
@@ -114,7 +114,7 @@ class CountryAndCityDynamicCreateView(AdminOnlyView, View):
             form = self.form_class(request.POST, instance=country)
         else:
             form = self.form_class(request.POST)
-        return self.save_form(request, form)
+        return JsonResponse(self.save_form(request, form))
 
     def save_form(self, request, form):
         data = dict()
@@ -129,7 +129,7 @@ class CountryAndCityDynamicCreateView(AdminOnlyView, View):
 
         context['form'] = form
         data['html_form'] = render_to_string(self.template_name, context, request=request)
-        return JsonResponse(data)
+        return data
 
     def get_context_data(self):
         data = dict()
@@ -150,41 +150,43 @@ class CountryAndCityDynamicCreateView(AdminOnlyView, View):
 class CountryAndCityDynamicUpdateView(AdminOnlyView, View):
     template_name = 'cadmin/locations/country_city_update_dynamic.html'
     serializer_class = CityDynamicSerializer
+    post_form = None
 
     def get(self, request, pk):
         city = get_object_or_404(City, pk=pk)
         country = city.country
         country_form = CountryForm(instance=country, prefix='country')
         city_form = CityForm(instance=city, prefix='city')
-        return self.save_form(request, country_form, city_form)
+        return JsonResponse(self.save_form(request, country_form, city_form))
 
     def post(self, request, pk):
         city = get_object_or_404(City, pk=pk)
         country = city.country
         country_form = CountryForm(request.POST, instance=country, prefix='country')
         city_form = CityForm(request.POST, instance=city, prefix='city')
-        return self.save_form(request, country_form, city_form)
+
+        if int(request.GET.get('city', None)):
+            self.post_form = city_form
+        else:
+            self.post_form = country_form
+        return JsonResponse(self.save_form(request, country_form, city_form))
 
     def save_form(self, request, country_form, city_form):
         data = dict()
 
-        if request.POST and country_form.is_valid() and city_form.is_valid():
-            self.forms_valid(country_form, city_form)
+        if request.POST and self.post_form.is_valid():
+            self.form_valid()
             data['form_is_valid'] = True
             data['data'] = self.serializer_class(City.objects.get_all(), many=True).data
         else:
             data['form_is_valid'] = False
 
-        context = {'country_form': country_form, 'city_form': city_form}
+        context = {'city_form': city_form, 'country_form': country_form}
         data['html_form'] = render_to_string(self.template_name, context, request=request)
-        return JsonResponse(data)
+        return data
 
-    def forms_valid(self, country_form, city_form):
-        with transaction.atomic():
-            country = country_form.save()
-            city = city_form.save(False)
-            city.country = country
-            city.save()
+    def form_valid(self):
+        self.post_form.save()
 
 
 class CityDynamicDeleteView(AdminOnlyView, View):

@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import TemplateView
@@ -40,7 +40,7 @@ class PsyDynamicOperationsView(AdminOnlyView):
         context = {'form': form, 'instance_name': instance_name}
         data['html_form'] = render_to_string(self.template_name, context, request=self.request)
 
-        return JsonResponse(data)
+        return data
 
     def manage_delete(self, obj):
         data = dict()
@@ -59,7 +59,7 @@ class PsyDynamicOperationsView(AdminOnlyView):
         context = {'instance': obj, 'instance_name': instance_name}
         data['html_form'] = render_to_string(template, context, request=self.request)
 
-        return JsonResponse(data)
+        return data
 
 
 class ModalChoiceView(AdminOnlyView):

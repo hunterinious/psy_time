@@ -33,10 +33,27 @@ $(function () {
         load(e, url)
     };
 
-    var saveForm = () => {
+    var saveForm = (e) => {
+        e.preventDefault()
+
         var form = $(`.${id}-${form_name}`);
+        var lengthG1 = form.length
+        if(lengthG1 > 1){
+            var formName = $(e.target).attr('name')
+            if(formName === 'main-model'){
+                form = $(form[0])
+                console.log("here")
+            }else if(formName === 'related-model'){
+                form = $(form[1])
+                console.log("there")
+            }
+        }
+
+        var url = form.attr("action")
+        url = lengthG1 > 1 ? url + `&instance_name=${id}` : url + `?instance_name=${id}`
+
         $.ajax({
-          url: form.attr("action") + `?instance_name=${id}`,
+          url: url,
           data: form.serialize(),
           type: form.attr("method"),
           dataType: 'json',
@@ -78,7 +95,10 @@ $(function () {
      };
 
 
-    $("#modal-dynamic").on("submit", e => saveForm())
+    $("#modal-dynamic").on("submit", (e) => {
+        console.log(e)
+        saveForm(e)
+    })
 
     $(".dynamic-create").click(e => {
         id = e.target.id

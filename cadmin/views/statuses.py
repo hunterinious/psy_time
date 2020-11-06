@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from django.urls import reverse
 from django.views.generic import (
     CreateView,
@@ -53,11 +54,11 @@ class PsyStatusDynamicCreateView(PsyDynamicOperationsView):
 
     def get(self):
         form = self.form_class()
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
     def post(self):
         form = self.form_class(self.request.POST)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
 
 class PsyStatusDynamicUpdateView(PsyDynamicOperationsView):
@@ -69,12 +70,12 @@ class PsyStatusDynamicUpdateView(PsyDynamicOperationsView):
     def get(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(instance=status)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
     def post(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
         form = self.form_class(request.POST, instance=status)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
 
 class PsyStatusDynamicDeleteView(PsyDynamicOperationsView):
@@ -85,8 +86,8 @@ class PsyStatusDynamicDeleteView(PsyDynamicOperationsView):
 
     def get(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
-        return self.manage_delete(status)
+        return JsonResponse(self.manage_delete(status))
 
     def post(self, request, pk):
         status = get_object_or_404(PsychologistStatus, pk=pk)
-        return self.manage_delete(status)
+        return JsonResponse(self.manage_delete(status))

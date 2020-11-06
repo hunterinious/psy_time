@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from django.urls import reverse
 from django.views.generic import (
     CreateView,
@@ -53,11 +54,11 @@ class PsySecondaryEducationDynamicCreateView(PsyDynamicOperationsView):
 
     def get(self):
         form = self.form_class()
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
     def post(self):
         form = self.form_class(self.request.POST)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
 
 class PsySecondaryEducationDynamicUpdateView(PsyDynamicOperationsView):
@@ -69,12 +70,12 @@ class PsySecondaryEducationDynamicUpdateView(PsyDynamicOperationsView):
     def get(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
         form = self.form_class(instance=secondary_education)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
     def post(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
         form = self.form_class(request.POST, instance=secondary_education)
-        return self.save_form(form)
+        return JsonResponse(self.save_form(form))
 
 
 class PsySecondaryEducationDynamicDeleteView(PsyDynamicOperationsView):
@@ -85,8 +86,8 @@ class PsySecondaryEducationDynamicDeleteView(PsyDynamicOperationsView):
 
     def get(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
-        return self.manage_delete(secondary_education)
+        return JsonResponse(self.manage_delete(secondary_education))
 
     def post(self, request, pk):
         secondary_education = get_object_or_404(PsychologistSecondaryEducation, pk=pk)
-        return self.manage_delete(secondary_education)
+        return JsonResponse(self.manage_delete(secondary_education))
