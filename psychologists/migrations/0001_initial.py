@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
             name='PsychologistUserProfile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('gender', models.CharField(choices=[('M', 'Male'), ('F', 'Female')], max_length=50)),
                 ('avatar', models.ImageField(null=False, default='avatars/psy_avatar.jpg', upload_to='avatars')),
                 ('birth_date', models.DateField()),
                 ('about', models.TextField()),

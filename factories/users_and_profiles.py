@@ -1,13 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
-from users.models import RegularUserProfile, UserTypes
+from users.models import RegularUserProfile
 from psychologists.models import PsychologistUserProfile
 from .locations import CityFactory
 from random import randint
+from factory.faker import faker
 import factory
 
 
 User = get_user_model()
+fake = faker.Faker()
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -16,20 +18,19 @@ class UserFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('email', 'username', 'password')
 
     email = factory.Sequence(lambda e: 'user{}@gmail.com'.format(e))
-    username = factory.Sequence(lambda u: 'user{}'.format(u))
-    password = make_password(factory.Sequence(lambda p: 'password1234{}'.format(p)))
-
+    username = factory.Sequence(lambda u: '{}'.format(fake.name()))
+    password = factory.Sequence(lambda p: make_password('password1234{}'.format(p)))
 
     @factory.lazy_attribute
     def user_type(self):
         rand_value = randint(0, 120)
 
         if rand_value < 50:
-            user_type = UserTypes.regular_user.name
+            user_type = User.UserTypes.REGULAR_USER
         elif rand_value < 100:
-            user_type = UserTypes.psychologist_user.name
+            user_type = User.UserTypes.PSYCHOLOGIST_USER
         else:
-            user_type = UserTypes.admin_user.name
+            user_type = User.UserTypes.ADMIN_USER
 
         return user_type
 
@@ -39,7 +40,7 @@ class RegularUserProfileFactory(factory.django.DjangoModelFactory):
         model = RegularUserProfile
     avatar = factory.Faker('name')
     city = factory.SubFactory(CityFactory)
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(UserFactory, user_type=User.UserTypes.REGULAR_USER)
 
 
 class PsychologistUserProfileFactory(factory.django.DjangoModelFactory):
@@ -52,7 +53,18 @@ class PsychologistUserProfileFactory(factory.django.DjangoModelFactory):
     price = randint(50, 100)
     duration = randint(50, 60)
     city = factory.SubFactory(CityFactory)
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(UserFactory, user_type=User.UserTypes.PSYCHOLOGIST_USER)
+
+    @factory.lazy_attribute
+    def gender(self):
+        rand_value = randint(0, 1)
+
+        if rand_value == 0:
+            gender = PsychologistUserProfile.Gender.FEMALE
+        elif rand_value == 1:
+            gender = PsychologistUserProfile.Gender.MALE
+
+        return gender
 
     @factory.post_generation
     def statuses(self, create, extracted):

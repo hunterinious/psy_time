@@ -6,6 +6,5 @@
 *.sublime-*
 env
 *.pyc
-static
 media
 staticfiles

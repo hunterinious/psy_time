@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+
+<div class="modal-header">
+  <h4 class="modal-title">Update the location</h4>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <form method="post" action="{% url 'city-update-dynamic' city_form.instance.pk %}?city=0" name="main-form"
+        class="city-update-form">
+      {% csrf_token %}
+      {{ country_form|crispy }}
+      <button type="submit" class="btn btn-primary" name="main-button">Save</button>
+  </form>
+
+
+  <form method="post" action="{% url 'city-update-dynamic' city_form.instance.pk %}?city=1" name="related-form"
+        class="city-update-form">
+      {% csrf_token %}
+      {{ city_form|crispy }}
+      <button type="submit" class="btn btn-primary" name="related-button">Save</button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+{% include 'cadmin/modal_partial.html' %}

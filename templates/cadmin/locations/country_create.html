@@ -1,5 +1,7 @@
 {% extends "cadmin/locations/country_list.html" %}
 
+{% load crispy_forms_tags %}
+
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
@@ -18,7 +20,7 @@
         </div>
         <div class="card-body">
             <form method="post">{% csrf_token %}
-                {{ form.as_p }}
+                {{ form|crispy }}
                 <input type="submit" value="Save" />
             </form>
         </div>
