@@ -82,7 +82,6 @@ class PsySpecializationDynamicDeleteView(PsyDynamicOperationsView):
     model = PsychologistSpecialization
     serializer_class = PsySpecializationDynamicSerializer
     template_name = 'cadmin/psychologists/psy_related_model_delete_dynamic.html'
-    forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
 
     def get(self, request, pk):
         specialization = get_object_or_404(PsychologistSpecialization, pk=pk)

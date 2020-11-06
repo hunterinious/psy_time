@@ -24,7 +24,7 @@ class PsyDynamicOperationsView(AdminOnlyView):
     form_class = None
     serializer_class = None
     template_name = None
-    forbidden_template_name = None
+    forbidden_delete_template_name = 'cadmin/modal_delete_403_refers_to_profiles.html'
 
     def save_form(self, form):
         data = dict()
@@ -56,7 +56,7 @@ class PsyDynamicOperationsView(AdminOnlyView):
                 data['form_is_valid'] = True
                 data['data'] = self.serializer_class(self.model.objects.get_all(), many=True).data
             else:
-                template = self.forbidden_template_name
+                template = self.forbidden_delete_template_name
 
         context = {'instance': obj, 'instance_name': instance_name}
         data['html_form'] = render_to_string(template, context, request=request)

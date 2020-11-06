@@ -37,6 +37,13 @@ class CountryUpdateView(AdminOnlyView, UpdateView):
     form_class = CountryForm
     context_object_name = 'country'
 
+    def get_object(self):
+        country_id = self.kwargs.get("pk")
+        country = get_object_or_404(City, id=country_id)
+        if Country.objects.is_related_to_regular_profile(country):
+            raise PermissionDenied("You cant update country which refers not to psychologist profile")
+        return country
+
     def get_success_url(self):
         return reverse('country-update', kwargs={'pk': self.kwargs['pk']})
 
@@ -45,6 +52,13 @@ class CountryDeleteView(AdminOnlyView, DeleteView):
     model = Country
     template_name = 'cadmin/locations/country_delete.html'
     context_object_name = 'country'
+
+    def get_object(self, queryset=None):
+        country_id = self.kwargs.get("pk")
+        country = get_object_or_404(City, id=country_id)
+        if City.objects.is_related_to_profiles(country):
+            raise PermissionDenied("You cant delete country which refers to profile")
+        return country
 
     def get_success_url(self):
         return reverse('country-list')
@@ -57,7 +71,7 @@ class CityListView(AdminOnlyView, ListView):
 
     def get_queryset(self):
         cities = City.objects.get_all()
-        cities = City.objects.get_cities_related_to_psy_profiles(cities)
+        cities = City.objects.get_cities_related_to_psy_profiles_or_not_related_to_any(cities)
         return cities
 
 
@@ -77,7 +91,7 @@ class CityUpdateView(AdminOnlyView, UpdateView):
     def get_object(self):
         city_id = self.kwargs.get("pk")
         city = get_object_or_404(City, id=city_id)
-        if City.objects.is_related_to_regular_user_profile(city):
+        if City.objects.is_related_to_regular_profile(city):
             raise PermissionDenied("You cant update city which refers not to psychologist profile")
         return city
 
@@ -151,6 +165,7 @@ class CountryAndCityDynamicCreateView(AdminOnlyView, View):
 
 class CountryAndCityDynamicUpdateView(AdminOnlyView, View):
     template_name = 'cadmin/locations/country_city_update_dynamic.html'
+    forbidden_template_name = 'cadmin/modal_update_403_refers_to_profiles.html'
     serializer_class = CityDynamicSerializer
 
     def get(self, request, pk):
@@ -167,19 +182,31 @@ class CountryAndCityDynamicUpdateView(AdminOnlyView, View):
         city_form = CityForm(request.POST, instance=city, prefix='city')
         return JsonResponse(self.save_form(country_form, city_form))
 
-    def get_post_form(self, country_form, city_form):
+    def get_post_form_and_model(self, country_form, city_form):
         if int(self.request.GET.get('city', None)):
             post_form = city_form
+            model = City
         else:
             post_form = country_form
-        return post_form
+            model = Country
+        return post_form, model
+
+    def get_instance_name(self):
+        return self.request.GET.get('instance_name', None)
 
     def save_form(self, country_form, city_form):
         data = dict()
+        context = dict()
         request = self.request
 
         if request.POST:
-            post_form = self.get_post_form(country_form, city_form)
+            post_form, model = self.get_post_form_and_model(country_form, city_form)
+            if model.objects.is_related_to_regular_profile(post_form.instance):
+                context['instance'] = post_form.instance
+                context['instance_name'] = self.get_instance_name()
+                data['html_form'] = render_to_string(self.forbidden_template_name, context, request=request)
+                return data
+
             if post_form.is_valid():
                 self.form_valid(post_form)
                 data['form_is_valid'] = True
@@ -197,7 +224,7 @@ class CountryAndCityDynamicUpdateView(AdminOnlyView, View):
 
 class CountryAndCityDynamicDeleteView(AdminOnlyView, View):
     template_name = 'cadmin/locations/country_city_delete_dynamic.html'
-    forbidden_template_name = 'cadmin/modal_403_refers_to_profiles.html'
+    forbidden_template_name = 'cadmin/modal_delete_403_refers_to_profiles.html'
     serializer_class = CityDynamicSerializer
 
     def get(self, request, pk):

@@ -10,6 +10,10 @@ class CountryManager(models.Manager):
         country.delete()
         return True
 
+    def is_related_to_regular_profile(self, country):
+        cities = country.cities.all()
+        return City.objects.get_cities_related_to_regular_profiles_or_not_related_to_any(cities).count()
+
     def is_related_to_profiles(self, country):
         cities = country.cities.all()
         return City.objects.get_cities_related_to_profiles(cities).count()
@@ -45,7 +49,7 @@ class CityManager(models.Manager):
         city.delete()
         return True
 
-    def is_related_to_regular_user_profile(self, city):
+    def is_related_to_regular_profile(self, city):
         return city.regularuserprofile_set.count()
 
     def is_related_to_profiles(self, city):
@@ -57,7 +61,13 @@ class CityManager(models.Manager):
                 Count('regularuserprofile')).filter(
                 Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count__gt=0))
 
-    def get_cities_related_to_psy_profiles(self, cities):
+    def get_cities_related_to_regular_profiles_or_not_related_to_any(self, cities):
+        return cities.annotate(
+                Count('psychologistuserprofile'),
+                Count('regularuserprofile')).filter(
+                Q(psychologistuserprofile__count=0) | Q(regularuserprofile__count__gt=0))
+
+    def get_cities_related_to_psy_profiles_or_not_related_to_any(self, cities):
         return cities.annotate(
                 Count('psychologistuserprofile'),
                 Count('regularuserprofile')).filter(
