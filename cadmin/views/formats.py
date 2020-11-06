@@ -52,11 +52,11 @@ class PsyFormatDynamicCreateView(PsyDynamicOperationsView):
     serializer_class = PsyFormatDynamicSerializer
     template_name = 'cadmin/psychologists/psy_related_model_create_dynamic.html'
 
-    def get(self):
+    def get(self, request):
         form = self.form_class()
         return JsonResponse(self.save_form(form))
 
-    def post(self):
+    def post(self, request):
         form = self.form_class(self.request.POST)
         return JsonResponse(self.save_form(form))
 

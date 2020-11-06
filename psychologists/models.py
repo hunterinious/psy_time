@@ -7,16 +7,20 @@ from users.models import RegularUser, PsychologistUser
 from locations.models import City
 
 
-class PsychologistStatusManager(models.Manager):
+class BasePsychologistM2MManager(models.Manager):
     def get_all(self):
         return self.all()
 
-    def delete_by_name(self, name):
-        status = self.get(name=name)
-        if status.profiles.count():
+    def delete_by_id(self, id):
+        instance = self.get(id=id)
+        if instance.profiles.count():
             return False
-        status.delete()
+        instance.delete()
         return True
+
+
+class PsychologistStatusManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistStatus(models.Model):
@@ -28,16 +32,8 @@ class PsychologistStatus(models.Model):
         return self.name
 
 
-class PsychologistWorkFormatManager(models.Manager):
-    def get_all(self):
-        return self.all()
-
-    def delete_by_name(self, name):
-        format = self.get(name=name)
-        if format.profiles.count():
-            return False
-        format.delete()
-        return True
+class PsychologistWorkFormatManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistWorkFormat(models.Model):
@@ -49,16 +45,8 @@ class PsychologistWorkFormat(models.Model):
         return self.name
 
 
-class PsychologistThemeManager(models.Manager):
-    def get_all(self):
-        return self.all()
-
-    def delete_by_name(self, name):
-        theme = self.get(name=name)
-        if theme.profiles.count():
-            return False
-        theme.delete()
-        return True
+class PsychologistThemeManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistTheme(models.Model):
@@ -70,16 +58,8 @@ class PsychologistTheme(models.Model):
         return self.name
 
 
-class PsychologistApproachManager(models.Manager):
-    def get_all(self):
-        return self.all()
-
-    def delete_by_name(self, name):
-        approach = self.get(name=name)
-        if approach.profiles.count():
-            return False
-        approach.delete()
-        return True
+class PsychologistApproachManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistApproach(models.Model):
@@ -91,16 +71,8 @@ class PsychologistApproach(models.Model):
         return self.name
 
 
-class PsychologistSpecializationManager(models.Manager):
-    def get_all(self):
-        return self.all()
-
-    def delete_by_name(self, name):
-        specialization = self.get(name=name)
-        if specialization.profiles.count():
-            return False
-        specialization.delete()
-        return True
+class PsychologistSpecializationManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistSpecialization(models.Model):
@@ -112,16 +84,8 @@ class PsychologistSpecialization(models.Model):
         return self.name
 
 
-class PsychologistEducationManager(models.Manager):
-    def get_all(self):
-        return self.all()
-
-    def delete_by_name(self, name):
-        education = self.get(name=name)
-        if education.profiles.count():
-            return False
-        education.delete()
-        return True
+class PsychologistEducationManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistEducation(models.Model):
@@ -133,16 +97,8 @@ class PsychologistEducation(models.Model):
         return self.name
 
 
-class PsychologistSecondaryEducationManager(models.Manager):
-    def get_all(self):
-        return self.all()
-
-    def delete_by_name(self, name):
-        secondary_education = self.get(name=name)
-        if secondary_education.profiles.count():
-            return False
-        secondary_education.delete()
-        return True
+class PsychologistSecondaryEducationManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistSecondaryEducation(models.Model):
@@ -154,16 +110,8 @@ class PsychologistSecondaryEducation(models.Model):
         return self.name
 
 
-class PsychologistLanguageManager(models.Manager):
-    def get_all(self):
-        return self.all()
-
-    def delete_by_name(self, name):
-        language = self.get(name=name)
-        if language.profiles.count():
-            return False
-        language.delete()
-        return True
+class PsychologistLanguageManager(BasePsychologistM2MManager):
+    pass
 
 
 class PsychologistLanguage(models.Model):

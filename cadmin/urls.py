@@ -173,7 +173,7 @@ urlpatterns = [
          name='city-create-dynamic'),
     path("countries-cities/<int:pk>/update-dynamic", locations.CountryAndCityDynamicUpdateView.as_view(),
          name='city-update-dynamic'),
-    path("cities/<int:pk>/delete-dynamic", locations.CityDynamicDeleteView.as_view(),
+    path("countries-cities/<int:pk>/delete-dynamic", locations.CountryAndCityDynamicDeleteView.as_view(),
          name='city-delete-dynamic'),
 
     path("countries", locations.CountryListView.as_view(), name='country-list'),

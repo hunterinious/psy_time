@@ -3,6 +3,17 @@ from django.db.models import Count, Q
 
 
 class CountryManager(models.Manager):
+    def delete_by_id(self, id):
+        country = self.get(id=id)
+        if self.is_related_to_profiles(country):
+            return False
+        country.delete()
+        return True
+
+    def is_related_to_profiles(self, country):
+        cities = country.cities.all()
+        return City.objects.get_cities_related_to_profiles(cities).count()
+
     def safe_get_by_name(self, name):
         try:
             country = Country.objects.get(name=name)
@@ -27,8 +38,8 @@ class CityManager(models.Manager):
     def get_all(self):
         return self.all()
 
-    def delete_by_name(self, name):
-        city = self.get(name=name)
+    def delete_by_id(self, id):
+        city = self.get(id=id)
         if self.is_related_to_profiles(city):
             return False
         city.delete()
@@ -40,8 +51,14 @@ class CityManager(models.Manager):
     def is_related_to_profiles(self, city):
         return city.regularuserprofile_set.count() or city.psychologistuserprofile_set.count()
 
-    def get_cities_not_related_to_profiles(self):
-        return self.annotate(
+    def get_cities_related_to_profiles(self, cities):
+        return cities.annotate(
+                Count('psychologistuserprofile'),
+                Count('regularuserprofile')).filter(
+                Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count__gt=0))
+
+    def get_cities_related_to_psy_profiles(self, cities):
+        return cities.annotate(
                 Count('psychologistuserprofile'),
                 Count('regularuserprofile')).filter(
                 Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))

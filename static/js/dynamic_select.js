@@ -40,12 +40,10 @@ $(function () {
         var lengthG1 = form.length
         if(lengthG1 > 1){
             var formName = $(e.target).attr('name')
-            if(formName === 'main-model'){
+            if(formName === 'main-form'){
                 form = $(form[0])
-                console.log("here")
-            }else if(formName === 'related-model'){
+            }else if(formName === 'related-form'){
                 form = $(form[1])
-                console.log("there")
             }
         }
 
@@ -95,14 +93,12 @@ $(function () {
      };
 
 
-    $("#modal-dynamic").on("submit", (e) => {
-        console.log(e)
-        saveForm(e)
-    })
+    $("#modal-dynamic").on("submit", e => saveForm(e))
 
     $(".dynamic-create").click(e => {
-        id = e.target.id
-        url = e.target.getAttribute("data-url")
+        target = e.target
+        id = target.id
+        url = target.getAttribute("data-url")
         form_name = 'create-form'
         loadForm(e, url)
     })

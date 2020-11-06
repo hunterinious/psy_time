@@ -28,9 +28,10 @@ class PsyDynamicOperationsView(AdminOnlyView):
 
     def save_form(self, form):
         data = dict()
+        request = self.request
         instance_name = self.request.GET.get('instance_name')
 
-        if self.request.POST and form.is_valid():
+        if request.POST and form.is_valid():
             form.save()
             data['form_is_valid'] = True
             data['data'] = self.serializer_class(self.model.objects.get_all(), many=True).data
@@ -38,17 +39,18 @@ class PsyDynamicOperationsView(AdminOnlyView):
             data['form_is_valid'] = False
 
         context = {'form': form, 'instance_name': instance_name}
-        data['html_form'] = render_to_string(self.template_name, context, request=self.request)
+        data['html_form'] = render_to_string(self.template_name, context, request=request)
 
         return data
 
     def manage_delete(self, obj):
         data = dict()
+        request = self.request
         instance_name = self.request.GET.get('instance_name')
         template = self.template_name
 
-        if self.request.POST:
-            deleted = self.model.objects.delete_by_name(name=obj.name)
+        if request.POST:
+            deleted = self.model.objects.delete_by_id(id=obj.id)
 
             if deleted:
                 data['form_is_valid'] = True
@@ -57,7 +59,7 @@ class PsyDynamicOperationsView(AdminOnlyView):
                 template = self.forbidden_template_name
 
         context = {'instance': obj, 'instance_name': instance_name}
-        data['html_form'] = render_to_string(template, context, request=self.request)
+        data['html_form'] = render_to_string(template, context, request=request)
 
         return data
 

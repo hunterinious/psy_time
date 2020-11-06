@@ -8,19 +8,19 @@
 </div>
 <div class="modal-body">
 
-  <form method="post" action="{% url 'city-update-dynamic' city_form.instance.pk %}?city=0" name="main-model"
+  <form method="post" action="{% url 'city-update-dynamic' city_form.instance.pk %}?city=0" name="main-form"
         class="city-update-form">
       {% csrf_token %}
       {{ country_form|crispy }}
-      <button type="submit" class="btn btn-primary" name="main">Save</button>
+      <button type="submit" class="btn btn-primary" name="main-button">Save</button>
   </form>
 
 
-  <form method="post" action="{% url 'city-update-dynamic' city_form.instance.pk %}?city=1" name="related-model"
+  <form method="post" action="{% url 'city-update-dynamic' city_form.instance.pk %}?city=1" name="related-form"
         class="city-update-form">
       {% csrf_token %}
       {{ city_form|crispy }}
-      <button type="submit" class="btn btn-primary" name="related">Save</button>
+      <button type="submit" class="btn btn-primary" name="related-button">Save</button>
   </form>
 
 </div>

@@ -1,0 +1,30 @@
+{% load crispy_forms_tags %}
+
+
+<div class="modal-header">
+  <h4 class="modal-title">Delete the city</h4>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class=".mb-5">
+    <form method="post" action="{% url 'city-delete-dynamic' related_instance.id %}?city=0" class="city-delete-form"
+          name="main-form">
+      {% csrf_token %}
+      Do you want to delete the country"{{ main_instance.name }}?"
+      <button type="submit" class="btn btn-primary" name="main-button">Delete</button>
+    </form>
+  </div>
+
+  <form method="post" action="{% url 'city-delete-dynamic' related_instance.id %}?city=1" class="city-delete-form"
+        name="related-form">
+    {% csrf_token %}
+    Do you want to delete the city"{{ related_instance.name }}?"
+    <button type="submit" class="btn btn-primary" name="related-button">Delete</button>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
