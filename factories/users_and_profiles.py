@@ -15,10 +15,12 @@ fake = faker.Faker()
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
-        django_get_or_create = ('email', 'username', 'password')
+        django_get_or_create = ('email', 'username', )
 
     email = factory.Sequence(lambda e: 'user{}@gmail.com'.format(e))
-    username = factory.Sequence(lambda u: '{}'.format(fake.name()))
+    username = factory.Sequence(lambda u: 'username{}'.format(u))
+    first_name = factory.Sequence(lambda u: 'Name{}'.format(u))
+    last_name = factory.Sequence(lambda u: 'LastName{}'.format(u))
     password = factory.Sequence(lambda p: make_password('password1234{}'.format(p)))
 
     @factory.lazy_attribute

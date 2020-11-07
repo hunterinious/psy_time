@@ -84,7 +84,7 @@ CityFormSet = inlineformset_factory(Country, City,
 class UserCreateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'user_type')
+        fields = ('email', 'first_name', 'last_name', 'password', 'user_type')
 
     def save(self, commit=True):
         user = super(UserCreateForm, self).save(commit=False)
@@ -97,7 +97,7 @@ class UserCreateForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'username', 'user_type')
+        fields = ('email', 'first_name', 'last_name', 'user_type')
 
 
 class PsyProfileForm(forms.ModelForm):

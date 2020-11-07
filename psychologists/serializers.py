@@ -189,49 +189,65 @@ class PsyLanguageDynamicSerializer(ModelSerializer):
 
 
 class PsyReviewSerializer(ModelSerializer):
-    username = SerializerMethodField()
+    first_name = SerializerMethodField()
+    last_name = SerializerMethodField()
 
     class Meta:
         model = PsychologistReview
-        fields = ('username', 'text')
+        fields = ('first_name', 'last_name', 'text')
 
-    def get_username(self, obj):
-        return obj.author.username
+    def get_first_name(self, obj):
+        return obj.author.first_name
+
+    def get_last_name(self, obj):
+        return obj.author.last_name
 
 
 class PsyProfileForListSerializer(ModelSerializer):
-    username = SerializerMethodField()
+    first_name = SerializerMethodField()
+    last_name = SerializerMethodField()
     statuses = PsyStatusSerializer(many=True)
 
     class Meta:
         model = PsychologistUserProfile
-        fields = ('username', 'statuses', 'avatar', 'id')
+        fields = ('first_name', 'last_name', 'statuses', 'avatar', 'id')
 
-    def get_username(self, obj):
-        return obj.user.username
+    def get_first_name(self, obj):
+        return obj.user.first_name
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
 
 
 class PsyRandomProfileSerializer(ModelSerializer):
-    username = SerializerMethodField()
+    first_name = SerializerMethodField()
+    last_name = SerializerMethodField()
 
     class Meta:
         model = PsychologistUserProfile
-        fields = ('username', 'avatar', 'id')
+        fields = ('first_name', 'last_name', 'avatar', 'id')
 
-    def get_username(self, obj):
-        return obj.user.username
+    def get_first_name(self, obj):
+        return obj.user.first_name
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
 
 
 class PsyPublicProfileSerializer(ModelSerializer):
-    username = SerializerMethodField()
+    first_name = SerializerMethodField()
+    last_name = SerializerMethodField()
     reviews_count = SerializerMethodField()
 
     class Meta:
         model = PsychologistUserProfile
-        fields = ('username', 'avatar', 'id', 'about', 'duration', 'price', 'reviews_count')
+        fields = ('first_name', 'last_name', 'avatar', 'id', 'about', 'duration', 'price', 'reviews_count')
 
-    def get_username(self, obj):
-        return obj.user.username
+    def get_first_name(self, obj):
+        return obj.user.first_name
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
 
     def get_reviews_count(self, obj):
         return PsychologistUser.objects.get_reviews_count(obj.id)

@@ -6,10 +6,11 @@ from locations.models import City
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email,  username, password, user_type):
+    def create_user(self, email, password, first_name, last_name, user_type):
         user = self.model(
             email=self.normalize_email(email),
-            username=username,
+            first_name=first_name,
+            last_name=last_name,
             user_type=user_type
         )
 
@@ -17,11 +18,12 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password):
+    def create_superuser(self, email, password, first_name, last_name):
         user = self.create_user(
             email=self.normalize_email(email),
-            username=username,
             password=password,
+            first_name=first_name,
+            last_name=last_name,
             user_type=CustomUser.UserTypes.ADMIN_USER
         )
 
@@ -49,7 +51,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ('first_name', 'last_name')
 
     objects = CustomUserManager()
 

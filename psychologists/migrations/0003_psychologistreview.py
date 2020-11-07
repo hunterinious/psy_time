@@ -7,7 +7,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_auto_20201016_1059'),
         ('psychologists', '0002_psy_related_models_redesign'),
     ]
 
