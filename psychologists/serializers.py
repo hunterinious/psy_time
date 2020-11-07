@@ -250,7 +250,8 @@ class PsyPublicProfileSerializer(ModelSerializer):
         return obj.user.last_name
 
     def get_reviews_count(self, obj):
-        return PsychologistUser.objects.get_reviews_count(obj.id)
+        profile = PsychologistUserProfile.objects.get_profile_by_id(obj.id)
+        return PsychologistUser.objects.get_reviews_count(profile.user)
 
 
 class PsyExtendedPublicProfileSerializer(ModelSerializer):

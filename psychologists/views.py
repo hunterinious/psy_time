@@ -149,11 +149,11 @@ class PsyReviewListView(APIView):
                                  "either an object pk."
                                  % self.__class__.__name__)
         try:
-            PsychologistUser.objects.get_user(pk)
+            profile = PsychologistUserProfile.objects.get_profile_by_id(pk)
         except ObjectDoesNotExist:
             raise Http404("Object with the given pk not found")
 
-        reviews = PsychologistUser.objects.get_reviews(pk)
+        reviews = PsychologistUser.objects.get_reviews(profile.user)
         data = dict()
         data['reviews'] = PsyReviewSerializer(reviews, many=True).data
 

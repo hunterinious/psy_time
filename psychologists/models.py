@@ -137,6 +137,9 @@ class PsychologistUserProfileManager(models.Manager):
     def get_genders(self):
         return self.model.Gender.labels
 
+    def get_profile_by_id(self, id):
+        return self.get(id=id)
+
     def get_profiles(self):
         return self.all()
 
