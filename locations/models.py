@@ -30,7 +30,7 @@ class CountryManager(models.Manager):
 
 
 class Country(models.Model):
-    name = models.CharField(unique=True, max_length=50)
+    name = models.CharField(unique=True, max_length=100)
 
     objects = CountryManager()
 
@@ -81,7 +81,7 @@ class CityManager(models.Manager):
 
 
 class City(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='cities')
 
     class Meta:
