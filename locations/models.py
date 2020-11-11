@@ -81,8 +81,13 @@ class CityManager(models.Manager):
 
 
 class City(models.Model):
-    name = models.CharField(unique=True, max_length=50)
+    name = models.CharField(max_length=50)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='cities')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'country'], name='the city must be unique within the country')
+        ]
 
     objects = CityManager()
 
