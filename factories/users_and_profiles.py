@@ -37,6 +37,8 @@ class UserFactory(factory.django.DjangoModelFactory):
 class RegularUserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = RegularUserProfile
+
+    name = factory.Faker('name')
     avatar = factory.Faker('name')
     city = factory.SubFactory(CityFactory)
     user = factory.SubFactory(UserFactory, user_type=User.UserTypes.REGULAR_USER)
@@ -46,6 +48,7 @@ class PsychologistUserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PsychologistUserProfile
 
+    name = factory.Faker('name')
     about = factory.Faker('paragraph')
     work_experience = factory.Faker('paragraph')
     birth_date = factory.Faker('date_of_birth')

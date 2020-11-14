@@ -55,8 +55,8 @@ class Command(BaseCommand):
         countries = CountryWithCitiesFactory.create_batch(size=total, cities=4)
         cities = [c.cities.all() for c in countries]
 
-        psychologist_users = []
-        regular_users = []
+        psychologist_profiles = []
+        regular_profiles = []
         for u in users:
             if u.user_type == User.UserTypes.PSYCHOLOGIST_USER:
                 city = choice(choice(cities))
@@ -69,24 +69,24 @@ class Command(BaseCommand):
                 r_secondary_educations = sample(secondary_educations, k=len(secondary_educations) - 2)
                 r_languages = sample(languages, k=len(languages) - 1)
 
-                PsychologistUserProfileFactory.create(user=u,
-                                                      city=city,
-                                                      statuses=r_statuses,
-                                                      formats=r_formats,
-                                                      themes=r_themes,
-                                                      approaches=r_approaches,
-                                                      languages=r_languages,
-                                                      specializations=r_specializations,
-                                                      educations=r_educations,
-                                                      secondary_educations=r_secondary_educations)
-                psychologist_users.append(u)
+                p = PsychologistUserProfileFactory.create(user=u,
+                                                          city=city,
+                                                          statuses=r_statuses,
+                                                          formats=r_formats,
+                                                          themes=r_themes,
+                                                          approaches=r_approaches,
+                                                          languages=r_languages,
+                                                          specializations=r_specializations,
+                                                          educations=r_educations,
+                                                          secondary_educations=r_secondary_educations)
+                psychologist_profiles.append(p)
             elif u.user_type == User.UserTypes.REGULAR_USER:
-                RegularUserProfileFactory.create(user=u)
-                regular_users.append(u)
+                p = RegularUserProfileFactory.create(user=u)
+                regular_profiles.append(p)
 
         for _ in users:
-            psy_user = choice(psychologist_users)
-            regular_user = choice(regular_users)
-            PsychologistReviewFactory.create(author=regular_user, psychologist=psy_user)
+            psy_profile = choice(psychologist_profiles)
+            regular_profile = choice(regular_profiles)
+            PsychologistReviewFactory.create(author_profile=regular_profile, psychologist_profile=psy_profile)
 
 

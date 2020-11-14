@@ -3,7 +3,7 @@ from datetime import date
 from django.db import models
 from django.db.models import Count, Min, Max
 from django.utils.translation import gettext_lazy as _
-from users.models import RegularUser, PsychologistUser
+from users.models import RegularUserProfile, PsychologistUser
 from locations.models import City
 
 
@@ -124,6 +124,12 @@ class PsychologistLanguage(models.Model):
 
 
 class PsychologistUserProfileManager(models.Manager):
+    def get_reviews(self, profile):
+        return profile.psy_reviews.all()
+
+    def get_reviews_count(self, profile):
+        return profile.psy_reviews.count()
+
     def get_min_age(self):
         min_age = self.all().aggregate(Max('birth_date__year'))
         current_year = date.today().year
@@ -200,6 +206,7 @@ class PsychologistUserProfile(models.Model):
 
     objects = PsychologistUserProfileManager()
 
+    name = models.CharField(max_length=100, null=False, blank=False)
     gender = models.CharField(max_length=50, choices=Gender.choices)
     avatar = models.ImageField(null=False, blank=False, default="avatars/psy_avatar.jpg", upload_to='avatars')
     birth_date = models.DateField(null=False, blank=False)
@@ -224,8 +231,8 @@ class PsychologistUserProfile(models.Model):
 
 class PsychologistReview(models.Model):
     text = models.TextField()
-    author = models.ForeignKey(RegularUser, related_name="reviews", on_delete=models.CASCADE)
-    psychologist = models.ForeignKey(PsychologistUser, related_name="psy_reviews", on_delete=models.CASCADE)
+    author_profile = models.ForeignKey(RegularUserProfile, related_name="reviews", on_delete=models.CASCADE)
+    psychologist_profile = models.ForeignKey(PsychologistUserProfile, related_name="psy_reviews", on_delete=models.CASCADE)
 
 
 class Image(models.Model):

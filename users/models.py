@@ -81,19 +81,9 @@ class RegularUser(CustomUser):
         proxy = True
 
 
-class PsychologistUserManager(models.Manager):
-    def get_reviews(self, user):
-        return user.psy_reviews.all()
-
-    def get_reviews_count(self, user):
-        return user.psy_reviews.count()
-
-
 class PsychologistUser(CustomUser):
     class Meta:
         proxy = True
-
-    objects = PsychologistUserManager()
 
 
 class AdminUser(CustomUser):
@@ -102,6 +92,7 @@ class AdminUser(CustomUser):
 
 
 class RegularUserProfile(models.Model):
+    name = models.CharField(max_length=100, null=False, blank=False)
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.jpg")
     city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(RegularUser, on_delete=models.CASCADE)
