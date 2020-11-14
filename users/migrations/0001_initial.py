@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('avatar', models.ImageField(default='avatars/avatar.jpg', upload_to='avatars')),
-                ('city', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='locations.City')),
+                ('city', models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, to='locations.City')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='users.RegularUser')),
             ],
         ),
