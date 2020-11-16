@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django_select2',
+    'jwtauth',
     'rest_framework',
     'crispy_forms',
     'cadmin',
