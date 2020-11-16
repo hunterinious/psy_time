@@ -34,7 +34,7 @@ class RegularUserCreateSerializer(serializers.ModelSerializer):
         )
 
         profile_data = validated_data.pop('profile')
-        RegularUserProfile.objects.create(
+        RegularUserProfile.objects.create_profile(
             user=user,
             name=profile_data['name']
         )

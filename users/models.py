@@ -91,11 +91,18 @@ class AdminUser(CustomUser):
         proxy = True
 
 
+class RegularUserProfileManager(models.Manager):
+    def create_profile(self, user, name, **kwargs):
+        self.create(user=user, name=name, **kwargs)
+
+
 class RegularUserProfile(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.jpg")
     city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(RegularUser, on_delete=models.CASCADE)
+
+    objects = RegularUserProfileManager()
 
     def __str__(self):
         return str(self.user)
