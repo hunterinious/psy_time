@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import RegularUserProfile
+from psychologists.models import PsychologistUserProfile
 
 User = get_user_model()
 
@@ -40,3 +41,14 @@ class RegularUserCreateSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+
+class UserLoginDataSerializer(serializers.ModelSerializer):
+    profile_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ('user_type', 'profile_id', )
+
+    def get_profile_id(self, obj):
+        return obj.profile.id
