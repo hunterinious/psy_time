@@ -1,15 +1,14 @@
 from django.core.management.base import BaseCommand
-from factories.locations import CountryWithCitiesFactory
+from locations.models import Country, City
+import json
 
 
 class Command(BaseCommand):
-    help = 'Create random countries'
-
-    def add_arguments(self, parser):
-        parser.add_argument('countries', type=int, help='Indicates the number of countries to be created')
-        parser.add_argument('cities', type=int, help='Indicates the number of countries to be created')
+    help = 'Create locations'
 
     def handle(self, *args, **kwargs):
-        countries = kwargs['countries']
-        cities = kwargs['cities']
-        CountryWithCitiesFactory.create_batch(size=countries, cities=cities)
+        with open('static/files/countries.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+
+        for d in data:
+            Country.objects.create_country_from_json(d)

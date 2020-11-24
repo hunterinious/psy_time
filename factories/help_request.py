@@ -10,10 +10,10 @@ fake = faker.Faker()
 class HelpRequestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Help
-        django_get_or_create = ('email', 'username')
+        django_get_or_create = ('email', 'name')
 
     email = factory.Sequence(lambda e: 'user{}@gmail.com'.format(e))
-    username = factory.Sequence(lambda u: '{}'.format(fake.name()))
+    name = factory.Sequence(lambda u: '{}'.format(fake.name()))
     country = factory.Faker('country')
     theme = factory.fuzzy.FuzzyText(length=12)
     message = factory.Faker('text')

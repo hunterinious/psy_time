@@ -16,14 +16,14 @@ class Migration(migrations.Migration):
             name='Country',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                ('name', models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
             name='City',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                ('name', models.CharField(max_length=100)),
                 ('country', models.ForeignKey(related_name='cities',
                                               on_delete=django.db.models.deletion.CASCADE, to='locations.Country')),
             ],

@@ -25,8 +25,11 @@ class CountryManager(models.Manager):
             country = None
         return country
 
-    def get_countries(self):
+    def get_all(self):
         return self.all()
+
+    def create_country_from_json(self, country):
+        self.create(name=country['name'])
 
 
 class Country(models.Model):

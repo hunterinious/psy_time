@@ -1,6 +1,8 @@
-from django.conf import settings
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from datetime import datetime
+from rest_framework_simplejwt.serializers import (
+ TokenObtainPairSerializer,
+ TokenRefreshSerializer
+)
+from .utils import get_refresh_expire
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -9,6 +11,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         refresh = self.get_token(self.user)
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
-        time = datetime.now()
-        data['refresh_expired'] = time + settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME']
+        data['refresh_expire'] = get_refresh_expire()
+        return data
+
+
+class MyTokenRefreshSerializer(TokenRefreshSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['refresh_expire'] = get_refresh_expire()
         return data
