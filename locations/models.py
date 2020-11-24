@@ -31,6 +31,10 @@ class CountryManager(models.Manager):
     def create_country_from_json(self, country):
         self.create(name=country['name'])
 
+    def create_country_with_city_from_file(self, name, country_name, utc):
+        country, created = self.get_or_create(name=country_name)
+        City.objects.create(name=name, utc=utc, country=country)
+
 
 class Country(models.Model):
     name = models.CharField(unique=True, max_length=100)
@@ -86,6 +90,7 @@ class CityManager(models.Manager):
 class City(models.Model):
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='cities')
+    utc = models.CharField(max_length=10)
 
     class Meta:
         constraints = [
