@@ -29,11 +29,10 @@ class CountryManager(models.Manager):
         return self.all()
 
     def create_country_from_json(self, country):
-        self.create(name=country['name'])
+        return self.create(name=country['name'])
 
     def create_country_with_city_from_file(self, name, country_name, utc):
-        country, created = self.get_or_create(name=country_name)
-        City.objects.create(name=name, utc=utc, country=country)
+        return self.get_or_create(name=country_name)[0].cities.create(name=name, utc=utc)
 
 
 class Country(models.Model):

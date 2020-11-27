@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 country = row[2]
 
                 if len(row) == 4:
-                    cities = row[3].replace('\n', '')
+                    cities = row[3]
                 else:
                     cities = ''
 
