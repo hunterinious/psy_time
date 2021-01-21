@@ -23,9 +23,18 @@ class Migration(migrations.Migration):
             name='City',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('utc', models.CharField(max_length=10)),
+                ('name', models.CharField(max_length=100, null=False, blank=False)),
                 ('country', models.ForeignKey(related_name='cities',
+                                              on_delete=django.db.models.deletion.CASCADE, to='locations.Country')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Timezone',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100, null=False, blank=False)),
+                ('offset', models.CharField(max_length=6, null=False, blank=True)),
+                ('country', models.ForeignKey(related_name='timezones',
                                               on_delete=django.db.models.deletion.CASCADE, to='locations.Country')),
             ],
         ),

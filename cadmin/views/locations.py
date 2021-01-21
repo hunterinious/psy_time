@@ -39,7 +39,7 @@ class CountryUpdateView(AdminOnlyView, UpdateView):
 
     def get_object(self):
         country_id = self.kwargs.get("pk")
-        country = get_object_or_404(City, id=country_id)
+        country = get_object_or_404(Country, id=country_id)
         if Country.objects.is_related_to_regular_profile(country):
             raise PermissionDenied("You cant update country which refers not to psychologist profile")
         return country
@@ -55,8 +55,8 @@ class CountryDeleteView(AdminOnlyView, DeleteView):
 
     def get_object(self, queryset=None):
         country_id = self.kwargs.get("pk")
-        country = get_object_or_404(City, id=country_id)
-        if City.objects.is_related_to_profiles(country):
+        country = get_object_or_404(Country, id=country_id)
+        if Country.objects.is_related_to_profiles(country):
             raise PermissionDenied("You cant delete country which refers to profile")
         return country
 
@@ -71,7 +71,7 @@ class CityListView(AdminOnlyView, ListView):
 
     def get_queryset(self):
         cities = City.objects.get_all()
-        cities = City.objects.get_cities_related_to_psy_profiles_or_not_related_to_any(cities)
+        cities = City.objects.get_related_to_psy_profiles_or_not_related_to_any(cities)
         return cities
 
 

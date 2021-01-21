@@ -3,7 +3,7 @@ from django.forms.models import inlineformset_factory
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from psychologists.models import PsychologistUser
-from locations.models import Country, City
+from locations.models import Country, City, Timezone
 from psychologists.models import (
     PsychologistUserProfile,
     PsychologistStatus,
@@ -114,7 +114,8 @@ class PsyProfileForm(forms.ModelForm):
             'educations': CustomMultipleSelect(set='psy-education', attrs={'size': 10}),
             'secondary_educations': CustomMultipleSelect(set='psy-secondary-education', attrs={'size': 10}),
             'languages': CustomMultipleSelect(set='psy-language', attrs={'size': 10}),
-            'city': CustomSelect(set='city')
+            'city': CustomSelect(set='city'),
+            'timezone': s2forms.Select2Widget()
         }
 
 

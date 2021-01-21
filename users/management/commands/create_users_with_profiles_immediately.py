@@ -13,8 +13,9 @@ from factories.secondary_educations import SecondaryEducationFactory
 from factories.specializations import SpecializationFactory
 from factories.statuses import StatusFactory
 from factories.themes import ThemeFactory
-from factories.locations import CountryWithCitiesFactory
+from factories.locations import CityFactory
 from factories.psy_reviews import PsychologistReviewFactory
+from locations.models import Country
 from random import choice, sample
 
 
@@ -52,14 +53,18 @@ class Command(BaseCommand):
         themes = [ThemeFactory.create(name=t) for t in themes]
 
         users = UserFactory.create_batch(size=total)
-        countries = CountryWithCitiesFactory.create_batch(size=total, cities=4)
-        cities = [c.cities.all() for c in countries]
+        countries, _ = Country.objects.create_countries_and_timezones_from_json()
+        for c in countries:
+            CityFactory.create(country=c)
 
         psychologist_profiles = []
         regular_profiles = []
         for u in users:
+            country = choice(countries)
+            timezone = choice(Country.objects.get_timezones_of_the_country(country))
+            city = Country.objects.get_first_city_of_the_country(country)
+
             if u.user_type == User.UserTypes.PSYCHOLOGIST_USER:
-                city = choice(choice(cities))
                 r_statuses = sample(statuses, k=len(statuses) - 1)
                 r_formats = sample(formats, k=len(formats) - 1)
                 r_themes = sample(themes, k=len(themes) - 2)
@@ -71,6 +76,7 @@ class Command(BaseCommand):
 
                 p = PsychologistUserProfileFactory.create(user=u,
                                                           city=city,
+                                                          timezone=timezone,
                                                           statuses=r_statuses,
                                                           formats=r_formats,
                                                           themes=r_themes,
@@ -81,7 +87,7 @@ class Command(BaseCommand):
                                                           secondary_educations=r_secondary_educations)
                 psychologist_profiles.append(p)
             elif u.user_type == User.UserTypes.REGULAR_USER:
-                p = RegularUserProfileFactory.create(user=u)
+                p = RegularUserProfileFactory.create(user=u, timezone=timezone)
                 regular_profiles.append(p)
 
         for _ in users:

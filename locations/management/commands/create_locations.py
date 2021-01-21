@@ -1,14 +1,11 @@
 from django.core.management.base import BaseCommand
-from locations.models import Country
-import json
+from factories.locations import CountryWithCitiesFactory
 
 
 class Command(BaseCommand):
     help = 'Create locations'
 
     def handle(self, *args, **kwargs):
-        with open('static/files/cities_with_timezones.json') as f:
-            for obj in json.load(f):
-                Country.objects.create_country_with_city_from_file(name=obj['main_city'],
-                                                                   country_name=obj['country'],
-                                                                   utc=obj['utc'])
+        countries = kwargs['countries']
+        cities = kwargs['cities']
+        CountryWithCitiesFactory.create_batch(size=countries, cities=cities)

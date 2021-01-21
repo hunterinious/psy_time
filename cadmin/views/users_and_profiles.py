@@ -37,10 +37,13 @@ class PsyUserAndProfileCreateView(AdminOnlyView, CreateView):
         context = self.get_context_data()
         profile = context['profile']
         with transaction.atomic():
-            self.object = form.save()
-            if profile.is_valid():
+            if profile.is_valid() and profile.cleaned_data[0]:
+                self.object = form.save()
                 profile.instance = self.object
                 profile.save()
+            else:
+                form.add_error(None, "You must fill the profile form")
+                return super(PsyUserAndProfileCreateView, self).form_invalid(form)
         return super(PsyUserAndProfileCreateView, self).form_valid(form)
 
 
@@ -68,8 +71,10 @@ class PsyUserAndProfileUpdateView(AdminOnlyView, UpdateView):
         context = self.get_context_data()
         profile = context['profile']
         with transaction.atomic():
-            self.object = form.save()
-            if profile.is_valid():
+            if profile.is_valid() and profile.cleaned_data[0]:
+                self.object = form.save()
                 profile.instance = self.object
                 profile.save()
+            else:
+                return super(PsyUserAndProfileUpdateView, self).form_invalid(form)
         return super(PsyUserAndProfileUpdateView, self).form_valid(form)

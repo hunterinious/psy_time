@@ -32,6 +32,8 @@
         </div>
         <div class="card-body">
             <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+                {{ form|as_crispy_errors }}
+
                  <div class="form-group">
                      {{ form.email|as_crispy_field }}
                  </div>
@@ -42,7 +44,7 @@
                      {{ form.user_type|as_crispy_field }}
                  </div>
 
-                {{ profile.management_form }}
+                {{ profile.management_form|crispy }}
 
                 {% for form in profile.forms %}
                     <div class="form-group">
@@ -50,6 +52,9 @@
                     </div>
                     <div class="form-group">
                          {{ form.gender|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                         {{ form.timezone|as_crispy_field }}
                     </div>
                     <div class="row">
                         <div class="col-11">

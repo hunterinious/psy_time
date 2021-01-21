@@ -2,9 +2,10 @@ from random import choice
 from datetime import date
 from django.db import models
 from django.db.models import Count, Min, Max
+from django.core.validators import MinLengthValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from users.models import RegularUserProfile, PsychologistUser
-from locations.models import City
+from locations.models import City, Timezone
 
 
 class BasePsychologistM2MManager(models.Manager):
@@ -206,15 +207,16 @@ class PsychologistUserProfile(models.Model):
 
     objects = PsychologistUserProfileManager()
 
-    name = models.CharField(max_length=100, null=False, blank=False)
+    name = models.CharField(max_length=100, null=False, blank=False, validators=[MinLengthValidator(3)])
     gender = models.CharField(max_length=50, choices=Gender.choices)
     avatar = models.ImageField(null=False, blank=False, default="avatars/psy_avatar.jpg", upload_to='avatars')
     birth_date = models.DateField(null=False, blank=False)
-    about = models.TextField(null=False, blank=False)
-    work_experience = models.TextField(null=False, blank=False)
-    price = models.IntegerField(null=False, blank=False)
-    duration = models.IntegerField(null=False, blank=False)
+    about = models.TextField(null=False, blank=False, validators=[MinLengthValidator(50)])
+    work_experience = models.TextField(null=False, blank=False, validators=[MinLengthValidator(50)])
+    price = models.IntegerField(null=False, blank=False, validators=[MinValueValidator(10)])
+    duration = models.IntegerField(null=False, blank=False, validators=[MinValueValidator(50)])
     city = models.ForeignKey(City, on_delete=models.PROTECT)
+    timezone = models.ForeignKey(Timezone, on_delete=models.PROTECT)
     user = models.OneToOneField(PsychologistUser, on_delete=models.CASCADE)
     statuses = models.ManyToManyField(PsychologistStatus, related_name="profiles")
     formats = models.ManyToManyField(PsychologistWorkFormat, related_name="profiles")
@@ -230,12 +232,12 @@ class PsychologistUserProfile(models.Model):
 
 
 class PsychologistReview(models.Model):
-    text = models.TextField()
+    text = models.TextField(null=False, blank=False, validators=[MinLengthValidator(3)])
     author_profile = models.ForeignKey(RegularUserProfile, related_name="reviews", on_delete=models.CASCADE)
     psychologist_profile = models.ForeignKey(PsychologistUserProfile, related_name="psy_reviews", on_delete=models.CASCADE)
 
 
 class Image(models.Model):
-    name = models.CharField(unique=True, max_length=255)
+    name = models.CharField(unique=True, max_length=255, validators=[MinLengthValidator(3)])
     image = models.ImageField(null=False, blank=False)
     profile = models.ForeignKey(PsychologistUserProfile, on_delete=models.CASCADE)

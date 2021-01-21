@@ -1,5 +1,4 @@
 from locations.models import Country, City
-from random import randint
 import factory
 
 
@@ -28,5 +27,3 @@ class CountryWithCitiesFactory(CountryFactory):
         if extracted:
             for n in range(extracted):
                 CityFactory(country=self)
-
-

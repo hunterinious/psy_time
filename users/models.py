@@ -1,8 +1,9 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
-from locations.models import City
+from locations.models import City, Timezone
 
 
 class CustomUserManager(BaseUserManager):
@@ -97,9 +98,10 @@ class RegularUserProfileManager(models.Manager):
 
 
 class RegularUserProfile(models.Model):
-    name = models.CharField(max_length=100, null=False, blank=False)
+    name = models.CharField(max_length=100, null=False, blank=False, validators=[MinLengthValidator(3)])
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.jpg")
     city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
+    timezone = models.ForeignKey(Timezone,  on_delete=models.PROTECT)
     user = models.OneToOneField(RegularUser, on_delete=models.CASCADE)
 
     objects = RegularUserProfileManager()

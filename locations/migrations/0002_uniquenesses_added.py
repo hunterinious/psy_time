@@ -17,6 +17,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='city',
-            constraint=models.UniqueConstraint(fields=('name', 'country'), name='the city must be unique within the country'),
+            constraint=models.UniqueConstraint(fields=('name', 'country'),
+                                               name='the city must be unique within the country'),
+        ),
+        migrations.AddConstraint(
+            model_name='timezone',
+            constraint=models.UniqueConstraint(fields=('name', 'country'),
+                                               name='the timezone must be unique within the country'),
         ),
     ]
