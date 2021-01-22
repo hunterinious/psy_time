@@ -17,30 +17,6 @@ class BaseManager(models.Manager):
         object.delete()
         return True
 
-    def is_related_to_regular_profile(self, object):
-        return object.regularuserprofile_set.count()
-
-    def is_related_to_profiles(self, object):
-        return object.regularuserprofile_set.count() or object.psychologistuserprofile_set.count()
-
-    def get_related_to_profiles(self, cities):
-        return cities.annotate(
-                Count('psychologistuserprofile'),
-                Count('regularuserprofile')).filter(
-                Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count__gt=0))
-
-    def get_related_to_regular_profiles_or_not_related_to_any(self, cities):
-        return cities.annotate(
-                Count('psychologistuserprofile'),
-                Count('regularuserprofile')).filter(
-                Q(psychologistuserprofile__count=0) | Q(regularuserprofile__count__gt=0))
-
-    def get_related_to_psy_profiles_or_not_related_to_any(self, cities):
-        return cities.annotate(
-                Count('psychologistuserprofile'),
-                Count('regularuserprofile')).filter(
-                Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))
-
 
 class CountryManager(BaseManager):
     def get_first_city_of_the_country(self, country):
@@ -59,7 +35,7 @@ class CountryManager(BaseManager):
 
     def safe_get_by_name(self, name):
         try:
-            country = self.objects.get(name=name)
+            country = self.get(name=name)
         except self.model.DoesNotExist:
             country = None
         return country
@@ -99,13 +75,36 @@ class Country(models.Model):
         return self.name
 
     def can_delete(self):
-        cities_count = self.cities.count()
-        if not cities_count:
-            return True
-        return False
+        return not self.timezones.count()
 
 
-class CityManager(BaseManager):
+class CountryDependentModelManager(BaseManager):
+    def is_related_to_regular_profile(self, obj):
+        return obj.regularuserprofile_set.count()
+
+    def is_related_to_profiles(self, obj):
+        return obj.regularuserprofile_set.count() or obj.psychologistuserprofile_set.count()
+
+    def get_related_to_profiles(self, queryset):
+        return queryset.annotate(
+                Count('psychologistuserprofile'),
+                Count('regularuserprofile')).filter(
+                Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count__gt=0))
+
+    def get_related_to_regular_profiles_or_not_related_to_any(self, queryset):
+        return queryset.annotate(
+                Count('psychologistuserprofile'),
+                Count('regularuserprofile')).filter(
+                Q(psychologistuserprofile__count=0) | Q(regularuserprofile__count__gt=0))
+
+    def get_related_to_psy_profiles_or_not_related_to_any(self, queryset):
+        return queryset.annotate(
+                Count('psychologistuserprofile'),
+                Count('regularuserprofile')).filter(
+                Q(psychologistuserprofile__count__gt=0) | Q(regularuserprofile__count=0))
+
+
+class CityManager(CountryDependentModelManager):
     pass
 
 
@@ -123,8 +122,11 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+    def can_delete(self):
+        return City.objects.is_related_to_profiles(self)
 
-class TimezoneManager(BaseManager):
+
+class TimezoneManager(CountryDependentModelManager):
     pass
 
 
@@ -137,7 +139,7 @@ class Timezone(models.Model):
         if not name:
             name = self.name
         offset = datetime.now(timezone(name)).strftime('%z')
-        return offset[:3] + ":" + offset[3:]
+        return f'{offset[:3]}:{offset[3:]}'
 
     class Meta:
         constraints = [

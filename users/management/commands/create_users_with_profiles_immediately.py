@@ -87,7 +87,7 @@ class Command(BaseCommand):
                                                           secondary_educations=r_secondary_educations)
                 psychologist_profiles.append(p)
             elif u.user_type == User.UserTypes.REGULAR_USER:
-                p = RegularUserProfileFactory.create(user=u, timezone=timezone)
+                p = RegularUserProfileFactory.create(user=u, city=None, timezone=timezone)
                 regular_profiles.append(p)
 
         for _ in users:
